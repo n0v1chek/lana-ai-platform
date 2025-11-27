@@ -63,6 +63,23 @@ const PERIOD_DAYS: Record<string, number> = {
   month: 30,
 };
 
+// Модели с поддержкой Vision (изображений)
+const VISION_MODELS = new Set([
+  'openai/gpt-4o',
+  'openai/gpt-4o-mini',
+  'anthropic/claude-3.5-sonnet',
+  'anthropic/claude-sonnet-4',
+  'anthropic/claude-opus-4',
+  'anthropic/claude-3.5-haiku',
+  'anthropic/claude-haiku-4',
+  'google/gemini-2.0-flash-001',
+  'google/gemini-2.5-flash',
+  'google/gemini-2.5-flash-lite',
+  'google/gemini-2.5-pro',
+  'x-ai/grok-3',
+  'x-ai/grok-3-beta',
+]);
+
 function ChatPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -458,7 +475,13 @@ function ChatPageContent() {
             </div>
           )}
         </div>
-        <ChatInput onSend={sendMessage} isLoading={isSending} disabled={!canSend} />
+        <ChatInput 
+          onSend={(msg, fileId, fileType) => sendMessage(msg, fileId, fileType)} 
+          isLoading={isSending} 
+          disabled={!canSend}
+          supportsVision={VISION_MODELS.has(selectedModel)}
+          supportsDocuments={VISION_MODELS.has(selectedModel)}
+        />
       </main>
     </div>
   );

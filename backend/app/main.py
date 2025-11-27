@@ -3,10 +3,11 @@ import traceback
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from .api import auth, chat, payments, analytics, subscriptions, budget, admin
+from .api import auth, chat, payments, analytics, subscriptions, budget, admin, files
 from .core.database import engine, Base
 from .services.currency_service import currency_service
 from .services.openrouter_prices import openrouter_prices_service
+from .services.file_service import cleanup_old_files, start_cleanup_scheduler
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -34,6 +35,15 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         print(f"⚠️ Failed to load OpenRouter prices: {e}", flush=True)
         traceback.print_exc()
+    
+    # Очищаем старые файлы при старте
+    deleted = await cleanup_old_files()
+    if deleted > 0:
+        print(f"🧹 Cleaned up {deleted} old files", flush=True)
+    
+    # Запускаем фоновую очистку
+    import asyncio
+    asyncio.create_task(start_cleanup_scheduler())
     
     print("🎉 AI Chat Platform ready!", flush=True)
     sys.stdout.flush()
@@ -65,6 +75,7 @@ app.include_router(analytics.router, prefix="/api/analytics", tags=["Analytics"]
 app.include_router(subscriptions.router, prefix="/api/subscriptions", tags=["Subscriptions"])
 app.include_router(budget.router, prefix="/api", tags=["Budget"])
 app.include_router(admin.router, prefix="/api", tags=["Admin"])
+app.include_router(files.router, prefix="/api", tags=["Files"])
 
 @app.get("/")
 async def root():

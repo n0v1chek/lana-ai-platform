@@ -86,6 +86,8 @@ export const chatApi = {
       message: data.message,
       ai_model: data.model,
       conversation_id: data.conversation_id,
+      file_id: data.file_id,
+      file_type: data.file_type,
     });
     return response.data;
   },

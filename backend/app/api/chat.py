@@ -13,7 +13,8 @@ from ..schemas.conversation import (
     ChatRequest, ChatResponse, MessageResponse, ConversationUpdate
 )
 from ..api.auth import get_current_user
-from ..services.ai_service import ai_service
+from ..services.ai_service import ai_service, prepare_multimodal_message, extract_text_from_document
+from ..services.file_service import UPLOAD_DIR, supports_vision, supports_documents
 
 router = APIRouter(tags=["Chat"])
 
@@ -278,10 +279,40 @@ async def send_message(
             "role": msg.role.value,
             "content": msg.content
         })
-    messages_history.append({
-        "role": "user",
-        "content": chat_request.message
-    })
+    # Обработка файла если есть
+    user_content = chat_request.message
+    file_path = None
+
+    if chat_request.file_id:
+        # Ищем файл по ID
+        for fp in UPLOAD_DIR.iterdir():
+            if fp.stem == chat_request.file_id:
+                file_path = str(fp)
+                break
+
+        if file_path:
+            if chat_request.file_type == "image":
+                # Проверяем поддержку vision
+                if not supports_vision(requested_model):
+                    raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail="Модель " + requested_model + " не поддерживает изображения."
+                    )
+            elif chat_request.file_type == "document":
+                # Извлекаем текст из документа
+                doc_text = await extract_text_from_document(file_path)
+                user_content = chat_request.message + "\n\n--- Документ ---\n" + doc_text
+                file_path = None
+
+    # Формируем сообщение пользователя
+    if file_path and chat_request.file_type == "image":
+        user_msg = await prepare_multimodal_message(chat_request.message, file_path)
+        messages_history.append(user_msg)
+    else:
+        messages_history.append({
+            "role": "user",
+            "content": user_content
+        })
 
     try:
         ai_response = await ai_service.send_message(

@@ -15,7 +15,7 @@ interface ChatState {
 
   // Actions
   setSelectedModel: (model: AIModel) => void;
-  sendMessage: (content: string) => Promise<void>;
+  sendMessage: (content: string, fileId?: string, fileType?: string) => Promise<void>;
   loadConversations: () => Promise<void>;
   loadConversation: (id: number) => Promise<void>;
   newConversation: () => void;
@@ -37,7 +37,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
     set({ selectedModel: model });
   },
 
-  sendMessage: async (content: string) => {
+  sendMessage: async (content: string, fileId?: string, fileType?: string) => {
     const { selectedModel, currentConversation, messages } = get();
 
     // Добавляем сообщение пользователя сразу
@@ -60,6 +60,8 @@ export const useChatStore = create<ChatState>((set, get) => ({
         message: content,
         model: selectedModel,
         conversation_id: currentConversation?.id,
+        file_id: fileId,
+        file_type: fileType as 'image' | 'document' | undefined,
       });
 
       // Добавляем ответ ассистента

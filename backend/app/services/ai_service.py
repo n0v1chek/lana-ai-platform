@@ -285,3 +285,86 @@ class AIService:
 
 
 ai_service = AIService()
+
+
+# === MULTIMODAL SUPPORT ===
+
+async def prepare_multimodal_message(content: str, file_path: str = None, file_type: str = None) -> dict:
+    """
+    Подготавливает сообщение с изображением для OpenRouter API
+    
+    Формат для vision моделей:
+    {
+        "role": "user",
+        "content": [
+            {"type": "text", "text": "Что на картинке?"},
+            {"type": "image_url", "image_url": {"url": "data:image/jpeg;base64,..."}}
+        ]
+    }
+    """
+    from .file_service import get_file_as_base64, get_image_media_type
+    
+    if not file_path:
+        return {"role": "user", "content": content}
+    
+    # Получаем base64 изображения
+    base64_data = await get_file_as_base64(file_path)
+    if not base64_data:
+        return {"role": "user", "content": content}
+    
+    media_type = get_image_media_type(file_path)
+    
+    message_content = []
+    
+    # Сначала текст (если есть)
+    if content:
+        message_content.append({
+            "type": "text",
+            "text": content
+        })
+    
+    # Затем изображение
+    message_content.append({
+        "type": "image_url",
+        "image_url": {
+            "url": f"data:{media_type};base64,{base64_data}"
+        }
+    })
+    
+    return {
+        "role": "user",
+        "content": message_content
+    }
+
+
+async def extract_text_from_document(file_path: str) -> str:
+    """Извлекает текст из документа для анализа"""
+    import aiofiles
+    from pathlib import Path
+    
+    ext = Path(file_path).suffix.lower()
+    
+    try:
+        if ext in ['.txt', '.csv', '.json']:
+            async with aiofiles.open(file_path, 'r', encoding='utf-8') as f:
+                text = await f.read()
+            return text[:50000]  # Ограничиваем 50K символов
+        
+        elif ext == '.pdf':
+            # Простое извлечение текста из PDF
+            try:
+                import fitz  # PyMuPDF
+                doc = fitz.open(file_path)
+                text = ""
+                for page in doc:
+                    text += page.get_text()
+                doc.close()
+                return text[:50000]
+            except ImportError:
+                return "[PDF файл загружен, но библиотека PyMuPDF не установлена]"
+        
+        else:
+            return f"[Файл {ext} загружен]"
+    
+    except Exception as e:
+        return f"[Ошибка чтения файла: {str(e)}]"

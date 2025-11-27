@@ -71,6 +71,8 @@ export interface SendMessageRequest {
   message: string;
   model: string;
   conversation_id?: number;
+  file_id?: string;
+  file_type?: 'image' | 'document';
 }
 
 // Ответ от AI

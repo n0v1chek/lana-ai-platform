@@ -1,6 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Zap, Brain, Bot, Globe, Check, Coins, Search } from 'lucide-react';
+import { ChevronDown, Zap, Brain, Bot, Globe, Check, Coins, Search, Camera } from 'lucide-react';
 import { chatApi } from '@/lib/api';
 
 interface ModelInfo {
@@ -26,6 +26,23 @@ const MODEL_CATEGORIES: Record<string, { name: string; icon: typeof Zap; color: 
   'qwen': { name: 'Qwen', icon: Globe, color: 'text-cyan-500' },
   'x-ai': { name: 'xAI', icon: Brain, color: 'text-gray-500' },
 };
+
+// Модели с поддержкой Vision (изображений)
+const VISION_MODELS = new Set([
+  'openai/gpt-4o',
+  'openai/gpt-4o-mini',
+  'anthropic/claude-3.5-sonnet',
+  'anthropic/claude-sonnet-4',
+  'anthropic/claude-opus-4',
+  'anthropic/claude-3.5-haiku',
+  'anthropic/claude-haiku-4',
+  'google/gemini-2.0-flash-001',
+  'google/gemini-2.5-flash',
+  'google/gemini-2.5-flash-lite',
+  'google/gemini-2.5-pro',
+  'x-ai/grok-3',
+  'x-ai/grok-3-beta',
+]);
 
 function getModelDisplayName(modelId: string): string {
   const parts = modelId.split('/');
@@ -92,17 +109,13 @@ export default function ModelSelector({ value, onChange, disabled }: ModelSelect
   const displayName = selectedModel ? getModelDisplayName(selectedModel.model_id) : getModelDisplayName(value);
   const provider = getModelProvider(value);
   const ProviderIcon = MODEL_CATEGORIES[provider]?.icon || Zap;
+  const selectedHasVision = VISION_MODELS.has(value);
 
   const filteredModels = models.filter(m =>
     m.model_id.toLowerCase().includes(search.toLowerCase()) ||
     getModelDisplayName(m.model_id).toLowerCase().includes(search.toLowerCase())
   );
 
-  // Новые границы категорий (в коинах за 1M токенов)
-  // Экономичные: < 25,000 (менее ~0.5₽ за 1k токенов)
-  // Стандартные: 25,000 - 150,000 
-  // Премиум: 150,000 - 600,000
-  // Ультра: > 600,000
   const cheapModels = filteredModels.filter(m => m.price_per_1m_tokens < 35000);
   const mediumModels = filteredModels.filter(m => m.price_per_1m_tokens >= 35000 && m.price_per_1m_tokens < 200000);
   const premiumModels = filteredModels.filter(m => m.price_per_1m_tokens >= 200000 && m.price_per_1m_tokens < 800000);
@@ -113,17 +126,17 @@ export default function ModelSelector({ value, onChange, disabled }: ModelSelect
       <button
         onClick={() => !disabled && setIsOpen(!isOpen)}
         disabled={disabled}
-        className={`flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-lana-300 dark:hover:border-lana-700 transition-colors ${
-          disabled ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
+        className={'flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-lana-300 dark:hover:border-lana-700 transition-colors ' +
+          (disabled ? 'opacity-50 cursor-not-allowed' : '')}
       >
         <ProviderIcon size={16} className={MODEL_CATEGORIES[provider]?.color || 'text-lana-500'} />
         <span className="text-sm font-medium text-slate-700 dark:text-slate-300 max-w-[120px] sm:max-w-[150px] truncate">
           {displayName}
         </span>
+        {selectedHasVision && <Camera size={14} className="text-blue-500" />}
         <ChevronDown
           size={14}
-          className={`text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={'text-slate-400 transition-transform ' + (isOpen ? 'rotate-180' : '')}
         />
       </button>
 
@@ -249,17 +262,23 @@ function ModelOption({ model, selected, onSelect }: {
   const provider = getModelProvider(model.model_id);
   const Icon = MODEL_CATEGORIES[provider]?.icon || Zap;
   const iconColor = MODEL_CATEGORIES[provider]?.color || 'text-slate-500';
-
+  const hasVision = VISION_MODELS.has(model.model_id);
+  
   return (
     <button
       onClick={onSelect}
       className="w-full flex items-center gap-2 sm:gap-3 px-3 py-2.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
     >
-      <Icon size={16} className={`${iconColor} flex-shrink-0`} />
+      <Icon size={16} className={iconColor + ' flex-shrink-0'} />
       <div className="flex-1 text-left min-w-0">
-        <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
-          {getModelDisplayName(model.model_id)}
-        </p>
+        <div className="flex items-center gap-1.5">
+          <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
+            {getModelDisplayName(model.model_id)}
+          </p>
+          {hasVision && (
+            <Camera size={12} className="text-blue-500 flex-shrink-0" />
+          )}
+        </div>
         <p className="text-xs text-slate-500 truncate">{model.model_id}</p>
       </div>
       <div className="flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 whitespace-nowrap flex-shrink-0">
