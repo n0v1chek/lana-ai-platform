@@ -1,0 +1,51 @@
+from sqlalchemy import Column, Integer, String, DateTime, Enum as SQLEnum, Boolean
+from sqlalchemy.sql import func
+from datetime import datetime
+import enum
+
+from ..core.database import Base
+
+class SubscriptionPlan(str, enum.Enum):
+    FREE = "free"
+    BASIC = "basic"
+    PRO = "pro"
+    UNLIMITED = "unlimited"
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
+    
+    # Email опциональный (если пользователь сам захочет добавить)
+    email = Column(String, unique=True, index=True, nullable=True)
+    
+    subscription_plan = Column(SQLEnum(SubscriptionPlan), default=SubscriptionPlan.FREE)
+    subscription_expires = Column(DateTime, nullable=True)
+    
+    tokens_used = Column(Integer, default=0)
+    tokens_limit = Column(Integer, default=10000)
+    
+    is_active = Column(Boolean, default=True)
+    is_verified = Column(Boolean, default=False)
+    
+    created_at = Column(DateTime, default=datetime.utcnow, server_default=func.now())
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=func.now(), server_default=func.now())
+    
+    def __repr__(self):
+        return f"<User {self.username}>"
+    
+    @property
+    def is_subscription_active(self) -> bool:
+        if self.subscription_plan == SubscriptionPlan.FREE:
+            return True
+        if not self.subscription_expires:
+            return False
+        return self.subscription_expires > datetime.utcnow()
+    
+    @property
+    def can_send_message(self) -> bool:
+        if self.subscription_plan == SubscriptionPlan.UNLIMITED:
+            return True
+        return self.tokens_used < self.tokens_limit

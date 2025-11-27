@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Cat face -->
+  <circle cx="50" cy="55" r="35" fill="currentColor" opacity="0.9"/>
+  <!-- Left ear -->
+  <path d="M20 45 L15 15 L40 35 Z" fill="currentColor"/>
+  <!-- Right ear -->
+  <path d="M80 45 L85 15 L60 35 Z" fill="currentColor"/>
+  <!-- Left eye -->
+  <ellipse cx="35" cy="50" rx="6" ry="8" fill="white"/>
+  <circle cx="36" cy="50" r="4" fill="#1e1e2e"/>
+  <!-- Right eye -->
+  <ellipse cx="65" cy="50" rx="6" ry="8" fill="white"/>
+  <circle cx="66" cy="50" r="4" fill="#1e1e2e"/>
+  <!-- Nose -->
+  <path d="M50 62 L46 58 L54 58 Z" fill="#ffa5b4"/>
+  <!-- Mouth -->
+  <path d="M50 62 Q45 68 40 65" stroke="#1e1e2e" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M50 62 Q55 68 60 65" stroke="#1e1e2e" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Moon on forehead -->
+  <path d="M50 30 Q42 30 42 38 Q42 46 50 46 Q45 42 45 38 Q45 34 50 30" fill="#ffd700"/>
+  <!-- Moon glow -->
+  <circle cx="47" cy="38" r="8" fill="#ffd700" opacity="0.3"/>
+</svg>
