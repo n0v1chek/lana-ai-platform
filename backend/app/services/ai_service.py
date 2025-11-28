@@ -24,30 +24,33 @@ def get_usd_to_coins_multiplier(usd_rate: float) -> float:
 
 
 # Цены OpenRouter в долларах за 1M токенов (input, output) - FALLBACK
+# Актуальные цены загружаются автоматически с OpenRouter API
 MODEL_PRICES_USD = {
+    # Экономичные
     "google/gemini-2.0-flash-001": (0.10, 0.40),
-    "google/gemini-2.5-flash": (0.15, 0.60),
-    "google/gemini-2.5-flash-lite": (0.075, 0.30),
+    "google/gemini-2.5-flash": (0.30, 2.50),
     "openai/gpt-4o-mini": (0.15, 0.60),
-    "deepseek/deepseek-chat": (0.14, 0.28),
-    "deepseek/deepseek-r1": (0.55, 2.19),
-    "qwen/qwen-plus": (0.15, 0.60),
-    "mistralai/mistral-small": (0.10, 0.30),
-    "openai/gpt-4o": (2.50, 10.00),
-    "openai/gpt-4-turbo": (10.00, 30.00),
+    "deepseek/deepseek-chat": (0.30, 1.20),
+    "deepseek/deepseek-r1": (0.30, 1.20),
+    
+    # Стандартные
     "anthropic/claude-3.5-haiku": (0.80, 4.00),
-    "anthropic/claude-haiku-4": (0.80, 4.00),
+    "openai/o3-mini": (1.10, 4.40),
     "mistralai/mistral-large-2411": (2.00, 6.00),
+    
+    # Премиум
+    "openai/gpt-4o": (2.50, 10.00),
     "google/gemini-2.5-pro": (1.25, 10.00),
     "anthropic/claude-sonnet-4": (3.00, 15.00),
     "anthropic/claude-3.5-sonnet": (3.00, 15.00),
     "anthropic/claude-3.7-sonnet": (3.00, 15.00),
     "x-ai/grok-3": (3.00, 15.00),
-    "x-ai/grok-3-beta": (3.00, 15.00),
+    "openai/gpt-4-turbo": (10.00, 30.00),
+    
+    # Ультра
     "anthropic/claude-opus-4": (15.00, 75.00),
     "openai/o1": (15.00, 60.00),
     "openai/o1-pro": (150.00, 600.00),
-    "openai/o3-mini": (1.10, 4.40),
 }
 
 DEFAULT_PRICE_USD = (5.00, 20.00)
@@ -57,7 +60,7 @@ MODEL_MAP = {
     "gpt-4o-mini": "openai/gpt-4o-mini",
     "gpt-4-turbo": "openai/gpt-4-turbo",
     "claude-sonnet": "anthropic/claude-sonnet-4",
-    "claude-haiku": "anthropic/claude-haiku-4",
+    "claude-haiku": "anthropic/claude-3.5-haiku",
     "claude-opus": "anthropic/claude-opus-4",
     "gemini-flash": "google/gemini-2.0-flash-001",
     "gemini-pro": "google/gemini-2.5-pro",
@@ -111,13 +114,13 @@ async def calculate_cost_detailed(input_tokens: int, output_tokens: int, model_i
     model_id_normalized = get_model_id(model_id)
     prices = prices_usd.get(model_id_normalized, DEFAULT_PRICE_USD)
     input_price, output_price = prices
-    
+
     # Расчётная себестоимость в USD (по нашим ценам API)
     cost_usd = (input_tokens / 1_000_000) * input_price + (output_tokens / 1_000_000) * output_price
-    
+
     multiplier = get_usd_to_coins_multiplier(usd_rate)
     cost_coins = max(1, math.ceil(cost_usd * multiplier))
-    
+
     return {
         "coins": cost_coins,
         "cost_usd": cost_usd,
@@ -143,30 +146,33 @@ async def get_current_rate_info():
     }
 
 
+# Информация о моделях для отображения
 MODEL_INFO = {
-    "google/gemini-2.0-flash-001": {"name": "Gemini 2.0 Flash", "provider": "Google"},
-    "google/gemini-2.5-flash": {"name": "Gemini 2.5 Flash", "provider": "Google"},
-    "google/gemini-2.5-flash-lite": {"name": "Gemini 2.5 Flash Lite", "provider": "Google"},
-    "google/gemini-2.5-pro": {"name": "Gemini 2.5 Pro", "provider": "Google"},
-    "openai/gpt-4o-mini": {"name": "GPT-4o Mini", "provider": "OpenAI"},
-    "openai/gpt-4o": {"name": "GPT-4o", "provider": "OpenAI"},
-    "openai/gpt-4-turbo": {"name": "GPT-4 Turbo", "provider": "OpenAI"},
-    "openai/o1": {"name": "O1", "provider": "OpenAI"},
-    "openai/o1-pro": {"name": "O1 Pro", "provider": "OpenAI"},
-    "openai/o3-mini": {"name": "O3 Mini", "provider": "OpenAI"},
-    "anthropic/claude-3.5-haiku": {"name": "Claude 3.5 Haiku", "provider": "Anthropic"},
-    "anthropic/claude-haiku-4": {"name": "Claude Haiku 4", "provider": "Anthropic"},
-    "anthropic/claude-sonnet-4": {"name": "Claude Sonnet 4", "provider": "Anthropic"},
-    "anthropic/claude-3.5-sonnet": {"name": "Claude 3.5 Sonnet", "provider": "Anthropic"},
-    "anthropic/claude-3.7-sonnet": {"name": "Claude 3.7 Sonnet", "provider": "Anthropic"},
-    "anthropic/claude-opus-4": {"name": "Claude Opus 4", "provider": "Anthropic"},
-    "deepseek/deepseek-chat": {"name": "DeepSeek Chat", "provider": "DeepSeek"},
-    "deepseek/deepseek-r1": {"name": "DeepSeek R1", "provider": "DeepSeek"},
-    "qwen/qwen-plus": {"name": "Qwen Plus", "provider": "Alibaba"},
-    "mistralai/mistral-small": {"name": "Mistral Small", "provider": "Mistral"},
-    "mistralai/mistral-large-2411": {"name": "Mistral Large", "provider": "Mistral"},
-    "x-ai/grok-3": {"name": "Grok 3", "provider": "xAI"},
-    "x-ai/grok-3-beta": {"name": "Grok 3 Beta", "provider": "xAI"},
+    # Экономичные
+    "google/gemini-2.0-flash-001": {"name": "Gemini 2.0 Flash", "provider": "Google", "desc": "Быстрая и дешёвая", "best": "Простые вопросы, чат"},
+    "google/gemini-2.5-flash": {"name": "Gemini 2.5 Flash", "provider": "Google", "desc": "Улучшенная Flash", "best": "Повседневные задачи"},
+    "openai/gpt-4o-mini": {"name": "GPT-4o Mini", "provider": "OpenAI", "desc": "Мини-версия GPT-4o", "best": "Быстрые ответы, код"},
+    "deepseek/deepseek-chat": {"name": "DeepSeek Chat", "provider": "DeepSeek", "desc": "Китайская модель", "best": "Общение, анализ"},
+    "deepseek/deepseek-r1": {"name": "DeepSeek R1", "provider": "DeepSeek", "desc": "С рассуждениями", "best": "Логические задачи"},
+    
+    # Стандартные
+    "anthropic/claude-3.5-haiku": {"name": "Claude 3.5 Haiku", "provider": "Anthropic", "desc": "Быстрый Claude", "best": "Код, анализ, Vision"},
+    "openai/o3-mini": {"name": "O3 Mini", "provider": "OpenAI", "desc": "Мини-рассуждения", "best": "Логика, математика"},
+    "mistralai/mistral-large-2411": {"name": "Mistral Large", "provider": "Mistral", "desc": "Большой Mistral", "best": "Сложные тексты"},
+    
+    # Премиум
+    "openai/gpt-4o": {"name": "GPT-4o", "provider": "OpenAI", "desc": "Флагман OpenAI", "best": "⭐ Универсальная, код, Vision"},
+    "google/gemini-2.5-pro": {"name": "Gemini 2.5 Pro", "provider": "Google", "desc": "Топ от Google", "best": "⭐ Анализ, Vision, код"},
+    "anthropic/claude-sonnet-4": {"name": "Claude Sonnet 4", "provider": "Anthropic", "desc": "Новый Claude", "best": "⭐ Код, тексты, анализ"},
+    "anthropic/claude-3.5-sonnet": {"name": "Claude 3.5 Sonnet", "provider": "Anthropic", "desc": "Популярный Claude", "best": "⭐ Универсальная"},
+    "anthropic/claude-3.7-sonnet": {"name": "Claude 3.7 Sonnet", "provider": "Anthropic", "desc": "Улучшенный Claude", "best": "⭐ Рассуждения, код"},
+    "x-ai/grok-3": {"name": "Grok 3", "provider": "xAI", "desc": "От Илона Маска", "best": "Креатив, юмор"},
+    "openai/gpt-4-turbo": {"name": "GPT-4 Turbo", "provider": "OpenAI", "desc": "Мощный GPT-4", "best": "Длинные документы"},
+    
+    # Ультра
+    "anthropic/claude-opus-4": {"name": "Claude Opus 4", "provider": "Anthropic", "desc": "Топ Claude", "best": "🏆 Сложнейшие задачи"},
+    "openai/o1": {"name": "O1", "provider": "OpenAI", "desc": "Рассуждающий", "best": "🏆 Наука, математика"},
+    "openai/o1-pro": {"name": "O1 Pro", "provider": "OpenAI", "desc": "Максимум OpenAI", "best": "🏆 Исследования"},
 }
 
 
@@ -176,8 +182,14 @@ async def get_model_prices():
     multiplier = get_usd_to_coins_multiplier(usd_rate)
     prices_usd = await get_model_prices_usd()
 
+    # Фильтруем только наши модели
+    allowed_models = set(MODEL_INFO.keys())
+
     models = []
     for model_id, (input_usd, output_usd) in prices_usd.items():
+        if model_id not in allowed_models:
+            continue
+            
         avg_usd = (input_usd + output_usd) / 2
         avg_coins = int(avg_usd * multiplier)
 
@@ -197,6 +209,8 @@ async def get_model_prices():
             "name": info["name"],
             "provider": info["provider"],
             "category": category,
+            "desc": info.get("desc", ""),
+            "best": info.get("best", ""),
             "input_usd": input_usd,
             "output_usd": output_usd,
             "coins": avg_coins
@@ -292,37 +306,28 @@ ai_service = AIService()
 async def prepare_multimodal_message(content: str, file_path: str = None, file_type: str = None) -> dict:
     """
     Подготавливает сообщение с изображением для OpenRouter API
-    
-    Формат для vision моделей:
-    {
-        "role": "user",
-        "content": [
-            {"type": "text", "text": "Что на картинке?"},
-            {"type": "image_url", "image_url": {"url": "data:image/jpeg;base64,..."}}
-        ]
-    }
     """
     from .file_service import get_file_as_base64, get_image_media_type
-    
+
     if not file_path:
         return {"role": "user", "content": content}
-    
+
     # Получаем base64 изображения
     base64_data = await get_file_as_base64(file_path)
     if not base64_data:
         return {"role": "user", "content": content}
-    
+
     media_type = get_image_media_type(file_path)
-    
+
     message_content = []
-    
+
     # Сначала текст (если есть)
     if content:
         message_content.append({
             "type": "text",
             "text": content
         })
-    
+
     # Затем изображение
     message_content.append({
         "type": "image_url",
@@ -330,7 +335,7 @@ async def prepare_multimodal_message(content: str, file_path: str = None, file_t
             "url": f"data:{media_type};base64,{base64_data}"
         }
     })
-    
+
     return {
         "role": "user",
         "content": message_content
@@ -341,17 +346,16 @@ async def extract_text_from_document(file_path: str) -> str:
     """Извлекает текст из документа для анализа"""
     import aiofiles
     from pathlib import Path
-    
+
     ext = Path(file_path).suffix.lower()
-    
+
     try:
         if ext in ['.txt', '.csv', '.json']:
             async with aiofiles.open(file_path, 'r', encoding='utf-8') as f:
                 text = await f.read()
             return text[:50000]  # Ограничиваем 50K символов
-        
+
         elif ext == '.pdf':
-            # Простое извлечение текста из PDF
             try:
                 import fitz  # PyMuPDF
                 doc = fitz.open(file_path)
@@ -362,9 +366,9 @@ async def extract_text_from_document(file_path: str) -> str:
                 return text[:50000]
             except ImportError:
                 return "[PDF файл загружен, но библиотека PyMuPDF не установлена]"
-        
+
         else:
             return f"[Файл {ext} загружен]"
-    
+
     except Exception as e:
         return f"[Ошибка чтения файла: {str(e)}]"

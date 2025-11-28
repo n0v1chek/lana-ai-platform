@@ -1,6 +1,6 @@
 'use client';
 import { useState, useRef, useCallback } from 'react';
-import { Paperclip, Camera, X, Image as ImageIcon, FileText, Loader2 } from 'lucide-react';
+import { Paperclip, X, FileText, Loader2 } from 'lucide-react';
 
 interface UploadedFile {
   file_id: string;
@@ -19,22 +19,41 @@ interface FileUploadProps {
   supportsDocuments: boolean;
 }
 
-export function FileUpload({ 
-  onFileUploaded, 
-  uploadedFile, 
+export function FileUpload({
+  onFileUploaded,
+  uploadedFile,
   disabled,
   supportsVision,
-  supportsDocuments 
+  supportsDocuments
 }: FileUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
   const handleUpload = useCallback(async (file: File) => {
     setError(null);
+    
+    // Проверяем тип файла
+    const isImage = file.type.startsWith('image/');
+    const isDocument = ['application/pdf', 'text/plain', 'text/csv', 'application/json'].includes(file.type);
+    
+    if (isImage && !supportsVision) {
+      setError('Эта модель не поддерживает изображения');
+      return;
+    }
+    
+    if (isDocument && !supportsDocuments) {
+      setError('Эта модель не поддерживает документы');
+      return;
+    }
+    
+    if (!isImage && !isDocument) {
+      setError('Неподдерживаемый формат файла');
+      return;
+    }
+    
     setIsUploading(true);
 
     try {
@@ -56,8 +75,7 @@ export function FileUpload({
       }
 
       const data = await response.json();
-      
-      // Создаём превью для изображений
+
       let preview: string | undefined;
       if (data.type === 'image') {
         preview = URL.createObjectURL(file);
@@ -73,14 +91,13 @@ export function FileUpload({
     } finally {
       setIsUploading(false);
     }
-  }, [API_URL, onFileUploaded]);
+  }, [API_URL, onFileUploaded, supportsVision, supportsDocuments]);
 
   const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       handleUpload(file);
     }
-    // Сбрасываем input чтобы можно было выбрать тот же файл
     e.target.value = '';
   }, [handleUpload]);
 
@@ -92,14 +109,6 @@ export function FileUpload({
     setError(null);
   }, [uploadedFile, onFileUploaded]);
 
-  const acceptTypes = [];
-  if (supportsVision) {
-    acceptTypes.push('image/jpeg', 'image/png', 'image/gif', 'image/webp');
-  }
-  if (supportsDocuments) {
-    acceptTypes.push('application/pdf', 'text/plain', 'text/csv', 'application/json');
-  }
-
   const canUpload = supportsVision || supportsDocuments;
 
   if (!canUpload) {
@@ -108,32 +117,22 @@ export function FileUpload({
 
   return (
     <div className="flex items-center gap-2">
-      {/* Скрытые input'ы */}
+      {/* Input без accept — проверяем тип после выбора */}
       <input
         ref={fileInputRef}
         type="file"
-        accept={acceptTypes.join(',')}
         onChange={handleFileSelect}
         className="hidden"
         disabled={disabled || isUploading}
-      />
-      <input
-        ref={cameraInputRef}
-        type="file"
-        accept="image/*"
-        capture="environment"
-        onChange={handleFileSelect}
-        className="hidden"
-        disabled={disabled || isUploading || !supportsVision}
       />
 
       {/* Превью загруженного файла */}
       {uploadedFile && (
         <div className="relative flex items-center gap-2 px-3 py-2 bg-slate-100 dark:bg-slate-700 rounded-xl">
           {uploadedFile.type === 'image' && uploadedFile.preview ? (
-            <img 
-              src={uploadedFile.preview} 
-              alt="Preview" 
+            <img
+              src={uploadedFile.preview}
+              alt="Preview"
               className="w-10 h-10 object-cover rounded-lg"
             />
           ) : (
@@ -156,35 +155,20 @@ export function FileUpload({
         </div>
       )}
 
-      {/* Кнопки загрузки */}
+      {/* Кнопка загрузки */}
       {!uploadedFile && (
-        <>
-          {/* Кнопка выбора файла */}
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            disabled={disabled || isUploading}
-            className="p-2 rounded-xl text-slate-500 hover:text-lana-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors disabled:opacity-50"
-            title={supportsVision && supportsDocuments ? 'Загрузить файл или изображение' : supportsVision ? 'Загрузить изображение' : 'Загрузить документ'}
-          >
-            {isUploading ? (
-              <Loader2 size={20} className="animate-spin" />
-            ) : (
-              <Paperclip size={20} />
-            )}
-          </button>
-
-          {/* Кнопка камеры (только на мобильных и если поддерживается vision) */}
-          {supportsVision && (
-            <button
-              onClick={() => cameraInputRef.current?.click()}
-              disabled={disabled || isUploading}
-              className="p-2 rounded-xl text-slate-500 hover:text-lana-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors disabled:opacity-50 sm:hidden"
-              title="Сделать фото"
-            >
-              <Camera size={20} />
-            </button>
+        <button
+          onClick={() => fileInputRef.current?.click()}
+          disabled={disabled || isUploading}
+          className="p-2 rounded-xl text-slate-500 hover:text-lana-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors disabled:opacity-50"
+          title="Прикрепить файл"
+        >
+          {isUploading ? (
+            <Loader2 size={20} className="animate-spin" />
+          ) : (
+            <Paperclip size={20} />
           )}
-        </>
+        </button>
       )}
 
       {/* Ошибка */}

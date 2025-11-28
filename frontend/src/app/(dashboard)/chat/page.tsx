@@ -71,13 +71,11 @@ const VISION_MODELS = new Set([
   'anthropic/claude-sonnet-4',
   'anthropic/claude-opus-4',
   'anthropic/claude-3.5-haiku',
-  'anthropic/claude-haiku-4',
+    'anthropic/claude-3.7-sonnet',
   'google/gemini-2.0-flash-001',
   'google/gemini-2.5-flash',
-  'google/gemini-2.5-flash-lite',
   'google/gemini-2.5-pro',
   'x-ai/grok-3',
-  'x-ai/grok-3-beta',
 ]);
 
 function ChatPageContent() {

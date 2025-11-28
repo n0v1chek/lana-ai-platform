@@ -21,9 +21,7 @@ const MODEL_CATEGORIES: Record<string, { name: string; icon: typeof Zap; color: 
   'anthropic': { name: 'Anthropic', icon: Bot, color: 'text-orange-500' },
   'google': { name: 'Google', icon: Globe, color: 'text-blue-500' },
   'deepseek': { name: 'DeepSeek', icon: Zap, color: 'text-purple-500' },
-  'meta-llama': { name: 'Meta', icon: Brain, color: 'text-blue-600' },
   'mistralai': { name: 'Mistral', icon: Zap, color: 'text-amber-500' },
-  'qwen': { name: 'Qwen', icon: Globe, color: 'text-cyan-500' },
   'x-ai': { name: 'xAI', icon: Brain, color: 'text-gray-500' },
 };
 
@@ -35,14 +33,41 @@ const VISION_MODELS = new Set([
   'anthropic/claude-sonnet-4',
   'anthropic/claude-opus-4',
   'anthropic/claude-3.5-haiku',
-  'anthropic/claude-haiku-4',
+  'anthropic/claude-3.7-sonnet',
   'google/gemini-2.0-flash-001',
   'google/gemini-2.5-flash',
-  'google/gemini-2.5-flash-lite',
   'google/gemini-2.5-pro',
   'x-ai/grok-3',
-  'x-ai/grok-3-beta',
 ]);
+
+// Описания и рекомендации для моделей
+const MODEL_DESCRIPTIONS: Record<string, string> = {
+  // Экономичные
+  'google/gemini-2.0-flash-001': 'Простые вопросы, чат',
+  'google/gemini-2.5-flash': 'Повседневные задачи',
+  'openai/gpt-4o-mini': 'Быстрые ответы, код',
+  'deepseek/deepseek-chat': 'Общение, анализ',
+  'deepseek/deepseek-r1': 'Логические задачи',
+  
+  // Стандартные
+  'anthropic/claude-3.5-haiku': 'Код, анализ, Vision',
+  'openai/o3-mini': 'Логика, математика',
+  'mistralai/mistral-large-2411': 'Сложные тексты',
+  
+  // Премиум
+  'openai/gpt-4o': '⭐ Универсальная, код, Vision',
+  'google/gemini-2.5-pro': '⭐ Анализ, Vision, код',
+  'anthropic/claude-sonnet-4': '⭐ Код, тексты, анализ',
+  'anthropic/claude-3.5-sonnet': '⭐ Универсальная',
+  'anthropic/claude-3.7-sonnet': '⭐ Рассуждения, код',
+  'x-ai/grok-3': 'Креатив, юмор',
+  'openai/gpt-4-turbo': 'Длинные документы',
+  
+  // Ультра
+  'anthropic/claude-opus-4': '🏆 Сложнейшие задачи',
+  'openai/o1': '🏆 Наука, математика',
+  'openai/o1-pro': '🏆 Исследования',
+};
 
 function getModelDisplayName(modelId: string): string {
   const parts = modelId.split('/');
@@ -82,10 +107,10 @@ export default function ModelSelector({ value, onChange, disabled }: ModelSelect
       } catch (error) {
         console.error('Failed to load models:', error);
         setModels([
-          { model_id: 'google/gemini-2.0-flash-001', price_per_1m_tokens: 21474 },
-          { model_id: 'openai/gpt-4o-mini', price_per_1m_tokens: 32641 },
-          { model_id: 'openai/gpt-4o', price_per_1m_tokens: 536866 },
-          { model_id: 'anthropic/claude-sonnet-4', price_per_1m_tokens: 773087 },
+          { model_id: 'google/gemini-2.0-flash-001', price_per_1m_tokens: 21000 },
+          { model_id: 'openai/gpt-4o-mini', price_per_1m_tokens: 32000 },
+          { model_id: 'openai/gpt-4o', price_per_1m_tokens: 540000 },
+          { model_id: 'anthropic/claude-sonnet-4', price_per_1m_tokens: 770000 },
         ]);
       } finally {
         setLoading(false);
@@ -116,10 +141,10 @@ export default function ModelSelector({ value, onChange, disabled }: ModelSelect
     getModelDisplayName(m.model_id).toLowerCase().includes(search.toLowerCase())
   );
 
-  const cheapModels = filteredModels.filter(m => m.price_per_1m_tokens < 35000);
-  const mediumModels = filteredModels.filter(m => m.price_per_1m_tokens >= 35000 && m.price_per_1m_tokens < 200000);
-  const premiumModels = filteredModels.filter(m => m.price_per_1m_tokens >= 200000 && m.price_per_1m_tokens < 800000);
-  const ultraModels = filteredModels.filter(m => m.price_per_1m_tokens >= 800000);
+  const cheapModels = filteredModels.filter(m => m.price_per_1m_tokens < 50000);
+  const mediumModels = filteredModels.filter(m => m.price_per_1m_tokens >= 50000 && m.price_per_1m_tokens < 250000);
+  const premiumModels = filteredModels.filter(m => m.price_per_1m_tokens >= 250000 && m.price_per_1m_tokens < 1000000);
+  const ultraModels = filteredModels.filter(m => m.price_per_1m_tokens >= 1000000);
 
   return (
     <div ref={ref} className="relative">
@@ -141,7 +166,7 @@ export default function ModelSelector({ value, onChange, disabled }: ModelSelect
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 max-w-80 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 z-50 animate-slide-down overflow-hidden">
+        <div className="absolute top-full left-0 mt-2 w-[calc(100vw-2rem)] sm:w-96 max-w-96 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 z-50 animate-slide-down overflow-hidden">
           <div className="p-2 border-b border-slate-200 dark:border-slate-700">
             <div className="relative">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -155,7 +180,7 @@ export default function ModelSelector({ value, onChange, disabled }: ModelSelect
             </div>
           </div>
 
-          <div className="max-h-[60vh] sm:max-h-80 overflow-y-auto">
+          <div className="max-h-[60vh] sm:max-h-96 overflow-y-auto">
             {loading ? (
               <div className="p-4 text-center text-slate-500">Загрузка...</div>
             ) : (
@@ -163,7 +188,7 @@ export default function ModelSelector({ value, onChange, disabled }: ModelSelect
                 {cheapModels.length > 0 && (
                   <div>
                     <div className="px-3 py-2 text-xs font-semibold text-slate-400 uppercase bg-slate-50 dark:bg-slate-900/50 sticky top-0">
-                      💚 Экономичные
+                      💚 Экономичные — для простых задач
                     </div>
                     {cheapModels.map((model) => (
                       <ModelOption
@@ -183,7 +208,7 @@ export default function ModelSelector({ value, onChange, disabled }: ModelSelect
                 {mediumModels.length > 0 && (
                   <div>
                     <div className="px-3 py-2 text-xs font-semibold text-slate-400 uppercase bg-slate-50 dark:bg-slate-900/50 sticky top-0">
-                      💛 Стандартные
+                      💛 Стандартные — баланс цены и качества
                     </div>
                     {mediumModels.map((model) => (
                       <ModelOption
@@ -203,7 +228,7 @@ export default function ModelSelector({ value, onChange, disabled }: ModelSelect
                 {premiumModels.length > 0 && (
                   <div>
                     <div className="px-3 py-2 text-xs font-semibold text-slate-400 uppercase bg-slate-50 dark:bg-slate-900/50 sticky top-0">
-                      🧡 Премиум
+                      🧡 Премиум — для сложных задач
                     </div>
                     {premiumModels.map((model) => (
                       <ModelOption
@@ -223,7 +248,7 @@ export default function ModelSelector({ value, onChange, disabled }: ModelSelect
                 {ultraModels.length > 0 && (
                   <div>
                     <div className="px-3 py-2 text-xs font-semibold text-slate-400 uppercase bg-slate-50 dark:bg-slate-900/50 sticky top-0">
-                      ❤️ Ультра
+                      ❤️ Ультра — максимум возможностей
                     </div>
                     {ultraModels.map((model) => (
                       <ModelOption
@@ -263,7 +288,8 @@ function ModelOption({ model, selected, onSelect }: {
   const Icon = MODEL_CATEGORIES[provider]?.icon || Zap;
   const iconColor = MODEL_CATEGORIES[provider]?.color || 'text-slate-500';
   const hasVision = VISION_MODELS.has(model.model_id);
-  
+  const desc = MODEL_DESCRIPTIONS[model.model_id];
+
   return (
     <button
       onClick={onSelect}
@@ -279,7 +305,9 @@ function ModelOption({ model, selected, onSelect }: {
             <Camera size={12} className="text-blue-500 flex-shrink-0" />
           )}
         </div>
-        <p className="text-xs text-slate-500 truncate">{model.model_id}</p>
+        <p className="text-xs text-slate-500 truncate">
+          {desc || model.model_id}
+        </p>
       </div>
       <div className="flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 whitespace-nowrap flex-shrink-0">
         <Coins size={12} />
