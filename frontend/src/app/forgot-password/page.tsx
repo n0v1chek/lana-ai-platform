@@ -102,10 +102,6 @@ export default function ForgotPasswordPage() {
           </Link>
         </div>
 
-        <p className="mt-6 text-xs text-slate-400 dark:text-slate-500 text-center">
-          Если вы не указывали email при регистрации, восстановление невозможно.
-          Создайте новый аккаунт.
-        </p>
       </Card>
     </div>
   );
