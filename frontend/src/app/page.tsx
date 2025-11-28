@@ -58,7 +58,7 @@ const features = [
   {
     icon: Shield,
     title: 'Полная приватность',
-    description: 'Не храним персональные данные. Только логин и пароль — больше ничего',
+    description: 'Минимум данных — только необходимое для безопасности',
   },
   {
     icon: Globe,
@@ -170,7 +170,7 @@ export default function HomePage() {
             <div className="space-y-3 mb-6 text-sm text-slate-600 dark:text-slate-400">
               <div className="flex items-start gap-2">
                 <Lock className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                <span><strong>Не собираем персональные данные</strong> — только логин и пароль для входа</span>
+                <span><strong>Не собираем персональные данные</strong> — логин, email и пароль для безопасного доступа</span>
               </div>
               <div className="flex items-start gap-2">
                 <UserX className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
@@ -293,7 +293,7 @@ export default function HomePage() {
           </div>
 
           <p className="mt-6 text-sm text-slate-500">
-            Только логин и пароль — больше ничего не нужно
+            Минимум данных для регистрации — и email для восстановления доступа
           </p>
         </div>
       </section>

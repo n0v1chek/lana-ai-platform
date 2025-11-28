@@ -4,80 +4,110 @@ import Link from 'next/link';
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800">
-      <header className="border-b border-slate-200 dark:border-slate-700">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950">
+      <header className="border-b border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm bg-white/70 dark:bg-slate-900/70 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-lana-500 dark:text-lana-400">
+          <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
             LANA AI Helper
           </Link>
           <nav className="flex gap-6">
-            <Link href="/" className="hover:text-lana-500 dark:text-lana-400 transition-colors">Главная</Link>
-            <Link href="/pricing" className="hover:text-lana-500 dark:text-lana-400 transition-colors">Тарифы</Link>
-            <Link href="/contacts" className="hover:text-lana-500 dark:text-lana-400 transition-colors">Контакты</Link>
+            <Link href="/" className="text-slate-600 hover:text-indigo-500 dark:text-slate-300 dark:hover:text-indigo-400 transition-colors">Главная</Link>
+            <Link href="/pricing" className="text-slate-600 hover:text-indigo-500 dark:text-slate-300 dark:hover:text-indigo-400 transition-colors">Тарифы</Link>
+            <Link href="/contacts" className="text-slate-600 hover:text-indigo-500 dark:text-slate-300 dark:hover:text-indigo-400 transition-colors">Контакты</Link>
           </nav>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold text-center mb-4 text-slate-900 dark:text-white">О проекте</h1>
-        <p className="text-slate-500 dark:text-slate-400 text-center mb-12">Познакомьтесь с создателем LANA AI Helper</p>
+      <main className="max-w-4xl mx-auto px-4 py-20">
+        <div className="text-center mb-16">
+          <span className="inline-block px-4 py-1.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-sm font-medium mb-4">
+            О проекте
+          </span>
+          <h1 className="text-5xl font-bold text-slate-900 dark:text-white mb-4">
+            Создано с <span className="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">любовью</span> к AI
+          </h1>
+          <p className="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+            Познакомьтесь с человеком, который стоит за LANA AI Helper
+          </p>
+        </div>
 
-        <div className="bg-white dark:bg-slate-800 shadow-sm rounded-2xl p-8 shadow-xl">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="w-32 h-32 bg-gradient-to-br from-lana-500 to-purple-500 rounded-full flex items-center justify-center text-4xl font-bold">АЖ</div>
-            <div className="flex-1 text-center md:text-left">
-              <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">Живчин Александр Семенович</h2>
-              <p className="text-lana-500 dark:text-lana-400 mb-4">Основатель и разработчик</p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                <div className="bg-slate-100 dark:bg-slate-700 rounded-lg p-3 text-center">
-                  <div className="text-sm text-slate-500 dark:text-slate-400">Frontend</div>
-                  <div className="text-lana-500 dark:text-lana-400">Next.js</div>
-                </div>
-                <div className="bg-slate-100 dark:bg-slate-700 rounded-lg p-3 text-center">
-                  <div className="text-sm text-slate-500 dark:text-slate-400">Backend</div>
-                  <div className="text-lana-500 dark:text-lana-400">FastAPI</div>
-                </div>
-                <div className="bg-slate-100 dark:bg-slate-700 rounded-lg p-3 text-center">
-                  <div className="text-sm text-slate-500 dark:text-slate-400">DevOps</div>
-                  <div className="text-lana-500 dark:text-lana-400">Docker</div>
-                </div>
-                <div className="bg-slate-100 dark:bg-slate-700 rounded-lg p-3 text-center">
-                  <div className="text-sm text-slate-500 dark:text-slate-400">Дизайн</div>
-                  <div className="text-lana-500 dark:text-lana-400">UI/UX</div>
-                </div>
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl blur-2xl opacity-20"></div>
+          <div className="relative bg-white dark:bg-slate-800/90 backdrop-blur-sm rounded-3xl p-10 shadow-xl border border-slate-200/50 dark:border-slate-700/50">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl text-white text-2xl font-bold mb-4 shadow-lg shadow-indigo-500/30">
+                АЖ
+              </div>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Живчин Александр Семенович</h2>
+              <p className="text-indigo-500 dark:text-indigo-400 font-medium mt-1">Основатель и разработчик</p>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+              <div className="group bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700/50 dark:to-slate-700 rounded-xl p-4 text-center hover:scale-105 transition-transform cursor-default">
+                <div className="text-2xl mb-2">⚛️</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Frontend</div>
+                <div className="text-indigo-600 dark:text-indigo-400 font-semibold">Next.js</div>
+              </div>
+              <div className="group bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700/50 dark:to-slate-700 rounded-xl p-4 text-center hover:scale-105 transition-transform cursor-default">
+                <div className="text-2xl mb-2">🚀</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Backend</div>
+                <div className="text-indigo-600 dark:text-indigo-400 font-semibold">FastAPI</div>
+              </div>
+              <div className="group bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700/50 dark:to-slate-700 rounded-xl p-4 text-center hover:scale-105 transition-transform cursor-default">
+                <div className="text-2xl mb-2">🐳</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">DevOps</div>
+                <div className="text-indigo-600 dark:text-indigo-400 font-semibold">Docker</div>
+              </div>
+              <div className="group bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700/50 dark:to-slate-700 rounded-xl p-4 text-center hover:scale-105 transition-transform cursor-default">
+                <div className="text-2xl mb-2">🎨</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Дизайн</div>
+                <div className="text-indigo-600 dark:text-indigo-400 font-semibold">UI/UX</div>
               </div>
             </div>
-          </div>
-          <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
-            <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">О проекте LANA AI Helper</h3>
-            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">LANA AI Helper — это платформа, которая предоставляет доступ к лучшим нейросетям мира через единый удобный интерфейс. Проект создан с целью сделать искусственный интеллект доступным для каждого.</p>
-            <p className="text-slate-600 dark:text-slate-300 leading-relaxed mt-4">Мы верим, что AI должен быть простым в использовании, доступным по цене и безопасным. Для регистрации нужен только логин и пароль.</p>
+
+            <div className="border-t border-slate-200 dark:border-slate-700 pt-8">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                <span className="text-2xl">💡</span> О проекте
+              </h3>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                LANA AI Helper — это платформа, которая предоставляет доступ к лучшим нейросетям мира через единый удобный интерфейс. Проект создан с целью сделать искусственный интеллект доступным для каждого.
+              </p>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                Я верю, что AI должен быть простым в использовании, доступным по цене и безопасным. Для регистрации нужен логин, email и пароль.
+              </p>
+            </div>
           </div>
         </div>
 
         <div className="grid grid-cols-3 gap-6 mt-12">
-          <div className="bg-white dark:bg-slate-800 shadow-sm rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-lana-500 dark:text-lana-400">✓</div>
-            <div className="text-slate-500 dark:text-slate-400 mt-2">Лучшие AI модели</div>
+          <div className="group bg-white dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl hover:-translate-y-1 transition-all">
+            <div className="text-4xl mb-3">🤖</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">22+</div>
+            <div className="text-slate-500 dark:text-slate-400 text-sm">AI моделей</div>
           </div>
-          <div className="bg-white dark:bg-slate-800 shadow-sm rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-lana-500 dark:text-lana-400">2025</div>
-            <div className="text-slate-500 dark:text-slate-400 mt-2">Год запуска</div>
+          <div className="group bg-white dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl hover:-translate-y-1 transition-all">
+            <div className="text-4xl mb-3">📅</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">2025</div>
+            <div className="text-slate-500 dark:text-slate-400 text-sm">Год запуска</div>
           </div>
-          <div className="bg-white dark:bg-slate-800 shadow-sm rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-lana-500 dark:text-lana-400">24/7</div>
-            <div className="text-slate-500 dark:text-slate-400 mt-2">Доступность</div>
+          <div className="group bg-white dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl hover:-translate-y-1 transition-all">
+            <div className="text-4xl mb-3">⚡</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">24/7</div>
+            <div className="text-slate-500 dark:text-slate-400 text-sm">Доступность</div>
           </div>
         </div>
 
-        <div className="text-center mt-12">
-          <Link href="/register" className="inline-block bg-lana-500 hover:bg-lana-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors">Начать использовать</Link>
+        <div className="text-center mt-14">
+          <Link href="/register" className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold px-8 py-4 rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 transition-all hover:-translate-y-0.5">
+            Начать использовать
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+          </Link>
         </div>
       </main>
 
-      <footer className="border-t border-slate-200 dark:border-slate-700 mt-16 py-8 text-center text-slate-500 dark:text-slate-400">
+      <footer className="border-t border-slate-200/50 dark:border-slate-700/50 mt-20 py-8 text-center text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
         <p>© 2025 LANA AI Helper. Все права защищены.</p>
-        <p className="mt-2">Самозанятый Живчин Александр Семенович · ИНН 263109568337</p>
+        <p className="mt-2 text-sm">Самозанятый Живчин Александр Семенович · ИНН 263109568337</p>
       </footer>
     </div>
   );
