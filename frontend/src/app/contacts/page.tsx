@@ -96,7 +96,7 @@ export default function ContactsPage() {
             </div>
             <div className="prose prose-slate dark:prose-invert max-w-none">
               <p className="text-slate-600 dark:text-slate-400">
-                <strong>Lana AI Helper</strong> — это онлайн-сервис, предоставляющий доступ к 50+ AI-моделям (GPT-4o, Claude, Gemini и другие) для генерации текстов, ответов на вопросы и помощи в решении задач.
+                <strong>Lana AI Helper</strong> — это онлайн-сервис, предоставляющий доступ к лучшим AI-моделям (GPT-4o, Claude, Gemini и другие) для генерации текстов, ответов на вопросы и помощи в решении задач.
               </p>
               <p className="text-slate-600 dark:text-slate-400 mt-4">
                 <strong>Как получить услугу:</strong>
@@ -104,7 +104,7 @@ export default function ContactsPage() {
               <ol className="text-slate-600 dark:text-slate-400 list-decimal list-inside space-y-2 mt-2">
                 <li>Зарегистрируйтесь на сайте (бесплатно)</li>
                 <li>Пополните баланс (от 49 рублей)</li>
-                <li>Выберите AI-модель из 50+ доступных</li>
+                <li>Выберите AI-модель из доступных</li>
                 <li>Платите только за использованные сообщения</li>
                 <li>Коины не сгорают — используйте когда удобно</li>
               </ol>

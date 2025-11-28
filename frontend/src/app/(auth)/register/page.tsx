@@ -1,5 +1,4 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -7,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { CatLogo } from '@/components/CatLogo';
-import { User, Lock, Mail, ArrowRight, Info } from 'lucide-react';
+import { User, Lock, Mail, ArrowRight } from 'lucide-react';
 import { Button, Input, Card } from '@/components/ui';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -17,13 +16,19 @@ const registerSchema = z.object({
     .min(3, 'Минимум 3 символа')
     .max(20, 'Максимум 20 символов')
     .regex(/^[a-zA-Z0-9_]+$/, 'Только латиница, цифры и _'),
+  email: z.string().min(1, 'Email обязателен').email('Неверный формат email'),
   password: z
     .string()
     .min(8, 'Минимум 8 символов')
     .regex(/[A-Z]/, 'Нужна хотя бы одна заглавная буква')
     .regex(/[0-9]/, 'Нужна хотя бы одна цифра'),
   confirmPassword: z.string(),
-  email: z.string().email('Неверный формат email').optional().or(z.literal('')),
+  agreeTerms: z.boolean().refine(val => val === true, {
+    message: 'Необходимо принять условия',
+  }),
+  agreeAge: z.boolean().refine(val => val === true, {
+    message: 'Необходимо подтвердить возраст',
+  }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: 'Пароли не совпадают',
   path: ['confirmPassword'],
@@ -49,12 +54,16 @@ export default function RegisterPage() {
     formState: { errors },
   } = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      agreeTerms: false,
+      agreeAge: false,
+    },
   });
 
   const onSubmit = async (data: RegisterForm) => {
     clearError();
     try {
-      await registerUser({ username: data.username, password: data.password, email: data.email || undefined });
+      await registerUser({ username: data.username, password: data.password, email: data.email });
       setSuccess(true);
       setTimeout(() => {
         router.push('/chat');
@@ -112,9 +121,7 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-              Email <span className="text-slate-400 font-normal">(необязательно)</span>
-            </label>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <Input
@@ -125,12 +132,6 @@ export default function RegisterPage() {
               />
             </div>
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
-            <div className="flex gap-2 mt-2 p-2.5 bg-lana-50 dark:bg-lana-900/20 border border-lana-200 dark:border-lana-500/20 rounded-lg">
-              <Info className="w-4 h-4 text-lana-500 flex-shrink-0 mt-0.5" />
-              <p className="text-xs text-lana-600 dark:text-lana-300 leading-relaxed">
-                Email нужен только для восстановления доступа если забудете логин или пароль.
-              </p>
-            </div>
           </div>
 
           <div>
@@ -161,6 +162,38 @@ export default function RegisterPage() {
             {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>}
           </div>
 
+          <div className="space-y-3 pt-2">
+            <div className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                {...register('agreeTerms')}
+                id="agreeTerms"
+                className="mt-1 w-4 h-4 text-lana-500 border-slate-300 rounded focus:ring-lana-500"
+              />
+              <label htmlFor="agreeTerms" className="text-sm text-slate-600 dark:text-slate-300">
+                Я согласен с{' '}
+                <Link href="/terms" className="text-lana-500 hover:underline">Офертой</Link>,{' '}
+                <Link href="/privacy" className="text-lana-500 hover:underline">Политикой конфиденциальности</Link>{' '}
+                и{' '}
+                <Link href="/cookies" className="text-lana-500 hover:underline">Политикой cookies</Link>
+              </label>
+            </div>
+            {errors.agreeTerms && <p className="text-red-500 text-sm">{errors.agreeTerms.message}</p>}
+
+            <div className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                {...register('agreeAge')}
+                id="agreeAge"
+                className="mt-1 w-4 h-4 text-lana-500 border-slate-300 rounded focus:ring-lana-500"
+              />
+              <label htmlFor="agreeAge" className="text-sm text-slate-600 dark:text-slate-300">
+                Мне исполнилось 18 лет
+              </label>
+            </div>
+            {errors.agreeAge && <p className="text-red-500 text-sm">{errors.agreeAge.message}</p>}
+          </div>
+
           <Button
             type="submit"
             disabled={isLoading}
@@ -188,13 +221,6 @@ export default function RegisterPage() {
             </Link>
           </p>
         </div>
-
-        <p className="mt-4 text-xs text-slate-400 text-center">
-          Регистрируясь, вы соглашаетесь с{' '}
-          <Link href="/terms" className="text-lana-500 hover:underline">
-            условиями использования
-          </Link>
-        </p>
       </Card>
     </div>
   );

@@ -57,8 +57,8 @@ export default function AboutPage() {
 
         <div className="grid grid-cols-3 gap-6 mt-12">
           <div className="bg-white dark:bg-slate-800 shadow-sm rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-lana-500 dark:text-lana-400">50+</div>
-            <div className="text-slate-500 dark:text-slate-400 mt-2">Лучших AI моделей</div>
+            <div className="text-3xl font-bold text-lana-500 dark:text-lana-400">✓</div>
+            <div className="text-slate-500 dark:text-slate-400 mt-2">Лучшие AI модели</div>
           </div>
           <div className="bg-white dark:bg-slate-800 shadow-sm rounded-xl p-6 text-center">
             <div className="text-3xl font-bold text-lana-500 dark:text-lana-400">2025</div>

@@ -475,6 +475,7 @@ function ChatPageContent() {
             </div>
           )}
         </div>
+        <p className="text-xs text-slate-400 text-center mb-2">⚠️ AI может генерировать неточную информацию. Проверяйте важные факты.</p>
         <ChatInput 
           onSend={(msg, fileId, fileType) => sendMessage(msg, fileId, fileType)} 
           isLoading={isSending} 

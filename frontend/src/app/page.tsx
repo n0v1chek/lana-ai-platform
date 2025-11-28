@@ -190,7 +190,7 @@ export default function HomePage() {
             </button>
             
             <p className="mt-3 text-xs text-slate-500 text-center">
-              Продолжая, вы соглашаетесь с <Link href="/terms" className="text-lana-500 hover:underline">условиями использования</Link>
+              Продолжая, вы соглашаетесь с <Link href="/terms" className="text-lana-500 hover:underline">Офертой</Link>, <Link href="/privacy" className="text-lana-500 hover:underline">Политикой конфиденциальности</Link> и <Link href="/cookies" className="text-lana-500 hover:underline">Политикой cookies</Link>
             </p>
           </div>
         </div>
@@ -485,6 +485,9 @@ export default function HomePage() {
               </Link>
               <Link href="/privacy" className="hover:text-slate-900 dark:hover:text-white transition-colors">
                 Конфиденциальность
+              </Link>
+              <Link href="/cookies" className="hover:text-slate-900 dark:hover:text-white transition-colors">
+                Cookies
               </Link>
             </nav>
 
