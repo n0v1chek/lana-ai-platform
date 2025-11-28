@@ -18,19 +18,6 @@ import {
 import { useAuthStore } from '@/stores/authStore';
 import { Button, Card } from '@/components/ui';
 
-// Примеры моделей с актуальными ценами (коины за 1M токенов)
-// USD_TO_COINS = 95 * 7 * 100 = 66500
-const MODEL_EXAMPLES = [
-  { name: 'Gemini 2.5 Flash Lite', provider: 'Google', coins: 17000, icon: Globe, color: 'text-blue-500', category: 'economy' },
-  { name: 'Llama 3.3 70B', provider: 'Meta', coins: 18000, icon: Brain, color: 'text-purple-500', category: 'economy' },
-  { name: 'Gemini 2.0 Flash', provider: 'Google', coins: 21000, icon: Globe, color: 'text-blue-500', category: 'economy' },
-  { name: 'GPT-4o Mini', provider: 'OpenAI', coins: 33000, icon: Zap, color: 'text-green-500', category: 'economy' },
-  { name: 'Claude 3.5 Haiku', provider: 'Anthropic', coins: 206000, icon: Bot, color: 'text-orange-500', category: 'standard' },
-  { name: 'GPT-4o', provider: 'OpenAI', coins: 537000, icon: Zap, color: 'text-green-500', category: 'premium' },
-  { name: 'Claude Sonnet 4', provider: 'Anthropic', coins: 773000, icon: Bot, color: 'text-amber-500', category: 'premium' },
-  { name: 'Claude Opus 4', provider: 'Anthropic', coins: 3865000, icon: Bot, color: 'text-red-500', category: 'ultra' },
-];
-
 function formatCoinsShort(coins: number): string {
   if (coins >= 1000000) {
     return (coins / 1000000).toFixed(1) + 'M';

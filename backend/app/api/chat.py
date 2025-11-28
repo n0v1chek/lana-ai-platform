@@ -273,7 +273,13 @@ async def send_message(
     db.add(user_message)
     await db.flush()
 
-    messages_history = []
+    # Системный промпт с текущей датой
+    from datetime import datetime
+    current_date = datetime.now().strftime("%d.%m.%Y")
+    system_prompt = f"""Ты — полезный AI-ассистент LANA. Сегодня {current_date}.
+Отвечай на языке пользователя. Будь точным, полезным и дружелюбным.
+Если не знаешь ответа — честно скажи об этом."""
+    messages_history = [{"role": "system", "content": system_prompt}]
     for msg in existing_messages:
         messages_history.append({
             "role": msg.role.value,

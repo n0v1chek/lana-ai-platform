@@ -273,7 +273,7 @@ function ChatPageContent() {
   }
 
   return (
-    <div className="h-screen flex bg-slate-50 dark:bg-slate-900">
+    <div className="h-screen h-[100dvh] flex bg-slate-50 dark:bg-slate-900">
       <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 transform transition-transform duration-300 lg:relative lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col h-full">
           <div className="p-4 border-b border-slate-200 dark:border-slate-700">
@@ -389,7 +389,7 @@ function ChatPageContent() {
       )}
       {sidebarOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 flex items-center justify-between px-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+        <header className="sticky top-0 z-30 h-16 flex items-center justify-between px-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
           <div className="flex items-center gap-4">
             <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700"><Menu size={20} /></button>
             <ModelSelector value={selectedModel} onChange={(model) => { setSelectedModel(model); loadBudget(); }} disabled={isSending} />
@@ -473,7 +473,8 @@ function ChatPageContent() {
             </div>
           )}
         </div>
-        <p className="text-xs text-slate-400 text-center mb-2">⚠️ AI может генерировать неточную информацию. Проверяйте важные факты.</p>
+        <div className="sticky bottom-0 z-30 bg-slate-50 dark:bg-slate-900 pb-safe">
+        <p className="text-xs text-slate-400 text-center py-2">⚠️ AI может генерировать неточную информацию. Проверяйте важные факты.</p>
         <ChatInput 
           onSend={(msg, fileId, fileType) => sendMessage(msg, fileId, fileType)} 
           isLoading={isSending} 
@@ -481,6 +482,7 @@ function ChatPageContent() {
           supportsVision={VISION_MODELS.has(selectedModel)}
           supportsDocuments={VISION_MODELS.has(selectedModel)}
         />
+      </div>
       </main>
     </div>
   );
