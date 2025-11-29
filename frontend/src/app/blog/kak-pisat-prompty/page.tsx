@@ -240,12 +240,12 @@ export default function ArticlePage() {
 
             <div className="bg-gradient-to-r from-purple-600 to-pink-500 rounded-xl p-8 my-10 text-center text-white">
               <h3 className="text-2xl font-bold mb-3">Практикуйтесь на LANA AI</h3>
-              <p className="opacity-90 mb-6">18 нейросетей для экспериментов. Платите только за использование.</p>
+              <p className="opacity-90 mb-6">Лучшие нейросети для любых задач. Платите только за использование.</p>
               <Link 
                 href="/register" 
                 className="inline-block bg-white text-purple-600 font-semibold px-8 py-3 rounded-xl hover:bg-slate-100 transition"
               >
-                Попробовать бесплатно
+                Попробовать AI сейчас
               </Link>
             </div>
 
@@ -270,7 +270,7 @@ export default function ArticlePage() {
             </Link>
             <Link href="/blog/luchshie-nejroseti-2025" className="bg-white p-4 rounded-xl hover:shadow-md transition">
               <h3 className="font-semibold text-slate-900">Лучшие нейросети 2025</h3>
-              <p className="text-sm text-slate-500 mt-1">Топ-18 AI моделей</p>
+              <p className="text-sm text-slate-500 mt-1">Лучшие AI модели</p>
             </Link>
           </div>
         </div>
@@ -278,7 +278,7 @@ export default function ArticlePage() {
 
       {/* Footer */}
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИП Живчин А.С., ИНН 263109568337</p>
+        <p>© 2025 LANA AI Helper. Живчин А.С., самозанятый, ИНН 263109568337</p>
       </footer>
     </div>
   );

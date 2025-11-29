@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Лучшие нейросети для работы в 2025 году — Топ-18 AI моделей",
+  title: "Лучшие нейросети для работы в 2025 году — Лучшие AI модели",
   description: "Полный обзор лучших нейросетей 2025: GPT-4o, Claude, Gemini, DeepSeek, Grok. Сравнение возможностей, цен и задач. Все доступны в России.",
   keywords: ["лучшие нейросети 2025", "топ AI", "нейросети для работы", "GPT-4", "Claude", "Gemini", "DeepSeek"],
   openGraph: {
     title: "Лучшие нейросети для работы в 2025 году",
-    description: "Топ-18 AI моделей: обзор и сравнение",
+    description: "Лучшие AI модели: обзор и сравнение",
     url: "https://lanaaihelper.ru/blog/luchshie-nejroseti-2025",
   },
 };
@@ -49,7 +49,7 @@ export default function ArticlePage() {
 
           <p className="text-xl text-slate-600 mb-8 leading-relaxed">
             Полный гид по AI-моделям: от бюджетных до премиум. Какую нейросеть выбрать 
-            для текстов, кода, анализа? Все 18 моделей доступны в LANA AI Helper.
+            для текстов, кода, анализа? Все лучшие модели AI доступны в LANA AI Helper.
           </p>
 
           {/* Content */}
@@ -143,7 +143,7 @@ export default function ArticlePage() {
               <div className="bg-white border border-slate-200 rounded-xl p-5">
                 <h3 className="font-bold text-slate-900 mb-2">GPT-4 Turbo</h3>
                 <p className="text-slate-600 text-sm mb-3">
-                  Длинный контекст 128K токенов. Для работы с большими документами.
+                  Длинный контекст 128K символов. Для работы с большими документами.
                 </p>
               </div>
             </div>
@@ -244,7 +244,7 @@ export default function ArticlePage() {
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Vision</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
-                  Топовая модель Google. Контекст 1M токенов — рекорд в индустрии!
+                  Топовая модель Google. Контекст 1M символов — рекорд в индустрии!
                 </p>
               </div>
             </div>
@@ -363,13 +363,13 @@ export default function ArticlePage() {
             </div>
 
             <div className="bg-gradient-to-r from-purple-600 to-pink-500 rounded-xl p-8 my-10 text-center text-white">
-              <h3 className="text-2xl font-bold mb-3">Все 18 моделей в одном месте</h3>
+              <h3 className="text-2xl font-bold mb-3">Все лучшие модели AI в одном месте</h3>
               <p className="opacity-90 mb-6">GPT-4o, Claude, Gemini, DeepSeek, Grok — без VPN, оплата в рублях</p>
               <Link 
                 href="/register" 
                 className="inline-block bg-white text-purple-600 font-semibold px-8 py-3 rounded-xl hover:bg-slate-100 transition"
               >
-                Попробовать бесплатно
+                Попробовать AI сейчас
               </Link>
             </div>
 
@@ -379,7 +379,7 @@ export default function ArticlePage() {
 
       {/* Footer */}
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИП Живчин А.С., ИНН 263109568337</p>
+        <p>© 2025 LANA AI Helper. Живчин А.С., самозанятый, ИНН 263109568337</p>
       </footer>
     </div>
   );

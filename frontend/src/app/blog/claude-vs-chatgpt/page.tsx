@@ -193,8 +193,8 @@ export default function ArticlePage() {
 
             <h3 className="text-xl font-semibold text-slate-800 mt-6 mb-3">📊 Анализ документов</h3>
             <p className="text-slate-600 mb-4">
-              <strong>Claude</strong> может обработать до 200K токенов — это ~500 страниц текста!
-              <br /><strong>ChatGPT</strong> ограничен 128K токенов в GPT-4 Turbo.
+              <strong>Claude</strong> может обработать до 200K символов — это ~500 страниц текста!
+              <br /><strong>ChatGPT</strong> ограничен 128K символов в GPT-4 Turbo.
             </p>
             <p className="text-purple-600 font-medium mb-4">Победитель: Claude</p>
 
@@ -261,7 +261,7 @@ export default function ArticlePage() {
 
       {/* Footer */}
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИП Живчин А.С., ИНН 263109568337</p>
+        <p>© 2025 LANA AI Helper. Живчин А.С., самозанятый, ИНН 263109568337</p>
       </footer>
     </div>
   );
