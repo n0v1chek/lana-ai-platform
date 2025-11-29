@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import PrivacyNotice from "@/components/PrivacyNotice";
 
 export const metadata: Metadata = {
   title: "Lana AI Helper — Умный AI-помощник",
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className="antialiased">
+        <PrivacyNotice />
         {children}
       </body>
     </html>

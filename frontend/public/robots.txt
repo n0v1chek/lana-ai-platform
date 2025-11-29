@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Блокируем служебные страницы
+Disallow: /admin
+Disallow: /api/
+Disallow: /reset-password
+Disallow: /verify-email
+
+# Карта сайта
+Sitemap: https://lanaaihelper.ru/sitemap.xml
+
+# Основной хост
+Host: https://lanaaihelper.ru

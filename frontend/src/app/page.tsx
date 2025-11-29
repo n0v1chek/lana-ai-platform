@@ -4,6 +4,8 @@ import { CatLogo } from '@/components/CatLogo';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
+  Menu,
+  X,
   ArrowRight,
   MessageSquare,
   Zap,
@@ -132,6 +134,7 @@ const businessServices = [
 
 export default function HomePage() {
   const [copied, setCopied] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showPrivacyNotice, setShowPrivacyNotice] = useState(false);
 
   useEffect(() => {
@@ -218,26 +221,51 @@ export default function HomePage() {
             <a href="#business" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
               Для бизнеса
             </a>
+            <Link href="/blog" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
+              Блог
+            </Link>
             <Link href="/about" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
               О нас
             </Link>
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link 
+            <Link
               href="/login"
-              className="px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
+              className="hidden sm:block px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
             >
               Войти
             </Link>
-            <Link 
+            <Link
               href="/register"
-              className="px-3 py-1.5 text-sm font-medium bg-lana-500 text-white rounded-xl hover:bg-lana-600 transition-colors"
+              className="hidden sm:block px-3 py-1.5 text-sm font-medium bg-lana-500 text-white rounded-xl hover:bg-lana-600 transition-colors"
             >
               Регистрация
             </Link>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+              aria-label="Меню"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
         </div>
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-4">
+            <nav className="flex flex-col space-y-3">
+              <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">Возможности</a>
+              <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">Как это работает</a>
+              <a href="#business" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">Для бизнеса</a>
+              <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">Блог</Link>
+              <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">О нас</Link>
+              <div className="pt-3 border-t border-slate-200 dark:border-slate-700 flex gap-3">
+                <Link href="/login" className="flex-1 text-center py-2 border border-slate-300 rounded-xl">Войти</Link>
+                <Link href="/register" className="flex-1 text-center py-2 bg-lana-500 text-white rounded-xl">Регистрация</Link>
+              </div>
+            </nav>
+          </div>
+        )}
       </header>
 
       {/* Hero Section */}
