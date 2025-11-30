@@ -3,7 +3,7 @@ import traceback
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from .api import auth, chat, payments, analytics, subscriptions, budget, admin, files
+from .api import auth, chat, payments, analytics, subscriptions, budget, admin, files, contact
 from .core.database import engine, Base
 from .services.currency_service import currency_service
 from .services.openrouter_prices import openrouter_prices_service

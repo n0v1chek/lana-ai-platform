@@ -213,9 +213,9 @@ export default function HomePage() {
             <a href="#how-it-works" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
               Как это работает
             </a>
-            <a href="#business" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
+            <Link href="/business" className="text-purple-600 font-medium hover:text-purple-700 transition-colors border border-purple-200 px-3 py-1.5 rounded-lg hover:bg-purple-50">
               Для бизнеса
-            </a>
+            </Link>
             <Link href="/blog" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
               Блог
             </Link>
@@ -251,7 +251,7 @@ export default function HomePage() {
             <nav className="flex flex-col space-y-3">
               <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">Возможности</a>
               <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">Как это работает</a>
-              <a href="#business" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">Для бизнеса</a>
+              <Link href="/business" onClick={() => setMobileMenuOpen(false)} className="text-purple-600 font-medium py-2">Для бизнеса</Link>
               <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">Блог</Link>
               <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">О нас</Link>
               <div className="pt-3 border-t border-slate-200 dark:border-slate-700 flex gap-3">
@@ -442,25 +442,81 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="bg-gradient-to-r from-lana-500 to-purple-500 rounded-2xl p-8 text-center">
-            <h3 className="font-display text-2xl font-bold text-white mb-4">
-              Нужен AI-агент для вашего бизнеса?
-            </h3>
-            <p className="text-white/80 mb-6 max-w-xl mx-auto">
-              Расскажите о задаче — мы предложим решение и рассчитаем стоимость
-            </p>
-            <button
-              onClick={copyEmail}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-lana-600 font-semibold rounded-xl hover:bg-slate-100 transition-colors"
-            >
-              <Mail className="w-5 h-5" />
-              support@lanaaihelper.ru
-              {copied ? (
-                <CheckCheck className="w-4 h-4 text-green-500" />
-              ) : (
-                <Copy className="w-4 h-4" />
-              )}
-            </button>
+          <div className="bg-gradient-to-r from-lana-500 to-purple-500 rounded-2xl p-8">
+            <div className="max-w-2xl mx-auto">
+              <h3 className="font-display text-2xl font-bold text-white mb-4 text-center">
+                Нужен AI-агент для вашего бизнеса?
+              </h3>
+              <p className="text-white/80 mb-6 text-center">
+                Оставьте заявку или узнайте подробнее о наших решениях
+              </p>
+              
+              <form 
+                onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
+                  e.preventDefault();
+                  const form = e.currentTarget;
+                  const formData = new FormData(form);
+                  try {
+                    const res = await fetch('/api/contact', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        name: formData.get('biz_name'),
+                        contact: formData.get('biz_contact'),
+                        task: 'Заявка с главной страницы'
+                      })
+                    });
+                    if (res.ok) {
+                      alert('Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
+                      form.reset();
+                    } else {
+                      alert('Ошибка отправки. Попробуйте позже.');
+                    }
+                  } catch {
+                    alert('Ошибка сети. Попробуйте позже.');
+                  }
+                }}
+                className="flex flex-col sm:flex-row gap-3 mb-6"
+              >
+                <input
+                  type="text"
+                  name="biz_name"
+                  required
+                  placeholder="Имя или компания"
+                  className="flex-1 px-4 py-3 rounded-xl text-slate-900 placeholder-slate-400 outline-none focus:ring-2 focus:ring-white/50"
+                />
+                <input
+                  type="text"
+                  name="biz_contact"
+                  required
+                  placeholder="Email или Telegram"
+                  className="flex-1 px-4 py-3 rounded-xl text-slate-900 placeholder-slate-400 outline-none focus:ring-2 focus:ring-white/50"
+                />
+                <button
+                  type="submit"
+                  className="px-6 py-3 bg-white text-purple-600 font-semibold rounded-xl hover:bg-purple-50 transition-colors whitespace-nowrap"
+                >
+                  Отправить
+                </button>
+              </form>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  href="/business"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/20 hover:bg-white/30 text-white font-medium rounded-xl transition-colors"
+                >
+                  Подробнее об услугах
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <button
+                  onClick={copyEmail}
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-white/30 hover:border-white/50 text-white font-medium rounded-xl transition-colors"
+                >
+                  <Mail className="w-4 h-4" />
+                  {copied ? 'Скопировано!' : 'support@lanaaihelper.ru'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -18,7 +18,7 @@ async def submit_contact_form(form: ContactForm):
         smtp_host = os.getenv("SMTP_HOST", "smtp.mail.ru")
         smtp_port = int(os.getenv("SMTP_PORT", "465"))
         smtp_user = os.getenv("SMTP_USER", "support@lanaaihelper.ru")
-        smtp_pass = os.getenv("SMTP_PASS", "")
+        smtp_pass = os.getenv("SMTP_PASSWORD", "")
         
         if not smtp_pass:
             raise HTTPException(status_code=500, detail="SMTP not configured")
