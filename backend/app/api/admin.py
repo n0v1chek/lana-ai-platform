@@ -965,3 +965,279 @@ async def get_database_stats(
         },
         "table_sizes": [{"table": s.table_name, "size": s.total_size} for s in sizes.fetchall()]
     }
+
+
+# === Analytics - Registration Sources ===
+
+@router.get("/analytics/sources")
+async def get_registration_sources(
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+    days: int = Query(30, ge=1, le=365)
+):
+    """Статистика регистраций по источникам"""
+    
+    # Регистрации по источникам
+    sources = await db.execute(
+        text("""
+            SELECT 
+                COALESCE(registration_source, 'unknown') as source,
+                COUNT(*) as registrations,
+                COUNT(CASE WHEN total_deposited > 0 THEN 1 END) as paid_users,
+                COALESCE(SUM(total_deposited), 0) as total_deposited,
+                COALESCE(SUM(total_spent), 0) as total_spent
+            FROM users
+            WHERE created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY registration_source
+            ORDER BY registrations DESC
+        """),
+        {"days": days}
+    )
+    
+    sources_data = []
+    total_registrations = 0
+    total_paid = 0
+    total_revenue = 0
+    
+    for row in sources.fetchall():
+        registrations = row.registrations
+        paid_users = row.paid_users
+        conversion = (paid_users / registrations * 100) if registrations > 0 else 0
+        
+        sources_data.append({
+            "source": row.source,
+            "registrations": registrations,
+            "paid_users": paid_users,
+            "conversion_percent": round(conversion, 1),
+            "total_deposited_coins": row.total_deposited,
+            "total_deposited_rub": row.total_deposited / 100,
+            "total_spent_coins": row.total_spent,
+            "avg_deposit_rub": round(row.total_deposited / paid_users / 100, 2) if paid_users > 0 else 0,
+        })
+        
+        total_registrations += registrations
+        total_paid += paid_users
+        total_revenue += row.total_deposited
+    
+    return {
+        "period_days": days,
+        "summary": {
+            "total_registrations": total_registrations,
+            "total_paid_users": total_paid,
+            "overall_conversion_percent": round(total_paid / total_registrations * 100, 1) if total_registrations > 0 else 0,
+            "total_revenue_coins": total_revenue,
+            "total_revenue_rub": total_revenue / 100,
+        },
+        "sources": sources_data
+    }
+
+
+@router.get("/analytics/funnel")
+async def get_conversion_funnel(
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+    days: int = Query(30, ge=1, le=365)
+):
+    """Воронка конверсий: визиты -> регистрации -> пополнения"""
+    
+    # Регистрации за период
+    registrations = await db.execute(
+        text("""
+            SELECT COUNT(*) FROM users
+            WHERE created_at > NOW() - INTERVAL '1 day' * :days
+        """),
+        {"days": days}
+    )
+    total_registrations = registrations.scalar()
+    
+    # Пользователи с подтверждённым email
+    verified = await db.execute(
+        text("""
+            SELECT COUNT(*) FROM users
+            WHERE created_at > NOW() - INTERVAL '1 day' * :days
+            AND is_verified = TRUE
+        """),
+        {"days": days}
+    )
+    verified_users = verified.scalar()
+    
+    # Пользователи, отправившие хотя бы 1 сообщение
+    active = await db.execute(
+        text("""
+            SELECT COUNT(DISTINCT u.id) FROM users u
+            JOIN transactions t ON u.id = t.user_id
+            WHERE u.created_at > NOW() - INTERVAL '1 day' * :days
+            AND t.type = 'spend'
+        """),
+        {"days": days}
+    )
+    active_users = active.scalar()
+    
+    # Пользователи, пополнившие баланс
+    paid = await db.execute(
+        text("""
+            SELECT COUNT(*) FROM users
+            WHERE created_at > NOW() - INTERVAL '1 day' * :days
+            AND total_deposited > 0
+        """),
+        {"days": days}
+    )
+    paid_users = paid.scalar()
+    
+    # Повторные пополнения (2+ транзакций deposit)
+    repeat = await db.execute(
+        text("""
+            SELECT COUNT(*) FROM (
+                SELECT user_id FROM transactions
+                WHERE type = 'deposit'
+                AND user_id IN (
+                    SELECT id FROM users WHERE created_at > NOW() - INTERVAL '1 day' * :days
+                )
+                GROUP BY user_id
+                HAVING COUNT(*) >= 2
+            ) as repeat_users
+        """),
+        {"days": days}
+    )
+    repeat_users = repeat.scalar()
+    
+    def calc_rate(current, previous):
+        return round(current / previous * 100, 1) if previous > 0 else 0
+    
+    return {
+        "period_days": days,
+        "funnel": [
+            {
+                "stage": "Регистрации",
+                "count": total_registrations,
+                "rate_percent": 100,
+            },
+            {
+                "stage": "Подтвердили email",
+                "count": verified_users,
+                "rate_percent": calc_rate(verified_users, total_registrations),
+            },
+            {
+                "stage": "Отправили сообщение",
+                "count": active_users,
+                "rate_percent": calc_rate(active_users, total_registrations),
+            },
+            {
+                "stage": "Пополнили баланс",
+                "count": paid_users,
+                "rate_percent": calc_rate(paid_users, total_registrations),
+            },
+            {
+                "stage": "Повторное пополнение",
+                "count": repeat_users,
+                "rate_percent": calc_rate(repeat_users, total_registrations),
+            },
+        ]
+    }
+
+
+@router.get("/analytics/daily")
+async def get_daily_analytics(
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+    days: int = Query(14, ge=1, le=90)
+):
+    """Ежедневная статистика регистраций и пополнений"""
+    
+    result = await db.execute(
+        text("""
+            SELECT 
+                d.date,
+                COALESCE(r.registrations, 0) as registrations,
+                COALESCE(p.deposits, 0) as deposits,
+                COALESCE(p.deposit_amount, 0) as deposit_amount,
+                COALESCE(s.spent, 0) as spent
+            FROM (
+                SELECT generate_series(
+                    CURRENT_DATE - INTERVAL '1 day' * :days,
+                    CURRENT_DATE,
+                    '1 day'::interval
+                )::date as date
+            ) d
+            LEFT JOIN (
+                SELECT created_at::date as date, COUNT(*) as registrations
+                FROM users
+                GROUP BY created_at::date
+            ) r ON d.date = r.date
+            LEFT JOIN (
+                SELECT created_at::date as date, COUNT(*) as deposits, SUM(amount) as deposit_amount
+                FROM transactions WHERE type = 'deposit'
+                GROUP BY created_at::date
+            ) p ON d.date = p.date
+            LEFT JOIN (
+                SELECT created_at::date as date, SUM(ABS(amount)) as spent
+                FROM transactions WHERE type = 'spend'
+                GROUP BY created_at::date
+            ) s ON d.date = s.date
+            ORDER BY d.date DESC
+        """),
+        {"days": days}
+    )
+    
+    daily_data = []
+    for row in result.fetchall():
+        daily_data.append({
+            "date": row.date.isoformat(),
+            "registrations": row.registrations,
+            "deposits_count": row.deposits,
+            "deposits_coins": row.deposit_amount,
+            "deposits_rub": row.deposit_amount / 100,
+            "spent_coins": row.spent,
+            "spent_rub": row.spent / 100,
+        })
+    
+    return {
+        "period_days": days,
+        "daily": daily_data
+    }
+
+
+@router.get("/analytics/utm")
+async def get_utm_analytics(
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+    days: int = Query(30, ge=1, le=365)
+):
+    """Детальная UTM-аналитика"""
+    
+    result = await db.execute(
+        text("""
+            SELECT 
+                utm_source,
+                utm_medium,
+                utm_campaign,
+                COUNT(*) as registrations,
+                COUNT(CASE WHEN total_deposited > 0 THEN 1 END) as paid_users,
+                COALESCE(SUM(total_deposited), 0) as total_deposited
+            FROM users
+            WHERE created_at > NOW() - INTERVAL '1 day' * :days
+            AND (utm_source IS NOT NULL OR utm_medium IS NOT NULL OR utm_campaign IS NOT NULL)
+            GROUP BY utm_source, utm_medium, utm_campaign
+            ORDER BY registrations DESC
+            LIMIT 100
+        """),
+        {"days": days}
+    )
+    
+    utm_data = []
+    for row in result.fetchall():
+        conversion = (row.paid_users / row.registrations * 100) if row.registrations > 0 else 0
+        utm_data.append({
+            "utm_source": row.utm_source,
+            "utm_medium": row.utm_medium,
+            "utm_campaign": row.utm_campaign,
+            "registrations": row.registrations,
+            "paid_users": row.paid_users,
+            "conversion_percent": round(conversion, 1),
+            "total_deposited_rub": row.total_deposited / 100,
+        })
+    
+    return {
+        "period_days": days,
+        "utm_campaigns": utm_data
+    }

@@ -128,8 +128,38 @@ interface MarginData {
   alerts: MarginAlert[];
   alerts_count: number;
 }
+interface AnalyticsSource {
+  source: string;
+  registrations: number;
+  paid_users: number;
+  conversion_percent: number;
+  total_deposited_coins: number;
+  total_deposited_rub: number;
+  total_spent_coins: number;
+  avg_deposit_rub: number;
+}
+interface AnalyticsFunnel {
+  stage: string;
+  count: number;
+  rate_percent: number;
+}
+interface AnalyticsData {
+  period_days: number;
+  summary: {
+    total_registrations: number;
+    total_paid_users: number;
+    overall_conversion_percent: number;
+    total_revenue_coins: number;
+    total_revenue_rub: number;
+  };
+  sources: AnalyticsSource[];
+}
+interface FunnelData {
+  period_days: number;
+  funnel: AnalyticsFunnel[];
+}
 
-type TabType = 'dashboard' | 'users' | 'monitoring' | 'banner' | 'database' | 'logs';
+type TabType = 'dashboard' | 'analytics' | 'users' | 'monitoring' | 'banner' | 'database' | 'logs';
 
 export default function AdminPage() {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
@@ -154,6 +184,9 @@ export default function AdminPage() {
   const [logs, setLogs] = useState<AdminLog[]>([]);
   const [marginData, setMarginData] = useState<MarginData | null>(null);
   const [marginDays, setMarginDays] = useState(7);
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
+  const [funnelData, setFunnelData] = useState<FunnelData | null>(null);
+  const [analyticsDays, setAnalyticsDays] = useState(30);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
   const getToken = () => localStorage.getItem('token');
@@ -278,6 +311,18 @@ export default function AdminPage() {
       console.error('Failed to load margin data:', e);
     }
   };
+  const loadAnalytics = async (days = 30) => {
+    try {
+      const [sources, funnel] = await Promise.all([
+        fetchApi("/admin/analytics/sources?days=" + days),
+        fetchApi("/admin/analytics/funnel?days=" + days)
+      ]);
+      setAnalyticsData(sources);
+      setFunnelData(funnel);
+    } catch (e) {
+      console.error("Failed to load analytics:", e);
+    }
+  };
 
   const handleTabChange = (tab: TabType) => {
     setActiveTab(tab);
@@ -288,6 +333,7 @@ export default function AdminPage() {
     if (tab === 'banner') loadBanner();
     if (tab === 'database') loadDbStats();
     if (tab === 'logs') loadLogs();
+    if (tab === 'analytics') loadAnalytics(analyticsDays);
   };
 
   const handleBlockUser = async (userId: number, block: boolean) => {
@@ -391,6 +437,7 @@ export default function AdminPage() {
 
   const tabs = [
     { id: 'dashboard', label: 'Статистика', icon: BarChart3 },
+    { id: 'analytics', label: 'Аналитика', icon: TrendingUp },
     { id: 'users', label: 'Пользователи', icon: Users },
     { id: 'monitoring', label: 'Мониторинг', icon: Activity },
     { id: 'banner', label: 'Баннер', icon: Bell },
@@ -846,6 +893,91 @@ export default function AdminPage() {
                   </table>
                 </div>
               </div>
+            </div>
+          )}
+
+          {activeTab === "analytics" && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Аналитика источников</h2>
+                <div className="flex items-center gap-2">
+                  <select
+                    value={analyticsDays}
+                    onChange={(e) => { setAnalyticsDays(Number(e.target.value)); loadAnalytics(Number(e.target.value)); }}
+                    className="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                  >
+                    <option value={7}>7 дней</option>
+                    <option value={14}>14 дней</option>
+                    <option value={30}>30 дней</option>
+                    <option value={90}>90 дней</option>
+                  </select>
+                  <Button size="sm" variant="secondary" onClick={() => loadAnalytics(analyticsDays)} leftIcon={<RefreshCw size={16} />}>Обновить</Button>
+                </div>
+              </div>
+
+              {analyticsData && (
+                <>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <StatCard icon={Users} label="Регистрации" value={analyticsData.summary.total_registrations} color="blue" />
+                    <StatCard icon={DollarSign} label="Оплатили" value={analyticsData.summary.total_paid_users} color="green" />
+                    <StatCard icon={TrendingUp} label="Конверсия" value={analyticsData.summary.overall_conversion_percent + "%"} color="purple" />
+                    <StatCard icon={Coins} label="Выручка" value={analyticsData.summary.total_revenue_rub.toFixed(0) + " ₽"} color="amber" />
+                  </div>
+
+                  <Card className="p-6">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Источники трафика</h3>
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead className="bg-slate-50 dark:bg-slate-700/50">
+                          <tr>
+                            <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Источник</th>
+                            <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Регистрации</th>
+                            <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Оплатили</th>
+                            <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Конверсия</th>
+                            <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Выручка</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
+                          {analyticsData.sources.map((s, i) => (
+                            <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-700/30">
+                              <td className="px-4 py-3 font-medium text-slate-900 dark:text-white">{s.source}</td>
+                              <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{s.registrations}</td>
+                              <td className="px-4 py-3 text-green-600 dark:text-green-400">{s.paid_users}</td>
+                              <td className="px-4 py-3">
+                                <span className={"px-2 py-1 rounded text-xs " + (s.conversion_percent >= 10 ? "bg-green-100 dark:bg-green-900/30 text-green-600" : s.conversion_percent >= 5 ? "bg-amber-100 dark:bg-amber-900/30 text-amber-600" : "bg-slate-100 dark:bg-slate-700 text-slate-600")}>
+                                  {s.conversion_percent}%
+                                </span>
+                              </td>
+                              <td className="px-4 py-3 text-slate-900 dark:text-white">{s.total_deposited_rub.toFixed(0)} ₽</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </Card>
+                </>
+              )}
+
+              {funnelData && (
+                <Card className="p-6">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Воронка конверсий</h3>
+                  <div className="space-y-3">
+                    {funnelData.funnel.map((f, i) => (
+                      <div key={i} className="flex items-center gap-4">
+                        <div className="w-40 text-sm text-slate-600 dark:text-slate-400">{f.stage}</div>
+                        <div className="flex-1 bg-slate-100 dark:bg-slate-700 rounded-full h-6 overflow-hidden">
+                          <div
+                            className={"h-full rounded-full " + (i === 0 ? "bg-blue-500" : i === funnelData.funnel.length - 1 ? "bg-green-500" : "bg-purple-500")}
+                            style={{ width: f.rate_percent + "%" }}
+                          />
+                        </div>
+                        <div className="w-20 text-right text-sm font-medium text-slate-900 dark:text-white">{f.count}</div>
+                        <div className="w-16 text-right text-sm text-slate-500 dark:text-slate-400">{f.rate_percent}%</div>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              )}
             </div>
           )}
         </div>
