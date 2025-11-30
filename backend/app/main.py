@@ -76,6 +76,7 @@ app.include_router(subscriptions.router, prefix="/api/subscriptions", tags=["Sub
 app.include_router(budget.router, prefix="/api", tags=["Budget"])
 app.include_router(admin.router, prefix="/api", tags=["Admin"])
 app.include_router(files.router, prefix="/api", tags=["Files"])
+app.include_router(contact.router, prefix="/api", tags=["Contact"])
 
 @app.get("/")
 async def root():

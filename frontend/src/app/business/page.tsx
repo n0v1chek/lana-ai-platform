@@ -367,11 +367,28 @@ export default function BusinessPage() {
             <p className="text-xl text-slate-600">Расскажите о задаче — предложим решение</p>
           </div>
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-slate-100">
-            <form action="https://formsubmit.co/support@lanaaihelper.ru" method="POST" className="space-y-6">
-              <input type="hidden" name="_subject" value="Новая заявка с сайта LANA AI (B2B)" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_template" value="table" />
-              <input type="hidden" name="_next" value="https://lanaaihelper.ru/business?success=true" />
+            <form onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                try {
+                  const res = await fetch("https://lanaaihelper.ru/api/contact", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      name: formData.get("name"),
+                      contact: formData.get("contact"),
+                      task: formData.get("task") || ""
+                    })
+                  });
+                  if (res.ok) {
+                    window.location.href = "/business?success=true";
+                  } else {
+                    alert("Ошибка отправки. Попробуйте позже.");
+                  }
+                } catch {
+                  alert("Ошибка сети. Попробуйте позже.");
+                }
+              }} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">Имя / Компания *</label>
