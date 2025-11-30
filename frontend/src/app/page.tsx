@@ -554,6 +554,9 @@ export default function HomePage() {
               <Link href="/contacts" className="hover:text-slate-900 dark:hover:text-white transition-colors">
                 Контакты
               </Link>
+              <Link href="/business" className="hover:text-slate-900 dark:hover:text-white transition-colors">
+                Для бизнеса
+              </Link>
               <Link href="/terms" className="hover:text-slate-900 dark:hover:text-white transition-colors">
                 Условия
               </Link>
