@@ -1,6 +1,7 @@
 "use client";
 
 import { CatLogo } from "@/components/CatLogo";
+import { Footer } from "@/components/Footer";
 import Link from "next/link";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
@@ -487,23 +488,7 @@ export default function BusinessPage() {
         </div>
       </section>
 
-      <footer className="border-t border-slate-200 py-8 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-4">
-              <CatLogo size={28} />
-            </div>
-            <nav className="flex flex-wrap justify-center gap-6 text-sm text-slate-600">
-              <Link href="/about" className="hover:text-purple-600 transition">О проекте</Link>
-              <Link href="/contacts" className="hover:text-purple-600 transition">Контакты</Link>
-              <Link href="/blog" className="hover:text-purple-600 transition">Блог</Link>
-              <Link href="/privacy" className="hover:text-purple-600 transition">Конфиденциальность</Link>
-              <Link href="/terms" className="hover:text-purple-600 transition">Оферта</Link>
-            </nav>
-            <p className="text-sm text-slate-500">© 2025 LANA AI Helper. ИНН 263109568337</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

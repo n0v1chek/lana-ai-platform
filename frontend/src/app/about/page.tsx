@@ -1,6 +1,7 @@
 'use client';
 
 import { CatLogo } from '@/components/CatLogo';
+import { Footer } from '@/components/Footer';
 import Link from 'next/link';
 
 export default function AboutPage() {
@@ -105,9 +106,7 @@ export default function AboutPage() {
         </div>
       </main>
 
-      <footer className="border-t border-slate-200/50 dark:border-slate-700/50 mt-20 py-8 text-center text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
-        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

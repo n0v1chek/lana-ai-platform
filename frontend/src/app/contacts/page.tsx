@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import Link from 'next/link';
 import { CatLogo } from '@/components/CatLogo';
+import { Footer } from '@/components/Footer';
 import { Mail, MapPin, FileText, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui';
 
@@ -127,11 +128,7 @@ export default function ContactsPage() {
         </div>
       </main>
 
-      <footer className="py-8 px-6 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto text-center text-sm text-slate-500">
-          © 2025 Lana AI Helper. ИНН: 263109568337
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

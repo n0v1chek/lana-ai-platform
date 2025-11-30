@@ -1,6 +1,7 @@
 'use client';
 
 import { CatLogo } from '@/components/CatLogo';
+import { Footer } from '@/components/Footer';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
@@ -543,37 +544,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-slate-200 dark:border-slate-700">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <CatLogo size={20} />
-            </div>
-
-            <nav className="flex items-center gap-6 text-sm text-slate-600 dark:text-slate-400">
-              <Link href="/contacts" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-                Контакты
-              </Link>
-              <Link href="/business" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-                Для бизнеса
-              </Link>
-              <Link href="/terms" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-                Условия
-              </Link>
-              <Link href="/privacy" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-                Конфиденциальность
-              </Link>
-              <Link href="/cookies" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-                Cookies
-              </Link>
-            </nav>
-
-            <p className="text-sm text-slate-500">
-              © 2025 LANA AI Helper. ИНН 263109568337
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
