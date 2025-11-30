@@ -203,12 +203,7 @@ export default function HomePage() {
       <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-700">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-lana-500 to-purple-500 flex items-center justify-center">
-              <CatLogo size={24} />
-            </div>
-            <span className="font-display text-xl font-bold text-slate-900 dark:text-white">
-              Lana AI
-            </span>
+            <CatLogo size={24} />
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
@@ -331,7 +326,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-              Почему выбирают Lana AI
+              Почему выбирают LANA AI
             </h2>
             <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
               Мы объединили лучшие AI-модели в одном удобном интерфейсе
@@ -496,12 +491,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-lana-500 to-purple-500 flex items-center justify-center">
-                <CatLogo size={20} />
-              </div>
-              <span className="font-display font-bold text-slate-900 dark:text-white">
-                Lana AI
-              </span>
+              <CatLogo size={20} />
             </div>
 
             <nav className="flex items-center gap-6 text-sm text-slate-600 dark:text-slate-400">
@@ -520,7 +510,7 @@ export default function HomePage() {
             </nav>
 
             <p className="text-sm text-slate-500">
-              © 2025 Lana AI. Самозанятый Живчин А.С.
+              © 2025 LANA AI Helper. ИНН 263109568337
             </p>
           </div>
         </div>

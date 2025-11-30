@@ -112,9 +112,7 @@ export default function SettingsPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
         <div className="text-center">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-lana-500 to-purple-500 flex items-center justify-center mx-auto mb-4 animate-pulse">
-            <CatLogo size={28} />
-          </div>
+          <CatLogo size={28} />
           <p className="text-slate-500">Загрузка...</p>
         </div>
       </div>

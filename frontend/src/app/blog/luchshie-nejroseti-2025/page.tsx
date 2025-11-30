@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CatLogo } from "@/components/CatLogo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -18,8 +19,8 @@ export default function ArticlePage() {
       {/* Header */}
       <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">
-            LANA AI
+          <Link href="/" className="flex items-center">
+            <CatLogo size={32} />
           </Link>
           <nav className="flex items-center gap-6">
             <Link href="/blog" className="text-slate-600 hover:text-purple-600 transition">Блог</Link>
@@ -379,7 +380,7 @@ export default function ArticlePage() {
 
       {/* Footer */}
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. Живчин А.С., самозанятый, ИНН 263109568337</p>
+        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
       </footer>
     </div>
   );

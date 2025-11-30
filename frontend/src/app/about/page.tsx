@@ -1,5 +1,6 @@
 'use client';
 
+import { CatLogo } from '@/components/CatLogo';
 import Link from 'next/link';
 
 export default function AboutPage() {
@@ -7,12 +8,11 @@ export default function AboutPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950">
       <header className="border-b border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm bg-white/70 dark:bg-slate-900/70 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
-            LANA AI Helper
+          <Link href="/" className="flex items-center">
+            <CatLogo size={32} />
           </Link>
           <nav className="flex gap-6">
             <Link href="/" className="text-slate-600 hover:text-indigo-500 dark:text-slate-300 dark:hover:text-indigo-400 transition-colors">Главная</Link>
-            <Link href="/pricing" className="text-slate-600 hover:text-indigo-500 dark:text-slate-300 dark:hover:text-indigo-400 transition-colors">Тарифы</Link>
             <Link href="/contacts" className="text-slate-600 hover:text-indigo-500 dark:text-slate-300 dark:hover:text-indigo-400 transition-colors">Контакты</Link>
           </nav>
         </div>
@@ -106,8 +106,7 @@ export default function AboutPage() {
       </main>
 
       <footer className="border-t border-slate-200/50 dark:border-slate-700/50 mt-20 py-8 text-center text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
-        <p>© 2025 LANA AI Helper. Все права защищены.</p>
-        <p className="mt-2 text-sm">Самозанятый Живчин Александр Семенович · ИНН 263109568337</p>
+        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
       </footer>
     </div>
   );

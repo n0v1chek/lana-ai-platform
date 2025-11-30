@@ -11,12 +11,7 @@ export default function PrivacyPage() {
       <header className="fixed top-0 left-0 right-0 z-50 glass">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-lana-500 to-purple-500 flex items-center justify-center">
-              <CatLogo size={24} />
-            </div>
-            <span className="font-display font-bold text-xl text-slate-900 dark:text-white">
-              Lana AI
-            </span>
+            <CatLogo size={24} />
           </Link>
           <Link href="/">
             <Button variant="ghost" size="sm">

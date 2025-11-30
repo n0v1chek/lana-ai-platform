@@ -263,9 +263,7 @@ function ChatPageContent() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
         <div className="text-center">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-lana-500 to-purple-500 flex items-center justify-center mx-auto mb-4 animate-pulse">
-            <CatLogo size={28} />
-          </div>
+          <CatLogo size={28} />
           <p className="text-slate-500">Загрузка...</p>
         </div>
       </div>
@@ -279,10 +277,7 @@ function ChatPageContent() {
           <div className="p-4 border-b border-slate-200 dark:border-slate-700">
             <div className="flex items-center justify-between">
               <Link href="/" className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-lana-500 to-purple-500 flex items-center justify-center">
-                  <CatLogo size={24} />
-                </div>
-                <span className="font-display font-bold text-lg text-slate-900 dark:text-white">Lana AI</span>
+                <CatLogo size={24} />
               </Link>
               <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
                 <X size={20} />
@@ -438,7 +433,6 @@ function ChatPageContent() {
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center p-8">
               <div className="text-center max-w-md">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-lana-500 to-purple-500 flex items-center justify-center mx-auto mb-6"><CatLogo size={36} /></div>
                 <h2 className="font-display text-2xl font-bold text-slate-900 dark:text-white mb-2">Чем могу помочь?</h2>
                 <p className="text-slate-500 dark:text-slate-400 mb-8">{!hasBalance ? 'Пополните баланс чтобы начать общение с AI' : !canSend ? 'Дневной лимит исчерпан. Попробуйте завтра или измените настройки.' : 'Задайте любой вопрос — я постараюсь дать полезный ответ'}</p>
                 {canSend ? (
@@ -459,7 +453,7 @@ function ChatPageContent() {
               {messages.map((message) => (<ChatMessage key={message.id} message={message} />))}
               {isSending && (
                 <div className="flex gap-4">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center animate-pulse"><CatLogo size={16} /></div>
+                  <CatLogo size={16} />
                   <div className="bg-white dark:bg-slate-800 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
                     <div className="flex gap-1">
                       <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
