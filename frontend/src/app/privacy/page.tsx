@@ -27,13 +27,13 @@ export default function PrivacyPage() {
           <h1 className="font-display text-4xl font-bold text-slate-900 dark:text-white mb-4">
             Политика конфиденциальности
           </h1>
-          <p className="text-slate-500 dark:text-slate-400 mb-8">
+          <p className="text-slate-600 dark:text-slate-300 mb-8">
             Обработка и защита персональных данных
           </p>
 
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm prose prose-slate dark:prose-invert max-w-none">
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-              Редакция от 28 ноября 2025 года
+            <p className="text-sm text-slate-600 dark:text-slate-300 mb-6">
+              Редакция от 30 ноября 2025 года
             </p>
 
             <h2>1. Общие положения</h2>
@@ -87,6 +87,7 @@ export default function PrivacyPage() {
               <li>предоставление доступа к функционалу Сервиса;</li>
               <li>обработка платежей и начисление коинов;</li>
               <li>техническая поддержка;</li>
+              <li>улучшение качества Сервиса на основе аналитики;</li>
               <li>соблюдение требований законодательства.</li>
             </ul>
 
@@ -124,18 +125,77 @@ export default function PrivacyPage() {
             </p>
             <ul>
               <li><strong>ЮKassa</strong> — для обработки платежей;</li>
+              <li><strong>Яндекс (Яндекс.Метрика)</strong> — для веб-аналитики;</li>
+              <li><strong>Google (Google Analytics)</strong> — для веб-аналитики;</li>
               <li><strong>Государственным органам</strong> — по законному запросу.</li>
             </ul>
 
-            <h2>7. Cookies</h2>
+            <h2>7. Cookies и веб-аналитика</h2>
+            <h3>7.1. Технические cookies:</h3>
             <p>
-              7.1. Сервис использует только технические cookies для авторизации.
+              Сервис использует cookies для авторизации и корректной работы сайта.
             </p>
+            
+            <h3>7.2. Аналитические cookies:</h3>
             <p>
-              7.2. Мы НЕ используем cookies для отслеживания и рекламы.
+              Для улучшения качества Сервиса мы используем системы веб-аналитики:
             </p>
+            
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800 my-4">
+              <p className="mb-2"><strong>Яндекс.Метрика</strong> (счётчик № 105576416)</p>
+              <ul className="mb-0">
+                <li>Вебвизор — запись действий на сайте</li>
+                <li>Карта кликов и скроллинга</li>
+                <li>Аналитика форм</li>
+              </ul>
+              <p className="mt-2 text-sm">
+                Политика конфиденциальности Яндекса:{' '}
+                <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener noreferrer" className="text-lana-500">
+                  yandex.ru/legal/confidential
+                </a>
+              </p>
+            </div>
+
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800 my-4">
+              <p className="mb-2"><strong>Google Analytics 4</strong> (ID: G-G2L3FBV3TG)</p>
+              <ul className="mb-0">
+                <li>Статистика посещений</li>
+                <li>Источники трафика</li>
+                <li>Поведение пользователей</li>
+              </ul>
+              <p className="mt-2 text-sm">
+                Политика конфиденциальности Google:{' '}
+                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-lana-500">
+                  policies.google.com/privacy
+                </a>
+              </p>
+            </div>
+
+            <h3>7.3. Какие данные собирает аналитика:</h3>
+            <ul>
+              <li>IP-адрес (анонимизируется);</li>
+              <li>тип устройства и браузера;</li>
+              <li>страницы просмотра;</li>
+              <li>источник перехода на сайт;</li>
+              <li>действия на сайте (клики, прокрутка).</li>
+            </ul>
+
+            <h3>7.4. Отключение аналитики:</h3>
             <p>
-              7.3. Подробнее — в{' '}
+              Вы можете отключить сбор данных аналитики:
+            </p>
+            <ul>
+              <li>Установив расширение{' '}
+                <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" className="text-lana-500">
+                  Google Analytics Opt-out
+                </a>
+              </li>
+              <li>Включив режим «Не отслеживать» (Do Not Track) в браузере</li>
+              <li>Используя блокировщики рекламы</li>
+            </ul>
+
+            <p>
+              Подробнее — в{' '}
               <Link href="/cookies" className="text-lana-500 hover:underline">
                 Политике cookies
               </Link>.
