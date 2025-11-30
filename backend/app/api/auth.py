@@ -36,6 +36,45 @@ class LoginRequest(BaseModel):
     password: str
 
 
+def detect_registration_source(utm_source: Optional[str], referrer: Optional[str]) -> str:
+    """Определить источник регистрации"""
+    if utm_source:
+        utm_lower = utm_source.lower()
+        if 'google' in utm_lower:
+            return 'google'
+        elif 'yandex' in utm_lower:
+            return 'yandex'
+        elif 'bing' in utm_lower:
+            return 'bing'
+        elif 'telegram' in utm_lower:
+            return 'telegram'
+        elif 'vk' in utm_lower:
+            return 'vk'
+        else:
+            return utm_source[:50]
+    
+    if referrer:
+        ref_lower = referrer.lower()
+        if 'google' in ref_lower:
+            return 'google'
+        elif 'yandex' in ref_lower:
+            return 'yandex'
+        elif 'bing' in ref_lower:
+            return 'bing'
+        elif 'duckduckgo' in ref_lower:
+            return 'duckduckgo'
+        elif 't.me' in ref_lower or 'telegram' in ref_lower:
+            return 'telegram'
+        elif 'vk.com' in ref_lower:
+            return 'vk'
+        elif 'habr' in ref_lower:
+            return 'habr'
+        else:
+            return 'referral'
+    
+    return 'direct'
+
+
 async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)):
     payload = decode_access_token(token)
     if not payload:
@@ -59,13 +98,23 @@ async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
         result = await db.execute(select(User).where(User.email == user_data.email))
         if result.scalar_one_or_none():
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
+    
+    # Определяем источник регистрации
+    registration_source = detect_registration_source(user_data.utm_source, user_data.referrer)
+    
     new_user = User(
         username=user_data.username.lower(),
         email=user_data.email,
         hashed_password=get_password_hash(user_data.password),
         subscription_plan="free",
         tokens_limit=30000,
-        is_verified=False
+        is_verified=False,
+        # Аналитика
+        registration_source=registration_source,
+        utm_source=user_data.utm_source[:100] if user_data.utm_source else None,
+        utm_medium=user_data.utm_medium[:100] if user_data.utm_medium else None,
+        utm_campaign=user_data.utm_campaign[:100] if user_data.utm_campaign else None,
+        referrer=user_data.referrer[:500] if user_data.referrer else None
     )
     db.add(new_user)
     await db.commit()

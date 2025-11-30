@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, Date
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, Date, Text
 from sqlalchemy.sql import func
 from datetime import datetime, date
 
@@ -22,6 +22,13 @@ class User(Base):
     budget_start_date = Column(DateTime, nullable=True)  # Начало периода
     daily_spent = Column(Integer, default=0)  # Потрачено сегодня
     daily_spent_date = Column(Date, default=date.today)  # Дата обновления daily_spent
+
+    # Источник регистрации (для аналитики)
+    registration_source = Column(String(50), nullable=True)  # google, yandex, direct, referral
+    utm_source = Column(String(100), nullable=True)
+    utm_medium = Column(String(100), nullable=True)
+    utm_campaign = Column(String(100), nullable=True)
+    referrer = Column(Text, nullable=True)
 
     # Подписка (для будущего использования)
     subscription_plan = Column(String, default="NONE")
@@ -77,18 +84,18 @@ class User(Base):
         # Проверка баланса
         if self.balance <= 0:
             return False, "Недостаточно коинов. Пожалуйста, пополните баланс.", "no_balance"
-        
+
         if self.balance < estimated_coins:
             return False, f"Недостаточно коинов. Нужно ~{estimated_coins}, у вас {self.balance}.", "low_balance"
-        
+
         # Проверка дневного лимита (если включён)
         if self.budget_period != "none" and self.daily_limit > 0:
             if self.daily_spent >= self.daily_limit:
                 return False, f"Достигнут дневной лимит ({self.daily_limit} коинов). Попробуйте завтра или измените настройки бюджета.", "daily_limit"
-            
+
             if self.daily_remaining < estimated_coins:
                 return False, f"Недостаточно коинов в дневном лимите. Осталось {self.daily_remaining}, нужно ~{estimated_coins}.", "daily_limit"
-        
+
         return True, "OK", "ok"
 
     def has_sufficient_balance(self, coins_needed: int) -> bool:

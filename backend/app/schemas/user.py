@@ -8,6 +8,11 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     password: str = Field(..., min_length=8)
     email: Optional[EmailStr] = None
+    # UTM-метки для аналитики
+    utm_source: Optional[str] = None
+    utm_medium: Optional[str] = None
+    utm_campaign: Optional[str] = None
+    referrer: Optional[str] = None
 
 class UserLogin(BaseModel):
     username: str

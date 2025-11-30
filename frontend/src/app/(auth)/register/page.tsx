@@ -1,7 +1,7 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -36,15 +36,49 @@ const registerSchema = z.object({
 
 type RegisterForm = z.infer<typeof registerSchema>;
 
-export default function RegisterPage() {
+function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { register: registerUser, isLoading, error, clearError } = useAuthStore();
   const [success, setSuccess] = useState(false);
+  const [utmData, setUtmData] = useState<{
+    utm_source?: string;
+    utm_medium?: string;
+    utm_campaign?: string;
+    referrer?: string;
+  }>({});
+
+  useEffect(() => {
+    // Собираем UTM-метки из URL
+    const utm_source = searchParams.get('utm_source') || undefined;
+    const utm_medium = searchParams.get('utm_medium') || undefined;
+    const utm_campaign = searchParams.get('utm_campaign') || undefined;
+    
+    // Получаем referrer
+    const referrer = document.referrer || undefined;
+    
+    setUtmData({ utm_source, utm_medium, utm_campaign, referrer });
+    
+    // Сохраняем в localStorage на случай если пользователь уйдёт и вернётся
+    if (utm_source || utm_medium || utm_campaign || referrer) {
+      localStorage.setItem('registration_utm', JSON.stringify({ utm_source, utm_medium, utm_campaign, referrer }));
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token && !success) {
       router.push('/chat');
+    }
+    
+    // Восстанавливаем UTM из localStorage если есть
+    const savedUtm = localStorage.getItem('registration_utm');
+    if (savedUtm && !utmData.utm_source && !utmData.referrer) {
+      try {
+        setUtmData(JSON.parse(savedUtm));
+      } catch (e) {
+        // ignore
+      }
     }
   }, [router, success]);
 
@@ -63,7 +97,18 @@ export default function RegisterPage() {
   const onSubmit = async (data: RegisterForm) => {
     clearError();
     try {
-      await registerUser({ username: data.username, password: data.password, email: data.email });
+      await registerUser({ 
+        username: data.username, 
+        password: data.password, 
+        email: data.email,
+        // Передаём UTM-метки
+        utm_source: utmData.utm_source,
+        utm_medium: utmData.utm_medium,
+        utm_campaign: utmData.utm_campaign,
+        referrer: utmData.referrer
+      });
+      // Очищаем сохранённые UTM после успешной регистрации
+      localStorage.removeItem('registration_utm');
       setSuccess(true);
       setTimeout(() => {
         router.push('/chat');
@@ -83,7 +128,7 @@ export default function RegisterPage() {
             </svg>
           </div>
           <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">Регистрация успешна!</h2>
-          <p className="text-slate-500 dark:text-slate-400">Перенаправляем в чат...</p>
+          <p className="text-slate-600 dark:text-slate-300">Перенаправляем в чат...</p>
         </Card>
       </div>
     );
@@ -97,7 +142,7 @@ export default function RegisterPage() {
             <CatLogo size={64} />
           </div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Создать аккаунт</h1>
-          <p className="text-slate-500 dark:text-slate-400">Присоединяйтесь к LANA AI Helper</p>
+          <p className="text-slate-600 dark:text-slate-300">Присоединяйтесь к LANA AI Helper</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -214,7 +259,7 @@ export default function RegisterPage() {
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-slate-500 dark:text-slate-400 text-sm">
+          <p className="text-slate-600 dark:text-slate-300 text-sm">
             Уже есть аккаунт?{' '}
             <Link href="/login" className="text-lana-500 hover:text-lana-600 font-medium">
               Войти
@@ -223,5 +268,17 @@ export default function RegisterPage() {
         </div>
       </Card>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800">
+        <div className="w-8 h-8 border-4 border-lana-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <RegisterForm />
+    </Suspense>
   );
 }

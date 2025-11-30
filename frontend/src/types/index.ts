@@ -97,6 +97,11 @@ export interface RegisterRequest {
   username: string;
   password: string;
   email?: string;
+  // UTM-метки для аналитики
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  referrer?: string;
 }
 
 export interface AuthResponse {

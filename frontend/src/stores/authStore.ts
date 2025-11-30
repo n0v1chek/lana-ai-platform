@@ -12,6 +12,10 @@ interface RegisterRequest {
   username: string;
   password: string;
   email?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  referrer?: string;
 }
 
 interface AuthState {
@@ -33,12 +37,12 @@ export const useAuthStore = create<AuthState>()(
     (set, get) => ({
       user: null,
       token: null,
-      isLoading: false, // Start as true to prevent redirect before token check
+      isLoading: false,
       isAuthenticated: false,
       error: null,
 
       login: async (data: LoginRequest) => {
-        set({ isLoading: false, error: null });
+        set({ isLoading: true, error: null });
         try {
           const response = await authApi.login(data);
           localStorage.setItem('token', response.access_token);
@@ -57,7 +61,7 @@ export const useAuthStore = create<AuthState>()(
       },
 
       register: async (data: RegisterRequest) => {
-        set({ isLoading: false, error: null });
+        set({ isLoading: true, error: null });
         try {
           const response = await authApi.register(data);
           localStorage.setItem('token', response.access_token);
@@ -92,7 +96,7 @@ export const useAuthStore = create<AuthState>()(
           set({ isAuthenticated: false, isLoading: false });
           return;
         }
-        set({ isLoading: false });
+        set({ isLoading: true });
         try {
           const user = await authApi.me();
           set({
