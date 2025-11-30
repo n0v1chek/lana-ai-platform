@@ -1,0 +1,20 @@
+{
+  "name": "LANA AI Helper",
+  "short_name": "LANA AI",
+  "description": "Доступ к лучшим AI моделям: GPT-4o, Claude, Gemini. Работает в России без VPN.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8b5cf6",
+  "orientation": "portrait-primary",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities", "business"]
+}

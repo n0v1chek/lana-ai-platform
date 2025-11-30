@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://lanaaihelper.ru/</loc><lastmod>2025-11-29</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://lanaaihelper.ru/about</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/pricing</loc><lastmod>2025-11-29</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://lanaaihelper.ru/contacts</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lanaaihelper.ru/login</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://lanaaihelper.ru/register</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://lanaaihelper.ru/terms</loc><lastmod>2025-11-29</lastmod><changefreq>yearly</changefreq><priority>0.4</priority></url>
-  <url><loc>https://lanaaihelper.ru/privacy</loc><lastmod>2025-11-29</lastmod><changefreq>yearly</changefreq><priority>0.4</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog</loc><lastmod>2025-11-29</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/chatgpt-v-rossii-2025</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/luchshie-nejroseti-2025</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/claude-vs-chatgpt</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/kak-pisat-prompty</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/gemini-google-obzor</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/deepseek-obzor</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/grok-xai-obzor</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/gpt4o-vs-gpt4-turbo</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/claude-opus-vs-sonnet</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/nejroset-dlya-tekstov</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/nejroset-dlya-programmistov</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/nejroset-dlya-ucheby</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/ai-dlya-biznesa</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/ai-dlya-anglijskogo</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/nejroset-dlya-rezyume</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/gpt4o-vs-gemini</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/besplatnye-vs-platnye-nejroseti</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/rossijskie-analogi-chatgpt</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/novinki-ai-2025</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lanaaihelper.ru/blog/budushchee-nejrosetej</loc><lastmod>2025-11-29</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <!-- Главные страницы -->
+  <url><loc>https://lanaaihelper.ru/</loc><lastmod>2025-11-30</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://lanaaihelper.ru/about</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/pricing</loc><lastmod>2025-11-30</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lanaaihelper.ru/contacts</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lanaaihelper.ru/login</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lanaaihelper.ru/register</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lanaaihelper.ru/terms</loc><lastmod>2025-11-30</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://lanaaihelper.ru/privacy</loc><lastmod>2025-11-30</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  
+  <!-- Блог - главная -->
+  <url><loc>https://lanaaihelper.ru/blog</loc><lastmod>2025-11-30</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  
+  <!-- Блог - статьи (20 шт) -->
+  <url><loc>https://lanaaihelper.ru/blog/chatgpt-v-rossii-2025</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/luchshie-nejroseti-2025</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/claude-vs-chatgpt</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/kak-pisat-prompty</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/gemini-google-obzor</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/deepseek-obzor</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/grok-xai-obzor</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/gpt4o-vs-gpt4-turbo</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/claude-opus-vs-sonnet</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/nejroset-dlya-tekstov</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/nejroset-dlya-programmistov</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/nejroset-dlya-ucheby</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/ai-dlya-biznesa</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/ai-dlya-anglijskogo</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/nejroset-dlya-rezyume</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/gpt4o-vs-gemini</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/besplatnye-vs-platnye-nejroseti</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/rossijskie-analogi-chatgpt</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/novinki-ai-2025</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lanaaihelper.ru/blog/budushchee-nejrosetej</loc><lastmod>2025-11-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url>
+    <loc>https://lanaaihelper.ru/business</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
 </urlset>

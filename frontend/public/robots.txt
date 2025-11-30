@@ -1,14 +1,44 @@
+# LANA AI Helper - robots.txt
+# https://lanaaihelper.ru
+
 User-agent: *
 Allow: /
-
-# Блокируем служебные страницы
 Disallow: /admin
 Disallow: /api/
 Disallow: /reset-password
 Disallow: /verify-email
+Disallow: /forgot-password
 
-# Карта сайта
+# Google
+User-agent: Googlebot
+Allow: /
+
+# Yandex
+User-agent: Yandex
+Allow: /
+
+# Bing, Yahoo, DuckDuckGo, Ecosia
+User-agent: Bingbot
+Allow: /
+
+# Baidu (Китай)
+User-agent: Baiduspider
+Allow: /
+
+# Naver (Корея)
+User-agent: NaverBot
+Allow: /
+
+# Seznam (Чехия)
+User-agent: SeznamBot
+Allow: /
+
+# Mail.ru
+User-agent: Mail.RU_Bot
+Allow: /
+
+# Sitemaps
 Sitemap: https://lanaaihelper.ru/sitemap.xml
 
-# Основной хост
+# Host
 Host: https://lanaaihelper.ru
