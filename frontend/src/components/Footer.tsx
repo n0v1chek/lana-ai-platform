@@ -9,18 +9,9 @@ export function Footer() {
           <div className="flex items-center gap-2">
             <CatLogo size={20} />
           </div>
-          <nav className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-sm text-slate-600 dark:text-slate-400">
-            <Link href="/about" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-              О проекте
-            </Link>
+          <nav className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-sm text-slate-600 dark:text-slate-300">
             <Link href="/contacts" className="hover:text-slate-900 dark:hover:text-white transition-colors">
               Контакты
-            </Link>
-            <Link href="/business" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-              Для бизнеса
-            </Link>
-            <Link href="/blog" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-              Блог
             </Link>
             <Link href="/terms" className="hover:text-slate-900 dark:hover:text-white transition-colors">
               Оферта
@@ -32,7 +23,7 @@ export function Footer() {
               Cookies
             </Link>
           </nav>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-600">
             © 2025 LANA AI Helper. ИНН 263109568337
           </p>
         </div>

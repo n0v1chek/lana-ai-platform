@@ -27,7 +27,7 @@ export default function AboutPage() {
           <h1 className="text-5xl font-bold text-slate-900 dark:text-white mb-4">
             Создано с <span className="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">любовью</span> к AI
           </h1>
-          <p className="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
             Познакомьтесь с человеком, который стоит за LANA AI Helper
           </p>
         </div>
@@ -46,22 +46,22 @@ export default function AboutPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
               <div className="group bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700/50 dark:to-slate-700 rounded-xl p-4 text-center hover:scale-105 transition-transform cursor-default">
                 <div className="text-2xl mb-2">⚛️</div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Frontend</div>
+                <div className="text-xs text-slate-600 dark:text-slate-300 uppercase tracking-wide">Frontend</div>
                 <div className="text-indigo-600 dark:text-indigo-400 font-semibold">Next.js</div>
               </div>
               <div className="group bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700/50 dark:to-slate-700 rounded-xl p-4 text-center hover:scale-105 transition-transform cursor-default">
                 <div className="text-2xl mb-2">🚀</div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Backend</div>
+                <div className="text-xs text-slate-600 dark:text-slate-300 uppercase tracking-wide">Backend</div>
                 <div className="text-indigo-600 dark:text-indigo-400 font-semibold">FastAPI</div>
               </div>
               <div className="group bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700/50 dark:to-slate-700 rounded-xl p-4 text-center hover:scale-105 transition-transform cursor-default">
                 <div className="text-2xl mb-2">🐳</div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">DevOps</div>
+                <div className="text-xs text-slate-600 dark:text-slate-300 uppercase tracking-wide">DevOps</div>
                 <div className="text-indigo-600 dark:text-indigo-400 font-semibold">Docker</div>
               </div>
               <div className="group bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700/50 dark:to-slate-700 rounded-xl p-4 text-center hover:scale-105 transition-transform cursor-default">
                 <div className="text-2xl mb-2">🎨</div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Дизайн</div>
+                <div className="text-xs text-slate-600 dark:text-slate-300 uppercase tracking-wide">Дизайн</div>
                 <div className="text-indigo-600 dark:text-indigo-400 font-semibold">UI/UX</div>
               </div>
             </div>
@@ -84,17 +84,17 @@ export default function AboutPage() {
           <div className="group bg-white dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl hover:-translate-y-1 transition-all">
             <div className="text-4xl mb-3">🤖</div>
             <div className="text-2xl font-bold text-slate-900 dark:text-white">22+</div>
-            <div className="text-slate-500 dark:text-slate-400 text-sm">AI моделей</div>
+            <div className="text-slate-600 dark:text-slate-300 text-sm">AI моделей</div>
           </div>
           <div className="group bg-white dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl hover:-translate-y-1 transition-all">
             <div className="text-4xl mb-3">📅</div>
             <div className="text-2xl font-bold text-slate-900 dark:text-white">2025</div>
-            <div className="text-slate-500 dark:text-slate-400 text-sm">Год запуска</div>
+            <div className="text-slate-600 dark:text-slate-300 text-sm">Год запуска</div>
           </div>
           <div className="group bg-white dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl hover:-translate-y-1 transition-all">
             <div className="text-4xl mb-3">⚡</div>
             <div className="text-2xl font-bold text-slate-900 dark:text-white">24/7</div>
-            <div className="text-slate-500 dark:text-slate-400 text-sm">Доступность</div>
+            <div className="text-slate-600 dark:text-slate-300 text-sm">Доступность</div>
           </div>
         </div>
 

@@ -332,7 +332,7 @@ export default function BusinessPage() {
                   <industry.icon className="w-6 h-6 text-purple-600" />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-1">{industry.name}</h3>
-                <p className="text-sm text-slate-500">{industry.desc}</p>
+                <p className="text-sm text-slate-600">{industry.desc}</p>
               </div>
             ))}
           </div>
@@ -408,7 +408,7 @@ export default function BusinessPage() {
                 <Send className="w-5 h-5" />
                 Отправить заявку
               </button>
-              <p className="text-sm text-slate-500 text-center">Отвечаем в течение 24 часов. Обычно быстрее.</p>
+              <p className="text-sm text-slate-600 text-center">Отвечаем в течение 24 часов. Обычно быстрее.</p>
             </form>
           </div>
           <div className="mt-8 text-center">

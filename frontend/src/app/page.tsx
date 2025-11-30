@@ -171,7 +171,7 @@ export default function HomePage() {
               </h3>
             </div>
             
-            <div className="space-y-3 mb-6 text-sm text-slate-600 dark:text-slate-400">
+            <div className="space-y-3 mb-6 text-sm text-slate-600 dark:text-slate-300">
               <div className="flex items-start gap-2">
                 <Lock className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
                 <span><strong>Не собираем персональные данные</strong> — логин, email и пароль для безопасного доступа</span>
@@ -193,7 +193,7 @@ export default function HomePage() {
               Понятно, продолжить
             </button>
             
-            <p className="mt-3 text-xs text-slate-500 text-center">
+            <p className="mt-3 text-xs text-slate-600 text-center">
               Продолжая, вы соглашаетесь с <Link href="/terms" className="text-lana-500 hover:underline">Офертой</Link>, <Link href="/privacy" className="text-lana-500 hover:underline">Политикой конфиденциальности</Link> и <Link href="/cookies" className="text-lana-500 hover:underline">Политикой cookies</Link>
             </p>
           </div>
@@ -208,19 +208,19 @@ export default function HomePage() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#features" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
+            <a href="#features" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">
               Возможности
             </a>
-            <a href="#how-it-works" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
+            <a href="#how-it-works" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">
               Как это работает
             </a>
             <Link href="/business" className="text-purple-600 font-medium hover:text-purple-700 transition-colors border border-purple-200 px-3 py-1.5 rounded-lg hover:bg-purple-50">
               Для бизнеса
             </Link>
-            <Link href="/blog" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
+            <Link href="/blog" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">
               Блог
             </Link>
-            <Link href="/about" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
+            <Link href="/about" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">
               О нас
             </Link>
           </nav>
@@ -240,7 +240,7 @@ export default function HomePage() {
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+              className="md:hidden p-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
               aria-label="Меню"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -250,11 +250,11 @@ export default function HomePage() {
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-4">
             <nav className="flex flex-col space-y-3">
-              <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">Возможности</a>
-              <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">Как это работает</a>
+              <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">Возможности</a>
+              <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">Как это работает</a>
               <Link href="/business" onClick={() => setMobileMenuOpen(false)} className="text-purple-600 font-medium py-2">Для бизнеса</Link>
-              <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">Блог</Link>
-              <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white py-2">О нас</Link>
+              <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">Блог</Link>
+              <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">О нас</Link>
               <div className="pt-3 border-t border-slate-200 dark:border-slate-700 flex gap-3">
                 <Link href="/login" className="flex-1 text-center py-2 border border-slate-300 rounded-xl">Войти</Link>
                 <Link href="/register" className="flex-1 text-center py-2 bg-lana-500 text-white rounded-xl">Регистрация</Link>
@@ -279,7 +279,7 @@ export default function HomePage() {
             </span>
           </h1>
 
-          <p className="text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
             Общайтесь с лучшими AI-моделями мира. Без подписок — пополняйте баланс 
             и платите только за отправленные сообщения.
           </p>
@@ -316,7 +316,7 @@ export default function HomePage() {
             </a>
           </div>
 
-          <p className="mt-6 text-sm text-slate-500">
+          <p className="mt-6 text-sm text-slate-600">
             Минимум данных для регистрации — и email для восстановления доступа
           </p>
         </div>
@@ -329,7 +329,7 @@ export default function HomePage() {
             <h2 className="font-display text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
               Почему выбирают LANA AI
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
+            <p className="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto">
               Мы объединили лучшие AI-модели в одном удобном интерфейсе
             </p>
           </div>
@@ -346,7 +346,7 @@ export default function HomePage() {
                 <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-white mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-slate-600 dark:text-slate-400">
+                <p className="text-slate-600 dark:text-slate-300">
                   {feature.description}
                 </p>
               </div>
@@ -362,7 +362,7 @@ export default function HomePage() {
             <h2 className="font-display text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
               Как это работает
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-lg max-w-3xl mx-auto">
+            <p className="text-slate-600 dark:text-slate-300 text-lg max-w-3xl mx-auto">
               Никаких подписок и ежемесячных платежей. Вы сами решаете сколько потратить 
               и какие модели использовать.
             </p>
@@ -375,7 +375,7 @@ export default function HomePage() {
                 <span className="text-2xl font-bold text-lana-600">1</span>
               </div>
               <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Пополните баланс</h3>
-              <p className="text-slate-600 dark:text-slate-400 text-sm">
+              <p className="text-slate-600 dark:text-slate-300 text-sm">
                 От 49₽ до любой суммы. Коины не сгорают — используйте когда удобно
               </p>
             </div>
@@ -384,7 +384,7 @@ export default function HomePage() {
                 <span className="text-2xl font-bold text-lana-600">2</span>
               </div>
               <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Выберите AI модель</h3>
-              <p className="text-slate-600 dark:text-slate-400 text-sm">
+              <p className="text-slate-600 dark:text-slate-300 text-sm">
                 Все популярные модели: от экономичных до премиум. Цена видна сразу
               </p>
             </div>
@@ -393,7 +393,7 @@ export default function HomePage() {
                 <span className="text-2xl font-bold text-lana-600">3</span>
               </div>
               <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Платите за сообщения</h3>
-              <p className="text-slate-600 dark:text-slate-400 text-sm">
+              <p className="text-slate-600 dark:text-slate-300 text-sm">
                 Коины списываются только за отправленные сообщения. 1₽ = 100 коинов
               </p>
             </div>
@@ -419,7 +419,7 @@ export default function HomePage() {
             <h2 className="font-display text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
               AI-агенты для бизнеса
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
+            <p className="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto">
               Автоматизируйте рутину и увеличьте продажи с помощью AI
             </p>
           </div>
@@ -436,7 +436,7 @@ export default function HomePage() {
                 <h3 className="font-semibold text-slate-900 dark:text-white mb-2 text-sm">
                   {service.title}
                 </h3>
-                <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                   {service.description}
                 </p>
               </div>
