@@ -22,7 +22,7 @@ function formatCoinsShort(coins: number): string {
   // Показываем примерную цену за один ответ (~500 токенов = 1/2000 от 1M)
   const perMessage = Math.round(coins / 2000);
   if (perMessage < 1) return '~1';
-  if (perMessage >= 100) return '~' + Math.round(perMessage / 10) / 10 + '₽';
+  
   return '~' + perMessage;
 }
 

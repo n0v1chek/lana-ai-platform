@@ -82,10 +82,9 @@ function getModelProvider(modelId: string): string {
 }
 
 function formatPrice(price: number): string {
-  // Примерная стоимость одного ответа (~500 токенов)
+  // Примерная стоимость одного ответа (~500 токенов = 1/2000 от 1M)
   const perMessage = Math.round(price / 2000);
   if (perMessage < 1) return '~1';
-  if (perMessage >= 1000) return '~' + Math.round(perMessage / 100) / 10 + '₽';
   return '~' + perMessage;
 }
 
@@ -304,7 +303,7 @@ function ModelOption({ model, selected, onSelect }: {
       </div>
       <div className="flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 whitespace-nowrap flex-shrink-0">
         <Coins size={12} />
-        {formatPrice(model.price_per_1m_tokens)}/отв/ответ
+        {formatPrice(model.price_per_1m_tokens)}/ответ
       </div>
       {selected && (
         <Check size={16} className="text-lana-500 flex-shrink-0" />
