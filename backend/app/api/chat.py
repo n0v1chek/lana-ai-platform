@@ -145,12 +145,15 @@ async def send_message(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
+    # FIX: Сохраняем user_id для избежания двойного списания
+    user_id = current_user.id
+    
     result = await db.execute(
         text("""
             SELECT balance, budget_period, budget_coins, daily_spent, daily_spent_date
             FROM users WHERE id = :user_id
         """),
-        {"user_id": current_user.id}
+        {"user_id": user_id}
     )
     row = result.fetchone()
     current_balance = row[0] or 0
@@ -163,7 +166,7 @@ async def send_message(
     if daily_spent_date and daily_spent_date != today:
         await db.execute(
             text("UPDATE users SET daily_spent = 0, daily_spent_date = :today WHERE id = :user_id"),
-            {"today": today, "user_id": current_user.id}
+            {"today": today, "user_id": user_id}
         )
         daily_spent = 0
 
@@ -388,7 +391,7 @@ async def send_message(
                     daily_spent_date = :today
                 WHERE id = :user_id
             """),
-            {"coins": coins_spent, "today": today, "user_id": current_user.id}
+            {"coins": coins_spent, "today": today, "user_id": user_id}
         )
 
         await db.execute(
@@ -397,7 +400,7 @@ async def send_message(
                 VALUES (:user_id, :model_id, :tokens_used, :cost_rub, :coins_spent)
             """),
             {
-                "user_id": current_user.id,
+                "user_id": user_id,
                 "model_id": ai_response["model"],
                 "tokens_used": ai_response["tokens_used"],
                 "cost_rub": coins_spent / 100,
@@ -412,7 +415,7 @@ async def send_message(
                 VALUES (:user_id, 'spend', :amount, :before, :after, :desc, :model, :tokens, :cost_usd, :usd_rate)
             """),
             {
-                "user_id": current_user.id,
+                "user_id": user_id,
                 "amount": -coins_spent,
                 "before": current_balance,
                 "after": current_balance - coins_spent,
@@ -431,7 +434,7 @@ async def send_message(
 
         new_result = await db.execute(
             text("SELECT balance, daily_spent FROM users WHERE id = :user_id"),
-            {"user_id": current_user.id}
+            {"user_id": user_id}
         )
         new_row = new_result.fetchone()
         new_balance = new_row[0] or 0
@@ -463,12 +466,15 @@ async def get_balance(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
+    # FIX: Сохраняем user_id для избежания двойного списания
+    user_id = current_user.id
+    
     result = await db.execute(
         text("""
             SELECT balance, budget_period, budget_coins, daily_spent, daily_spent_date
             FROM users WHERE id = :user_id
         """),
-        {"user_id": current_user.id}
+        {"user_id": user_id}
     )
     row = result.fetchone()
 
@@ -482,7 +488,7 @@ async def get_balance(
     if daily_spent_date and daily_spent_date != today:
         await db.execute(
             text("UPDATE users SET daily_spent = 0, daily_spent_date = :today WHERE id = :user_id"),
-            {"today": today, "user_id": current_user.id}
+            {"today": today, "user_id": user_id}
         )
         await db.commit()
         daily_spent = 0
@@ -515,7 +521,7 @@ async def get_available_models(
 
     result = await db.execute(
         text("SELECT balance FROM users WHERE id = :user_id"),
-        {"user_id": current_user.id}
+        {"user_id": user_id}
     )
     balance = result.scalar() or 0
 
@@ -561,7 +567,7 @@ async def get_usage_stats(
             ORDER BY total_coins DESC
             LIMIT 10
         """),
-        {"user_id": current_user.id}
+        {"user_id": user_id}
     )
     top_models = result.fetchall()
 
@@ -575,13 +581,13 @@ async def get_usage_stats(
             WHERE user_id = :user_id
                 AND created_at >= DATE_TRUNC('month', NOW())
         """),
-        {"user_id": current_user.id}
+        {"user_id": user_id}
     )
     totals = total_result.fetchone()
 
     balance_result = await db.execute(
         text("SELECT balance FROM users WHERE id = :user_id"),
-        {"user_id": current_user.id}
+        {"user_id": user_id}
     )
     balance = balance_result.scalar() or 0
 

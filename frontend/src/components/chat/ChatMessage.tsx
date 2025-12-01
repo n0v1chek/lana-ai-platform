@@ -84,9 +84,9 @@ function ChatMessage({ message }: ChatMessageProps) {
         </div>
 
         {/* Meta info */}
-        {!isUser && message.tokens_used && (
+        {!isUser && message.model && (
           <p className="text-xs text-slate-400 mt-1 px-1">
-            {message.model} • {message.tokens_used} токенов
+            {message.model}
           </p>
         )}
       </div>

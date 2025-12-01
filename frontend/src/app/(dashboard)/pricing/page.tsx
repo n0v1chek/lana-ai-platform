@@ -19,13 +19,11 @@ import { useAuthStore } from '@/stores/authStore';
 import { Button, Card } from '@/components/ui';
 
 function formatCoinsShort(coins: number): string {
-  if (coins >= 1000000) {
-    return (coins / 1000000).toFixed(1) + 'M';
-  }
-  if (coins >= 1000) {
-    return Math.round(coins / 1000) + 'k';
-  }
-  return coins.toString();
+  // Показываем примерную цену за один ответ (~500 токенов = 1/2000 от 1M)
+  const perMessage = Math.round(coins / 2000);
+  if (perMessage < 1) return '~1';
+  if (perMessage >= 100) return '~' + Math.round(perMessage / 10) / 10 + '₽';
+  return '~' + perMessage;
 }
 
 // Иконки для моделей
@@ -260,7 +258,7 @@ export default function PricingPage() {
           </div>
 
           <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-            Цена зависит от модели. Одно сообщение обычно стоит от 5 до 500 коинов в зависимости от модели и длины ответа.
+            Цена зависит от модели и длины ответа. Показана примерная стоимость одного ответа.
           </p>
 
           {/* Economy */}
@@ -275,7 +273,7 @@ export default function PricingPage() {
                     <p className="text-xs text-slate-500">{model.provider}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-green-600 dark:text-green-400 text-sm">{formatCoinsShort(model.coins)}</p>
+                    <p className="font-semibold text-green-600 dark:text-green-400 text-sm">{formatCoinsShort(model.coins)}/ответ</p>
                   </div>
                 </div>
               ))}
@@ -294,7 +292,7 @@ export default function PricingPage() {
                     <p className="text-xs text-slate-500">{model.provider}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-yellow-600 dark:text-yellow-400 text-sm">{formatCoinsShort(model.coins)}</p>
+                    <p className="font-semibold text-yellow-600 dark:text-yellow-400 text-sm">{formatCoinsShort(model.coins)}/ответ</p>
                   </div>
                 </div>
               ))}
@@ -313,7 +311,7 @@ export default function PricingPage() {
                     <p className="text-xs text-slate-500">{model.provider}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-orange-600 dark:text-orange-400 text-sm">{formatCoinsShort(model.coins)}</p>
+                    <p className="font-semibold text-orange-600 dark:text-orange-400 text-sm">{formatCoinsShort(model.coins)}/ответ</p>
                   </div>
                 </div>
               ))}
@@ -332,7 +330,7 @@ export default function PricingPage() {
                     <p className="text-xs text-slate-500">{model.provider}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-red-600 dark:text-red-400 text-sm">{formatCoinsShort(model.coins)}</p>
+                    <p className="font-semibold text-red-600 dark:text-red-400 text-sm">{formatCoinsShort(model.coins)}/ответ</p>
                   </div>
                 </div>
               ))}
@@ -364,7 +362,7 @@ export default function PricingPage() {
               Сколько стоит сообщение?
             </h3>
             <p className="text-slate-600 dark:text-slate-400 text-sm">
-              Зависит от модели и длины ответа. Экономичные: 5-50 коинов (0.05-0.50₽). Премиум: 200-3000 коинов (2-30₽).
+              Экономичные модели: ~5-50 коинов за ответ. Премиум: ~200-1000 коинов. Точная сумма зависит от длины диалога.
             </p>
           </Card>
 

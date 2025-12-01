@@ -153,11 +153,11 @@ export default function ModelSelector({ currentModel, onModelChange }: ModelSele
             <div className="flex-1">
               <h3 className="font-semibold text-gray-900">Тариф: {tier}</h3>
               <p className="text-sm text-gray-600 mt-1">
-                Использовано: {usage.total_tokens_used.toLocaleString()} / {usage.tokens_limit.toLocaleString()} токенов
+                Использовано: {usage.total_tokens_used.toLocaleString()} 
               </p>
               {usage.premium_tokens_used > 0 && (
                 <p className="text-sm text-purple-600 mt-1">
-                  Премиум модели: {usage.premium_tokens_used.toLocaleString()} токенов
+                  Премиум модели: {usage.premium_tokens_used.toLocaleString()}
                 </p>
               )}
             </div>
@@ -223,7 +223,7 @@ export default function ModelSelector({ currentModel, onModelChange }: ModelSele
 
             {/* Стоимость */}
             <p className="text-sm text-gray-600 mb-2">
-              {model.cost_per_1m_tokens}₽ / 1M токенов
+              ~{Math.round(model.cost_per_1m_tokens / 20)}₽/ответ
             </p>
 
             {/* Информация о лимитах */}

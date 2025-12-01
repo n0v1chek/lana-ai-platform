@@ -82,13 +82,11 @@ function getModelProvider(modelId: string): string {
 }
 
 function formatPrice(price: number): string {
-  if (price >= 1000000) {
-    return (price / 1000000).toFixed(1) + 'M';
-  }
-  if (price >= 1000) {
-    return (price / 1000).toFixed(0) + 'k';
-  }
-  return price.toString();
+  // Примерная стоимость одного ответа (~500 токенов)
+  const perMessage = Math.round(price / 2000);
+  if (perMessage < 1) return '~1';
+  if (perMessage >= 1000) return '~' + Math.round(perMessage / 100) / 10 + '₽';
+  return '~' + perMessage;
 }
 
 export default function ModelSelector({ value, onChange, disabled }: ModelSelectorProps) {
@@ -106,12 +104,7 @@ export default function ModelSelector({ value, onChange, disabled }: ModelSelect
         setModels(data.models || []);
       } catch (error) {
         console.error('Failed to load models:', error);
-        setModels([
-          { model_id: 'google/gemini-2.0-flash-001', price_per_1m_tokens: 21000 },
-          { model_id: 'openai/gpt-4o-mini', price_per_1m_tokens: 32000 },
-          { model_id: 'openai/gpt-4o', price_per_1m_tokens: 540000 },
-          { model_id: 'anthropic/claude-sonnet-4', price_per_1m_tokens: 770000 },
-        ]);
+        setModels([]);
       } finally {
         setLoading(false);
       }
@@ -311,7 +304,7 @@ function ModelOption({ model, selected, onSelect }: {
       </div>
       <div className="flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 whitespace-nowrap flex-shrink-0">
         <Coins size={12} />
-        {formatPrice(model.price_per_1m_tokens)}
+        {formatPrice(model.price_per_1m_tokens)}/отв/ответ
       </div>
       {selected && (
         <Check size={16} className="text-lana-500 flex-shrink-0" />
