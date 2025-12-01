@@ -153,7 +153,7 @@ async def send_message(
             SELECT balance, budget_period, budget_coins, daily_spent, daily_spent_date
             FROM users WHERE id = :user_id
         """),
-        {"user_id": user_id}
+        {"user_id": current_user.id}
     )
     row = result.fetchone()
     current_balance = row[0] or 0
@@ -434,7 +434,7 @@ async def send_message(
 
         new_result = await db.execute(
             text("SELECT balance, daily_spent FROM users WHERE id = :user_id"),
-            {"user_id": user_id}
+            {"user_id": current_user.id}
         )
         new_row = new_result.fetchone()
         new_balance = new_row[0] or 0
@@ -474,7 +474,7 @@ async def get_balance(
             SELECT balance, budget_period, budget_coins, daily_spent, daily_spent_date
             FROM users WHERE id = :user_id
         """),
-        {"user_id": user_id}
+        {"user_id": current_user.id}
     )
     row = result.fetchone()
 
@@ -521,7 +521,7 @@ async def get_available_models(
 
     result = await db.execute(
         text("SELECT balance FROM users WHERE id = :user_id"),
-        {"user_id": user_id}
+        {"user_id": current_user.id}
     )
     balance = result.scalar() or 0
 
@@ -567,7 +567,7 @@ async def get_usage_stats(
             ORDER BY total_coins DESC
             LIMIT 10
         """),
-        {"user_id": user_id}
+        {"user_id": current_user.id}
     )
     top_models = result.fetchall()
 
@@ -581,13 +581,13 @@ async def get_usage_stats(
             WHERE user_id = :user_id
                 AND created_at >= DATE_TRUNC('month', NOW())
         """),
-        {"user_id": user_id}
+        {"user_id": current_user.id}
     )
     totals = total_result.fetchone()
 
     balance_result = await db.execute(
         text("SELECT balance FROM users WHERE id = :user_id"),
-        {"user_id": user_id}
+        {"user_id": current_user.id}
     )
     balance = balance_result.scalar() or 0
 
