@@ -21,7 +21,14 @@ export function Logo({ size = 'md', showText = true, href = '/' }: LogoProps) {
         alt="LANA AI"
         width={sizes[size].img}
         height={sizes[size].img}
-        className="object-contain"
+        className="object-contain dark:hidden"
+      />
+      <Image
+        src="/images/cat-logo-dark.png"
+        alt="LANA AI"
+        width={sizes[size].img}
+        height={sizes[size].img}
+        className="object-contain hidden dark:block"
       />
       {showText && (
         <span className={"font-display font-bold " + sizes[size].text + " bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 bg-clip-text text-transparent"}>
