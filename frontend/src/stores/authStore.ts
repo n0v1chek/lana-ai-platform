@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { authApi } from '@/lib/api';
 import type { User } from '@/types';
 
@@ -47,7 +47,7 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         try {
           const response = await authApi.login(data);
-          localStorage.setItem('token', response.access_token);
+          sessionStorage.setItem('token', response.access_token);
           set({
             user: response.user,
             token: response.access_token,
@@ -67,7 +67,7 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         try {
           const response = await authApi.register(data);
-          localStorage.setItem('token', response.access_token);
+          sessionStorage.setItem('token', response.access_token);
           set({
             user: response.user,
             token: response.access_token,
@@ -84,7 +84,7 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: () => {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         set({
           user: null,
           token: null,
@@ -96,7 +96,7 @@ export const useAuthStore = create<AuthState>()(
       },
 
       fetchUser: async () => {
-        const token = get().token || localStorage.getItem('token');
+        const token = get().token || sessionStorage.getItem('token');
         if (!token) {
           set({ isAuthenticated: false, isLoading: false, isInitialized: true });
           return;
@@ -118,7 +118,7 @@ export const useAuthStore = create<AuthState>()(
           
           if (is401) {
             // Токен невалидный - удаляем
-            localStorage.removeItem('token');
+            sessionStorage.removeItem('token');
             set({
               user: null,
               token: null,
@@ -148,6 +148,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'auth-storage',
+      storage: createJSONStorage(() => sessionStorage),
       partialize: (state) => ({ token: state.token }),
     }
   )

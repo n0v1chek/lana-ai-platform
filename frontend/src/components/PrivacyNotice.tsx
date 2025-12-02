@@ -9,7 +9,7 @@ export default function PrivacyNotice() {
   const [isTemporarilyHidden, setIsTemporarilyHidden] = useState(false);
 
   useEffect(() => {
-    const accepted = localStorage.getItem('privacy-accepted-v5');
+    const accepted = sessionStorage.getItem('privacy-accepted');
     if (!accepted) {
       setShowPrivacyNotice(true);
     }
@@ -19,7 +19,7 @@ export default function PrivacyNotice() {
   useEffect(() => {
     if (showPrivacyNotice && !isTemporarilyHidden) {
       const handleFocus = () => {
-        const accepted = localStorage.getItem('privacy-accepted-v5');
+        const accepted = sessionStorage.getItem('privacy-accepted');
         if (!accepted && window.location.pathname === '/') {
           setIsTemporarilyHidden(false);
         }
@@ -30,7 +30,7 @@ export default function PrivacyNotice() {
   }, [showPrivacyNotice, isTemporarilyHidden]);
 
   const acceptPrivacy = () => {
-    localStorage.setItem('privacy-accepted-v5', 'true');
+    sessionStorage.setItem('privacy-accepted', 'true');
     setShowPrivacyNotice(false);
   };
 

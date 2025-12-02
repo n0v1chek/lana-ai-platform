@@ -25,9 +25,17 @@ const api: AxiosInstance = axios.create({
 // Интерсептор для добавления токена
 api.interceptors.request.use((config) => {
   if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('token');
+    // Читаем токен из zustand persist формата
+    let token = null;
+    const authStorage = sessionStorage.getItem('auth-storage');
+    if (authStorage) {
+      try {
+        const parsed = JSON.parse(authStorage);
+        token = parsed?.state?.token;
+      } catch {}
+    }
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = \`Bearer \${token}\`;
     }
   }
   return config;
@@ -39,7 +47,7 @@ api.interceptors.response.use(
   (error: AxiosError<ApiError>) => {
     if (error.response?.status === 401) {
       if (typeof window !== 'undefined') {
-        // localStorage.removeItem("token");
+        // sessionStorage.removeItem("token");
         // window.location.href = "/login";
       }
     }

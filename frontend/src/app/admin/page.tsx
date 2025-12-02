@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { useAuthStore } from '@/stores/authStore';
 import Link from 'next/link';
 import {
   Users, BarChart3, Database, Shield, ArrowLeft, Search,
@@ -205,9 +206,23 @@ export default function AdminPage() {
     return res.json();
   };
 
+  const { isInitialized, isAuthenticated, user } = useAuthStore();
+  
   useEffect(() => {
-    checkAdmin();
-  }, []);
+    if (isInitialized) {
+      if (isAuthenticated && user?.is_admin) {
+        setIsAdmin(true);
+        loadDashboard();
+        loadCurrency();
+        setLoading(false);
+      } else if (isAuthenticated && !user?.is_admin) {
+        setIsAdmin(false);
+        setLoading(false);
+      } else {
+        checkAdmin();
+      }
+    }
+  }, [isInitialized, isAuthenticated, user]);
 
   const loadCurrency = async () => {
     try {
