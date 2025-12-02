@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import PrivacyNotice from "@/components/PrivacyNotice";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "LANA AI Helper — Умный AI-помощник | AI Chat Russia",
@@ -120,6 +121,7 @@ export default function RootLayout({
           <div><img src="https://mc.yandex.ru/watch/105576416" style={{position:'absolute', left:'-9999px'}} alt="" /></div>
         </noscript>
         
+        <ThemeToggle />
         <PrivacyNotice />
         {children}
       </body>
