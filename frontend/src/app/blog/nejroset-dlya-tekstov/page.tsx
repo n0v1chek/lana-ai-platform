@@ -19,9 +19,9 @@ export default function ArticlePage() {
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">8 мин чтения</span>
           </div>
 
@@ -93,7 +93,7 @@ export default function ArticlePage() {
             </div>
 
             {/* 4. Grok */}
-            <div className="bg-slate-100 border border-slate-300 rounded-xl p-6 my-6">
+            <div className="bg-slate-100 border border-slate-300 dark:border-slate-600 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">4️⃣</span>
                 <h3 className="text-xl font-bold text-slate-900 m-0">Grok — для неформального контента</h3>
@@ -131,39 +131,39 @@ export default function ArticlePage() {
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
                 <thead>
-                  <tr className="bg-slate-100">
-                    <th className="border border-slate-300 px-4 py-2 text-left">Задача</th>
-                    <th className="border border-slate-300 px-4 py-2 text-left">Лучший выбор</th>
+                  <tr className="bg-slate-100 dark:bg-slate-700">
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Задача</th>
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Лучший выбор</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2">Статья для блога</td>
-                    <td className="border border-slate-300 px-4 py-2">Claude Sonnet</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Статья для блога</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Claude Sonnet</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">Пост в соцсети</td>
-                    <td className="border border-slate-300 px-4 py-2">GPT-4o или Grok</td>
-                  </tr>
-                  <tr>
-                    <td className="border border-slate-300 px-4 py-2">Email-рассылка</td>
-                    <td className="border border-slate-300 px-4 py-2">GPT-4o</td>
-                  </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">SEO-текст</td>
-                    <td className="border border-slate-300 px-4 py-2">Claude Sonnet</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Пост в соцсети</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">GPT-4o или Grok</td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2">Исследование/реферат</td>
-                    <td className="border border-slate-300 px-4 py-2">Gemini 2.5 Pro</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Email-рассылка</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">GPT-4o</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">Описание товара</td>
-                    <td className="border border-slate-300 px-4 py-2">GPT-4o-mini</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">SEO-текст</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Claude Sonnet</td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2">Много контента дёшево</td>
-                    <td className="border border-slate-300 px-4 py-2">DeepSeek Chat</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Исследование/реферат</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Gemini 2.5 Pro</td>
+                  </tr>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Описание товара</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">GPT-4o-mini</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Много контента дёшево</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">DeepSeek Chat</td>
                   </tr>
                 </tbody>
               </table>
@@ -175,28 +175,28 @@ export default function ArticlePage() {
               <div className="flex items-start gap-3 bg-yellow-50 p-4 rounded-xl">
                 <span className="text-xl">1️⃣</span>
                 <div>
-                  <p className="font-medium text-slate-900">Давайте контекст</p>
+                  <p className="font-medium text-slate-900 dark:text-white">Давайте контекст</p>
                   <p className="text-slate-600 text-sm">Расскажите для кого текст, какой стиль, какая цель</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-yellow-50 p-4 rounded-xl">
                 <span className="text-xl">2️⃣</span>
                 <div>
-                  <p className="font-medium text-slate-900">Просите несколько вариантов</p>
+                  <p className="font-medium text-slate-900 dark:text-white">Просите несколько вариантов</p>
                   <p className="text-slate-600 text-sm">"Напиши 3 варианта заголовка" — и выберите лучший</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-yellow-50 p-4 rounded-xl">
                 <span className="text-xl">3️⃣</span>
                 <div>
-                  <p className="font-medium text-slate-900">Редактируйте итерациями</p>
+                  <p className="font-medium text-slate-900 dark:text-white">Редактируйте итерациями</p>
                   <p className="text-slate-600 text-sm">"Сделай короче", "Добавь примеры", "Убери воду"</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-yellow-50 p-4 rounded-xl">
                 <span className="text-xl">4️⃣</span>
                 <div>
-                  <p className="font-medium text-slate-900">Проверяйте факты</p>
+                  <p className="font-medium text-slate-900 dark:text-white">Проверяйте факты</p>
                   <p className="text-slate-600 text-sm">AI может ошибаться в датах, именах, цифрах</p>
                 </div>
               </div>
@@ -216,25 +216,23 @@ export default function ArticlePage() {
         </div>
       </article>
 
-      <section className="py-12 px-4 bg-slate-100">
+      <section className="py-12 px-4 bg-slate-100 dark:bg-slate-700">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            <Link href="/blog/kak-pisat-prompty" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Как писать промпты</h3>
-              <p className="text-sm text-slate-500 mt-1">Гайд по эффективным запросам</p>
+            <Link href="/blog/kak-pisat-prompty" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Как писать промпты</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Гайд по эффективным запросам</p>
             </Link>
-            <Link href="/blog/luchshie-nejroseti-2025" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Лучшие нейросети 2025</h3>
-              <p className="text-sm text-slate-500 mt-1">Полный обзор всех моделей</p>
+            <Link href="/blog/luchshie-nejroseti-2025" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Лучшие нейросети 2025</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Полный обзор всех моделей</p>
             </Link>
           </div>
         </div>
       </section>
 
-      <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
-      </footer>
+      
     </>
   );
 }

@@ -19,9 +19,9 @@ export default function ArticlePage() {
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">9 мин чтения</span>
           </div>
 
@@ -38,7 +38,7 @@ export default function ArticlePage() {
 
             <div className="bg-slate-800 text-white rounded-xl p-6 my-6">
               <p className="font-medium text-lg mb-2">💻 Короткий ответ</p>
-              <p className="text-slate-500 dark:text-slate-600">
+              <p className="text-slate-500 dark:text-slate-600 dark:text-slate-400">
                 <strong className="text-white">Claude Sonnet</strong> — лучший для сложного кода и архитектуры<br/>
                 <strong className="text-white">GPT-4o</strong> — универсальный, хорош для всего<br/>
                 <strong className="text-white">DeepSeek</strong> — отличное качество за минимальные деньги
@@ -124,43 +124,43 @@ export default function ArticlePage() {
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
                 <thead>
-                  <tr className="bg-slate-100">
-                    <th className="border border-slate-300 px-4 py-2 text-left">Задача</th>
-                    <th className="border border-slate-300 px-4 py-2 text-left">Лучший выбор</th>
+                  <tr className="bg-slate-100 dark:bg-slate-700">
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Задача</th>
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Лучший выбор</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2">Написать функцию</td>
-                    <td className="border border-slate-300 px-4 py-2">GPT-4o или Claude</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Написать функцию</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">GPT-4o или Claude</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">Код-ревью</td>
-                    <td className="border border-slate-300 px-4 py-2">Claude Sonnet</td>
-                  </tr>
-                  <tr>
-                    <td className="border border-slate-300 px-4 py-2">Найти баг</td>
-                    <td className="border border-slate-300 px-4 py-2">GPT-4o (можно со скриншотом)</td>
-                  </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">Рефакторинг</td>
-                    <td className="border border-slate-300 px-4 py-2">Claude Sonnet</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Код-ревью</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Claude Sonnet</td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2">Архитектура проекта</td>
-                    <td className="border border-slate-300 px-4 py-2">Claude Opus</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Найти баг</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">GPT-4o (можно со скриншотом)</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">Алгоритмическая задача</td>
-                    <td className="border border-slate-300 px-4 py-2">o1 или DeepSeek R1</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Рефакторинг</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Claude Sonnet</td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2">Объяснить код</td>
-                    <td className="border border-slate-300 px-4 py-2">GPT-4o</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Архитектура проекта</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Claude Opus</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">Много простых задач</td>
-                    <td className="border border-slate-300 px-4 py-2">DeepSeek Chat</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Алгоритмическая задача</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">o1 или DeepSeek R1</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Объяснить код</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">GPT-4o</td>
+                  </tr>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Много простых задач</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">DeepSeek Chat</td>
                   </tr>
                 </tbody>
               </table>
@@ -170,25 +170,25 @@ export default function ArticlePage() {
 
             <div className="space-y-4 my-6">
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">📋 Давайте контекст</p>
+                <p className="font-medium text-slate-900 dark:text-white">📋 Давайте контекст</p>
                 <p className="text-slate-600 text-sm mt-1">
                   "Пишу на Python 3.11, использую FastAPI и SQLAlchemy. Нужна функция для..."
                 </p>
               </div>
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">🔍 Показывайте код</p>
+                <p className="font-medium text-slate-900 dark:text-white">🔍 Показывайте код</p>
                 <p className="text-slate-600 text-sm mt-1">
                   Вставляйте существующий код — AI лучше поймёт стиль и структуру проекта
                 </p>
               </div>
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">❓ Просите объяснения</p>
+                <p className="font-medium text-slate-900 dark:text-white">❓ Просите объяснения</p>
                 <p className="text-slate-600 text-sm mt-1">
                   "Объясни почему ты выбрал такой подход" — поможет учиться и находить ошибки
                 </p>
               </div>
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">🧪 Просите тесты</p>
+                <p className="font-medium text-slate-900 dark:text-white">🧪 Просите тесты</p>
                 <p className="text-slate-600 text-sm mt-1">
                   "Напиши unit-тесты для этой функции" — AI хорошо генерирует тесты
                 </p>
@@ -209,25 +209,23 @@ export default function ArticlePage() {
         </div>
       </article>
 
-      <section className="py-12 px-4 bg-slate-100">
+      <section className="py-12 px-4 bg-slate-100 dark:bg-slate-700">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            <Link href="/blog/claude-opus-vs-sonnet" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Claude Opus vs Sonnet</h3>
-              <p className="text-sm text-slate-500 mt-1">Какой Claude выбрать?</p>
+            <Link href="/blog/claude-opus-vs-sonnet" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Claude Opus vs Sonnet</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Какой Claude выбрать?</p>
             </Link>
-            <Link href="/blog/deepseek-obzor" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">DeepSeek — обзор</h3>
-              <p className="text-sm text-slate-500 mt-1">Дешёвая альтернатива GPT-4</p>
+            <Link href="/blog/deepseek-obzor" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">DeepSeek — обзор</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Дешёвая альтернатива GPT-4</p>
             </Link>
           </div>
         </div>
       </section>
 
-      <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
-      </footer>
+      
     </>
   );
 }

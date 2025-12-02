@@ -21,9 +21,9 @@ export default function ArticlePage() {
           {/* Meta */}
           <div className="flex items-center gap-3 mb-6">
             <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">10 мин чтения</span>
           </div>
 
@@ -59,9 +59,9 @@ export default function ArticlePage() {
             </p>
 
             <div className="space-y-4 my-6">
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">GPT-4o ⭐ Рекомендуем</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">GPT-4o ⭐ Рекомендуем</h3>
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Vision</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -75,9 +75,9 @@ export default function ArticlePage() {
                 </div>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">GPT-4o-mini</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">GPT-4o-mini</h3>
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Vision</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -90,9 +90,9 @@ export default function ArticlePage() {
                 </div>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">o1</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">o1</h3>
                   <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">Reasoning</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -105,9 +105,9 @@ export default function ArticlePage() {
                 </div>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">o1-pro</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">o1-pro</h3>
                   <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">Premium</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -115,9 +115,9 @@ export default function ArticlePage() {
                 </p>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">o3-mini</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">o3-mini</h3>
                   <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Новинка</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -125,7 +125,7 @@ export default function ArticlePage() {
                 </p>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <h3 className="font-bold text-slate-900 dark:text-white mb-2">GPT-4 Turbo</h3>
                 <p className="text-slate-600 text-sm mb-3">
                   Длинный контекст 128K символов. Для работы с большими документами.
@@ -140,9 +140,9 @@ export default function ArticlePage() {
             </p>
 
             <div className="space-y-4 my-6">
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">Claude 3.5 Sonnet ⭐ Рекомендуем</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">Claude 3.5 Sonnet ⭐ Рекомендуем</h3>
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Vision</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -155,9 +155,9 @@ export default function ArticlePage() {
                 </div>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">Claude 3.5 Haiku</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">Claude 3.5 Haiku</h3>
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Vision</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -165,9 +165,9 @@ export default function ArticlePage() {
                 </p>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">Claude 3.7 Sonnet</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">Claude 3.7 Sonnet</h3>
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Vision</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -175,9 +175,9 @@ export default function ArticlePage() {
                 </p>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">Claude Sonnet 4</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">Claude Sonnet 4</h3>
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Vision</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -185,9 +185,9 @@ export default function ArticlePage() {
                 </p>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">Claude Opus 4 🏆</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">Claude Opus 4 🏆</h3>
                   <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">Premium</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -203,9 +203,9 @@ export default function ArticlePage() {
             </p>
 
             <div className="space-y-4 my-6">
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">Gemini 2.0 Flash ⭐ Бюджетный</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">Gemini 2.0 Flash ⭐ Бюджетный</h3>
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Vision</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -213,9 +213,9 @@ export default function ArticlePage() {
                 </p>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">Gemini 2.5 Flash</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">Gemini 2.5 Flash</h3>
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Vision</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -223,9 +223,9 @@ export default function ArticlePage() {
                 </p>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">Gemini 2.5 Pro</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">Gemini 2.5 Pro</h3>
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Vision</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -241,9 +241,9 @@ export default function ArticlePage() {
             </p>
 
             <div className="space-y-4 my-6">
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">DeepSeek Chat</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">DeepSeek Chat</h3>
                   <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded">Дёшево</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -251,9 +251,9 @@ export default function ArticlePage() {
                 </p>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">DeepSeek R1</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">DeepSeek R1</h3>
                   <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">Reasoning</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -269,9 +269,9 @@ export default function ArticlePage() {
             </p>
 
             <div className="space-y-4 my-6">
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-slate-900">Grok 3</h3>
+                  <h3 className="font-bold text-slate-900 dark:text-white">Grok 3</h3>
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Vision</span>
                 </div>
                 <p className="text-slate-600 text-sm mb-3">
@@ -287,7 +287,7 @@ export default function ArticlePage() {
             </p>
 
             <div className="space-y-4 my-6">
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5">
                 <h3 className="font-bold text-slate-900 dark:text-white mb-2">Mistral Large</h3>
                 <p className="text-slate-600 text-sm mb-3">
                   Топовая модель Mistral. Хороша для европейских языков, кода, анализа.
@@ -299,49 +299,49 @@ export default function ArticlePage() {
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Какую выбрать?</h2>
             
             <div className="overflow-x-auto my-6">
-              <table className="w-full border-collapse border border-slate-300 text-left text-sm">
-                <thead className="bg-slate-100">
+              <table className="w-full border-collapse border border-slate-300 dark:border-slate-600 text-left text-sm">
+                <thead className="bg-slate-100 dark:bg-slate-700">
                   <tr>
-                    <th className="border border-slate-300 px-3 py-2 font-semibold">Задача</th>
-                    <th className="border border-slate-300 px-3 py-2 font-semibold">Лучшая модель</th>
-                    <th className="border border-slate-300 px-3 py-2 font-semibold">Альтернатива</th>
+                    <th className="border border-slate-300 dark:border-slate-600 px-3 py-2 font-semibold">Задача</th>
+                    <th className="border border-slate-300 dark:border-slate-600 px-3 py-2 font-semibold">Лучшая модель</th>
+                    <th className="border border-slate-300 dark:border-slate-600 px-3 py-2 font-semibold">Альтернатива</th>
                   </tr>
                 </thead>
-                <tbody className="text-slate-600">
+                <tbody className="text-slate-600 dark:text-slate-400">
                   <tr>
-                    <td className="border border-slate-300 px-3 py-2">Простой чат</td>
-                    <td className="border border-slate-300 px-3 py-2">Gemini 2.0 Flash</td>
-                    <td className="border border-slate-300 px-3 py-2">GPT-4o-mini</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Простой чат</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Gemini 2.0 Flash</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">GPT-4o-mini</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-3 py-2">Тексты и статьи</td>
-                    <td className="border border-slate-300 px-3 py-2">Claude 3.5 Sonnet</td>
-                    <td className="border border-slate-300 px-3 py-2">GPT-4o</td>
-                  </tr>
-                  <tr>
-                    <td className="border border-slate-300 px-3 py-2">Программирование</td>
-                    <td className="border border-slate-300 px-3 py-2">Claude 3.5 Sonnet</td>
-                    <td className="border border-slate-300 px-3 py-2">DeepSeek Chat</td>
-                  </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-3 py-2">Анализ фото</td>
-                    <td className="border border-slate-300 px-3 py-2">GPT-4o</td>
-                    <td className="border border-slate-300 px-3 py-2">Claude 3.5 Sonnet</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Тексты и статьи</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Claude 3.5 Sonnet</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">GPT-4o</td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300 px-3 py-2">Математика</td>
-                    <td className="border border-slate-300 px-3 py-2">o1</td>
-                    <td className="border border-slate-300 px-3 py-2">DeepSeek R1</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Программирование</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Claude 3.5 Sonnet</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">DeepSeek Chat</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-3 py-2">Большие документы</td>
-                    <td className="border border-slate-300 px-3 py-2">Gemini 2.5 Pro</td>
-                    <td className="border border-slate-300 px-3 py-2">Claude Opus 4</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Анализ фото</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">GPT-4o</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Claude 3.5 Sonnet</td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300 px-3 py-2">Бюджетно</td>
-                    <td className="border border-slate-300 px-3 py-2">DeepSeek Chat</td>
-                    <td className="border border-slate-300 px-3 py-2">Gemini 2.0 Flash</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Математика</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">o1</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">DeepSeek R1</td>
+                  </tr>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Большие документы</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Gemini 2.5 Pro</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Claude Opus 4</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Бюджетно</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">DeepSeek Chat</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-3 py-2">Gemini 2.0 Flash</td>
                   </tr>
                 </tbody>
               </table>
@@ -363,9 +363,7 @@ export default function ArticlePage() {
       </article>
 
       {/* Footer */}
-      <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
-      </footer>
+      
     </>
   );
 }

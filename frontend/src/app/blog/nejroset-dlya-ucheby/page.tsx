@@ -19,9 +19,9 @@ export default function ArticlePage() {
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">10 мин чтения</span>
           </div>
 
@@ -103,35 +103,35 @@ export default function ArticlePage() {
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
                 <thead>
-                  <tr className="bg-slate-100">
-                    <th className="border border-slate-300 px-4 py-2 text-left">Задача</th>
-                    <th className="border border-slate-300 px-4 py-2 text-left">Лучший выбор</th>
+                  <tr className="bg-slate-100 dark:bg-slate-700">
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Задача</th>
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Лучший выбор</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2">Объяснить тему</td>
-                    <td className="border border-slate-300 px-4 py-2">GPT-4o, Claude</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Объяснить тему</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">GPT-4o, Claude</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">Математика, физика</td>
-                    <td className="border border-slate-300 px-4 py-2">o1, DeepSeek R1</td>
-                  </tr>
-                  <tr>
-                    <td className="border border-slate-300 px-4 py-2">Написать эссе</td>
-                    <td className="border border-slate-300 px-4 py-2">Claude Sonnet</td>
-                  </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">Анализ книги/статьи</td>
-                    <td className="border border-slate-300 px-4 py-2">Gemini 2.5 Pro (большой контекст)</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Математика, физика</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">o1, DeepSeek R1</td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2">Иностранный язык</td>
-                    <td className="border border-slate-300 px-4 py-2">GPT-4o, Claude</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Написать эссе</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Claude Sonnet</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">Программирование</td>
-                    <td className="border border-slate-300 px-4 py-2">Claude Sonnet, GPT-4o</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Анализ книги/статьи</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Gemini 2.5 Pro (большой контекст)</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Иностранный язык</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">GPT-4o, Claude</td>
+                  </tr>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Программирование</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Claude Sonnet, GPT-4o</td>
                   </tr>
                 </tbody>
               </table>
@@ -222,25 +222,23 @@ export default function ArticlePage() {
         </div>
       </article>
 
-      <section className="py-12 px-4 bg-slate-100">
+      <section className="py-12 px-4 bg-slate-100 dark:bg-slate-700">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            <Link href="/blog/kak-pisat-prompty" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Как писать промпты</h3>
-              <p className="text-sm text-slate-500 mt-1">Эффективные запросы к AI</p>
+            <Link href="/blog/kak-pisat-prompty" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Как писать промпты</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Эффективные запросы к AI</p>
             </Link>
-            <Link href="/blog/nejroset-dlya-tekstov" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Нейросети для текстов</h3>
-              <p className="text-sm text-slate-500 mt-1">Какой AI лучше пишет?</p>
+            <Link href="/blog/nejroset-dlya-tekstov" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Нейросети для текстов</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Какой AI лучше пишет?</p>
             </Link>
           </div>
         </div>
       </section>
 
-      <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
-      </footer>
+      
     </>
   );
 }

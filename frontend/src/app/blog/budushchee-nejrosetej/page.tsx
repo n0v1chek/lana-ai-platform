@@ -19,9 +19,9 @@ export default function ArticlePage() {
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">11 мин чтения</span>
           </div>
 
@@ -109,23 +109,23 @@ export default function ArticlePage() {
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
                 <thead>
-                  <tr className="bg-slate-100">
-                    <th className="border border-slate-300 px-4 py-2 text-left">Горизонт</th>
-                    <th className="border border-slate-300 px-4 py-2 text-left">Что ожидать</th>
+                  <tr className="bg-slate-100 dark:bg-slate-700">
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Горизонт</th>
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Что ожидать</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2 font-medium">2026</td>
-                    <td className="border border-slate-300 px-4 py-2">AI-агенты, генерация видео, голосовые AI</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 font-medium">2026</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">AI-агенты, генерация видео, голосовые AI</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2 font-medium">2027-2028</td>
-                    <td className="border border-slate-300 px-4 py-2">AI-учёные, автоматизация программирования</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 font-medium">2027-2028</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">AI-учёные, автоматизация программирования</td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2 font-medium">2029-2030</td>
-                    <td className="border border-slate-300 px-4 py-2">Возможный AGI, AI-роботы</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 font-medium">2029-2030</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Возможный AGI, AI-роботы</td>
                   </tr>
                 </tbody>
               </table>
@@ -162,28 +162,28 @@ export default function ArticlePage() {
               <div className="flex items-start gap-3 bg-slate-100 p-4 rounded-xl">
                 <span className="text-xl font-bold text-purple-600">1</span>
                 <div>
-                  <p className="font-medium text-slate-900">Осваивайте AI-инструменты</p>
+                  <p className="font-medium text-slate-900 dark:text-white">Осваивайте AI-инструменты</p>
                   <p className="text-slate-600 text-sm">Чем раньше начнёте, тем больше преимущество</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-slate-100 p-4 rounded-xl">
                 <span className="text-xl font-bold text-purple-600">2</span>
                 <div>
-                  <p className="font-medium text-slate-900">Учитесь писать промпты</p>
+                  <p className="font-medium text-slate-900 dark:text-white">Учитесь писать промпты</p>
                   <p className="text-slate-600 text-sm">Это навык, который будет востребован</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-slate-100 p-4 rounded-xl">
                 <span className="text-xl font-bold text-purple-600">3</span>
                 <div>
-                  <p className="font-medium text-slate-900">Развивайте то, что AI не может</p>
+                  <p className="font-medium text-slate-900 dark:text-white">Развивайте то, что AI не может</p>
                   <p className="text-slate-600 text-sm">Креативность, эмпатия, стратегическое мышление</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-slate-100 p-4 rounded-xl">
                 <span className="text-xl font-bold text-purple-600">4</span>
                 <div>
-                  <p className="font-medium text-slate-900">Следите за новостями AI</p>
+                  <p className="font-medium text-slate-900 dark:text-white">Следите за новостями AI</p>
                   <p className="text-slate-600 text-sm">Индустрия меняется быстро, важно быть в курсе</p>
                 </div>
               </div>
@@ -211,25 +211,23 @@ export default function ArticlePage() {
         </div>
       </article>
 
-      <section className="py-12 px-4 bg-slate-100">
+      <section className="py-12 px-4 bg-slate-100 dark:bg-slate-700">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            <Link href="/blog/novinki-ai-2025" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Новинки AI 2025</h3>
-              <p className="text-sm text-slate-500 mt-1">Что уже произошло</p>
+            <Link href="/blog/novinki-ai-2025" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Новинки AI 2025</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Что уже произошло</p>
             </Link>
-            <Link href="/blog/ai-dlya-biznesa" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">AI для бизнеса</h3>
-              <p className="text-sm text-slate-500 mt-1">Как внедрить сейчас</p>
+            <Link href="/blog/ai-dlya-biznesa" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">AI для бизнеса</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Как внедрить сейчас</p>
             </Link>
           </div>
         </div>
       </section>
 
-      <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
-      </footer>
+      
     </>
   );
 }

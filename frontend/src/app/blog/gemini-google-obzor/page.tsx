@@ -19,9 +19,9 @@ export default function ArticlePage() {
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">8 мин чтения</span>
           </div>
 
@@ -51,31 +51,31 @@ export default function ArticlePage() {
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
                 <thead>
-                  <tr className="bg-slate-100">
-                    <th className="border border-slate-300 px-4 py-2 text-left">Модель</th>
-                    <th className="border border-slate-300 px-4 py-2 text-left">Контекст</th>
-                    <th className="border border-slate-300 px-4 py-2 text-left">Лучше всего для</th>
-                    <th className="border border-slate-300 px-4 py-2 text-left">Цена</th>
+                  <tr className="bg-slate-100 dark:bg-slate-700">
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Модель</th>
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Контекст</th>
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Лучше всего для</th>
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Цена</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2 font-medium">Gemini 2.0 Flash</td>
-                    <td className="border border-slate-300 px-4 py-2">1M символов</td>
-                    <td className="border border-slate-300 px-4 py-2">Быстрые задачи, чат</td>
-                    <td className="border border-slate-300 px-4 py-2 text-green-600">💰 Дёшево</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 font-medium">Gemini 2.0 Flash</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">1M символов</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Быстрые задачи, чат</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-green-600">💰 Дёшево</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2 font-medium">Gemini 2.5 Flash</td>
-                    <td className="border border-slate-300 px-4 py-2">1M символов</td>
-                    <td className="border border-slate-300 px-4 py-2">Баланс цена/качество</td>
-                    <td className="border border-slate-300 px-4 py-2 text-yellow-600">💰💰 Средне</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 font-medium">Gemini 2.5 Flash</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">1M символов</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Баланс цена/качество</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-yellow-600">💰💰 Средне</td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2 font-medium">Gemini 2.5 Pro</td>
-                    <td className="border border-slate-300 px-4 py-2">1M символов</td>
-                    <td className="border border-slate-300 px-4 py-2">Сложные задачи, анализ</td>
-                    <td className="border border-slate-300 px-4 py-2 text-orange-600">💰💰💰 Дорого</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 font-medium">Gemini 2.5 Pro</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">1M символов</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Сложные задачи, анализ</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-orange-600">💰💰💰 Дорого</td>
                   </tr>
                 </tbody>
               </table>
@@ -146,15 +146,15 @@ export default function ArticlePage() {
 
             <div className="space-y-4 my-6">
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">Gemini 2.0 Flash — для повседневных задач</p>
+                <p className="font-medium text-slate-900 dark:text-white">Gemini 2.0 Flash — для повседневных задач</p>
                 <p className="text-slate-600 text-sm mt-1">Быстрые ответы, простые вопросы, переводы, чат. Самый дешёвый вариант.</p>
               </div>
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">Gemini 2.5 Flash — универсальный выбор</p>
+                <p className="font-medium text-slate-900 dark:text-white">Gemini 2.5 Flash — универсальный выбор</p>
                 <p className="text-slate-600 text-sm mt-1">Хороший баланс качества и цены. Подходит для большинства задач.</p>
               </div>
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">Gemini 2.5 Pro — для сложных задач</p>
+                <p className="font-medium text-slate-900 dark:text-white">Gemini 2.5 Pro — для сложных задач</p>
                 <p className="text-slate-600 text-sm mt-1">Анализ больших документов, сложные рассуждения, исследования.</p>
               </div>
             </div>
@@ -173,25 +173,23 @@ export default function ArticlePage() {
         </div>
       </article>
 
-      <section className="py-12 px-4 bg-slate-100">
+      <section className="py-12 px-4 bg-slate-100 dark:bg-slate-700">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            <Link href="/blog/claude-vs-chatgpt" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Claude vs ChatGPT</h3>
-              <p className="text-sm text-slate-500 mt-1">Сравнение главных конкурентов</p>
+            <Link href="/blog/claude-vs-chatgpt" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Claude vs ChatGPT</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Сравнение главных конкурентов</p>
             </Link>
-            <Link href="/blog/luchshie-nejroseti-2025" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Лучшие нейросети 2025</h3>
-              <p className="text-sm text-slate-500 mt-1">Лучшие AI модели</p>
+            <Link href="/blog/luchshie-nejroseti-2025" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Лучшие нейросети 2025</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Лучшие AI модели</p>
             </Link>
           </div>
         </div>
       </section>
 
-      <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
-      </footer>
+      
     </>
   );
 }

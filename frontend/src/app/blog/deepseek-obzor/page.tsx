@@ -19,9 +19,9 @@ export default function ArticlePage() {
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">7 мин чтения</span>
           </div>
 
@@ -104,7 +104,7 @@ export default function ArticlePage() {
 
             <div className="space-y-4 my-6">
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">✅ Хорошо подходит:</p>
+                <p className="font-medium text-slate-900 dark:text-white">✅ Хорошо подходит:</p>
                 <ul className="text-slate-600 text-sm mt-2 space-y-1">
                   <li>• Программирование и код-ревью</li>
                   <li>• Математические задачи</li>
@@ -114,7 +114,7 @@ export default function ArticlePage() {
                 </ul>
               </div>
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">❌ Лучше выбрать другое:</p>
+                <p className="font-medium text-slate-900 dark:text-white">❌ Лучше выбрать другое:</p>
                 <ul className="text-slate-600 text-sm mt-2 space-y-1">
                   <li>• Работа с изображениями (нет Vision)</li>
                   <li>• Креативное письмо на русском</li>
@@ -153,25 +153,23 @@ export default function ArticlePage() {
         </div>
       </article>
 
-      <section className="py-12 px-4 bg-slate-100">
+      <section className="py-12 px-4 bg-slate-100 dark:bg-slate-700">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            <Link href="/blog/gemini-google-obzor" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Gemini от Google</h3>
-              <p className="text-sm text-slate-500 mt-1">Полный обзор нейросети</p>
+            <Link href="/blog/gemini-google-obzor" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Gemini от Google</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Полный обзор нейросети</p>
             </Link>
-            <Link href="/blog/luchshie-nejroseti-2025" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Лучшие нейросети 2025</h3>
-              <p className="text-sm text-slate-500 mt-1">Лучшие AI модели</p>
+            <Link href="/blog/luchshie-nejroseti-2025" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Лучшие нейросети 2025</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Лучшие AI модели</p>
             </Link>
           </div>
         </div>
       </section>
 
-      <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
-      </footer>
+      
     </>
   );
 }

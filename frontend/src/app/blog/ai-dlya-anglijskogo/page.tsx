@@ -19,9 +19,9 @@ export default function ArticlePage() {
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">8 мин чтения</span>
           </div>
 
@@ -109,7 +109,7 @@ export default function ArticlePage() {
             </div>
 
             {/* Ролевые игры */}
-            <div className="bg-slate-100 border border-slate-300 rounded-xl p-6 my-6">
+            <div className="bg-slate-100 border border-slate-300 dark:border-slate-600 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">🎭</span>
                 <h3 className="text-xl font-bold text-slate-900 m-0">Ролевые ситуации</h3>
@@ -198,25 +198,23 @@ export default function ArticlePage() {
         </div>
       </article>
 
-      <section className="py-12 px-4 bg-slate-100">
+      <section className="py-12 px-4 bg-slate-100 dark:bg-slate-700">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            <Link href="/blog/nejroset-dlya-ucheby" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Нейросети для учёбы</h3>
-              <p className="text-sm text-slate-500 mt-1">Как AI помогает студентам</p>
+            <Link href="/blog/nejroset-dlya-ucheby" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Нейросети для учёбы</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Как AI помогает студентам</p>
             </Link>
-            <Link href="/blog/kak-pisat-prompty" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Как писать промпты</h3>
-              <p className="text-sm text-slate-500 mt-1">Эффективные запросы к AI</p>
+            <Link href="/blog/kak-pisat-prompty" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Как писать промпты</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Эффективные запросы к AI</p>
             </Link>
           </div>
         </div>
       </section>
 
-      <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
-      </footer>
+      
     </>
   );
 }

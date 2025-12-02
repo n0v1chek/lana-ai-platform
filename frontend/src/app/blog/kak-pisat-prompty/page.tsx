@@ -21,9 +21,9 @@ export default function ArticlePage() {
           {/* Meta */}
           <div className="flex items-center gap-3 mb-6">
             <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">12 мин чтения</span>
           </div>
 
@@ -245,26 +245,24 @@ export default function ArticlePage() {
       </article>
 
       {/* Related */}
-      <section className="py-12 px-4 bg-slate-100">
+      <section className="py-12 px-4 bg-slate-100 dark:bg-slate-700">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            <Link href="/blog/claude-vs-chatgpt" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Claude vs ChatGPT</h3>
-              <p className="text-sm text-slate-500 mt-1">Какая нейросеть лучше?</p>
+            <Link href="/blog/claude-vs-chatgpt" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Claude vs ChatGPT</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Какая нейросеть лучше?</p>
             </Link>
-            <Link href="/blog/luchshie-nejroseti-2025" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Лучшие нейросети 2025</h3>
-              <p className="text-sm text-slate-500 mt-1">Лучшие AI модели</p>
+            <Link href="/blog/luchshie-nejroseti-2025" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Лучшие нейросети 2025</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Лучшие AI модели</p>
             </Link>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
-      </footer>
+      
     </>
   );
 }

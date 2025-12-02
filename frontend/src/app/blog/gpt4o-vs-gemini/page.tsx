@@ -19,9 +19,9 @@ export default function ArticlePage() {
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">7 мин чтения</span>
           </div>
 
@@ -49,47 +49,47 @@ export default function ArticlePage() {
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
                 <thead>
-                  <tr className="bg-slate-100">
-                    <th className="border border-slate-300 px-4 py-2 text-left">Параметр</th>
-                    <th className="border border-slate-300 px-4 py-2 text-left">GPT-4o</th>
-                    <th className="border border-slate-300 px-4 py-2 text-left">Gemini 2.5 Pro</th>
+                  <tr className="bg-slate-100 dark:bg-slate-700">
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Параметр</th>
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">GPT-4o</th>
+                    <th className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">Gemini 2.5 Pro</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2">Компания</td>
-                    <td className="border border-slate-300 px-4 py-2">OpenAI</td>
-                    <td className="border border-slate-300 px-4 py-2">Google</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Компания</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">OpenAI</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Google</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">Контекст</td>
-                    <td className="border border-slate-300 px-4 py-2">128K символов</td>
-                    <td className="border border-slate-300 px-4 py-2 text-green-600 font-medium">1M символов 🏆</td>
-                  </tr>
-                  <tr>
-                    <td className="border border-slate-300 px-4 py-2">Vision</td>
-                    <td className="border border-slate-300 px-4 py-2 text-green-600">✅ Да</td>
-                    <td className="border border-slate-300 px-4 py-2 text-green-600">✅ Да</td>
-                  </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">Видео</td>
-                    <td className="border border-slate-300 px-4 py-2 text-red-600">❌ Нет</td>
-                    <td className="border border-slate-300 px-4 py-2 text-green-600">✅ Да 🏆</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Контекст</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">128K символов</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-green-600 font-medium">1M символов 🏆</td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2">Генерация картинок</td>
-                    <td className="border border-slate-300 px-4 py-2 text-green-600">✅ DALL-E 🏆</td>
-                    <td className="border border-slate-300 px-4 py-2 text-red-600">❌ Нет</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Vision</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-green-600">✅ Да</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-green-600">✅ Да</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-300 px-4 py-2">Скорость</td>
-                    <td className="border border-slate-300 px-4 py-2 text-green-600">Быстрый 🏆</td>
-                    <td className="border border-slate-300 px-4 py-2">Средний</td>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Видео</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-red-600">❌ Нет</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-green-600">✅ Да 🏆</td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-300 px-4 py-2">Поиск в интернете</td>
-                    <td className="border border-slate-300 px-4 py-2">Через плагины</td>
-                    <td className="border border-slate-300 px-4 py-2 text-green-600">Встроенный 🏆</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Генерация картинок</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-green-600">✅ DALL-E 🏆</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-red-600">❌ Нет</td>
+                  </tr>
+                  <tr className="bg-slate-50 dark:bg-slate-800">
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Скорость</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-green-600">Быстрый 🏆</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Средний</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Поиск в интернете</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2">Через плагины</td>
+                    <td className="border border-slate-300 dark:border-slate-600 px-4 py-2 text-green-600">Встроенный 🏆</td>
                   </tr>
                 </tbody>
               </table>
@@ -161,19 +161,19 @@ export default function ArticlePage() {
 
             <div className="space-y-3 my-6">
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">Нужно обработать 500-страничный PDF?</p>
+                <p className="font-medium text-slate-900 dark:text-white">Нужно обработать 500-страничный PDF?</p>
                 <p className="text-slate-600 text-sm mt-1">→ Gemini (большой контекст)</p>
               </div>
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">Нужно написать код и объяснить?</p>
+                <p className="font-medium text-slate-900 dark:text-white">Нужно написать код и объяснить?</p>
                 <p className="text-slate-600 text-sm mt-1">→ GPT-4o (лучше объясняет)</p>
               </div>
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">Нужно сгенерировать картинку?</p>
+                <p className="font-medium text-slate-900 dark:text-white">Нужно сгенерировать картинку?</p>
                 <p className="text-slate-600 text-sm mt-1">→ GPT-4o (есть DALL-E)</p>
               </div>
               <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
-                <p className="font-medium text-slate-900">Нужно проанализировать видео?</p>
+                <p className="font-medium text-slate-900 dark:text-white">Нужно проанализировать видео?</p>
                 <p className="text-slate-600 text-sm mt-1">→ Gemini (понимает видео)</p>
               </div>
             </div>
@@ -200,25 +200,23 @@ export default function ArticlePage() {
         </div>
       </article>
 
-      <section className="py-12 px-4 bg-slate-100">
+      <section className="py-12 px-4 bg-slate-100 dark:bg-slate-700">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            <Link href="/blog/gemini-google-obzor" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Gemini от Google</h3>
-              <p className="text-sm text-slate-500 mt-1">Полный обзор</p>
+            <Link href="/blog/gemini-google-obzor" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Gemini от Google</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Полный обзор</p>
             </Link>
-            <Link href="/blog/claude-vs-chatgpt" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Claude vs ChatGPT</h3>
-              <p className="text-sm text-slate-500 mt-1">Ещё одно сравнение</p>
+            <Link href="/blog/claude-vs-chatgpt" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Claude vs ChatGPT</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Ещё одно сравнение</p>
             </Link>
           </div>
         </div>
       </section>
 
-      <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
-      </footer>
+      
     </>
   );
 }

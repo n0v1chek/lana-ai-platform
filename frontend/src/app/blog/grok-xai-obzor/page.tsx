@@ -19,9 +19,9 @@ export default function ArticlePage() {
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
-            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">6 мин чтения</span>
           </div>
 
@@ -38,7 +38,7 @@ export default function ArticlePage() {
             
             <div className="bg-slate-800 text-white rounded-xl p-6 my-6">
               <p className="font-medium text-lg mb-2">🚀 Главное о Grok</p>
-              <ul className="space-y-1 text-sm text-slate-500 dark:text-slate-600">
+              <ul className="space-y-1 text-sm text-slate-500 dark:text-slate-600 dark:text-slate-400">
                 <li>Создатель: xAI (компания Илона Маска)</li>
                 <li>Особенность: юмор, сарказм, меньше ограничений</li>
                 <li>Интеграция: данные из X (Twitter) в реальном времени</li>
@@ -97,28 +97,28 @@ export default function ArticlePage() {
               <div className="flex items-start gap-3 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl">
                 <span className="text-2xl">💬</span>
                 <div>
-                  <p className="font-medium text-slate-900">Неформальное общение</p>
+                  <p className="font-medium text-slate-900 dark:text-white">Неформальное общение</p>
                   <p className="text-slate-600 text-sm">Когда хочется поболтать с AI как с другом</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl">
                 <span className="text-2xl">📰</span>
                 <div>
-                  <p className="font-medium text-slate-900">Анализ новостей и трендов</p>
+                  <p className="font-medium text-slate-900 dark:text-white">Анализ новостей и трендов</p>
                   <p className="text-slate-600 text-sm">Что обсуждают в соцсетях прямо сейчас</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl">
                 <span className="text-2xl">🎭</span>
                 <div>
-                  <p className="font-medium text-slate-900">Креатив с юмором</p>
+                  <p className="font-medium text-slate-900 dark:text-white">Креатив с юмором</p>
                   <p className="text-slate-600 text-sm">Шутки, мемы, саркастичные тексты</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl">
                 <span className="text-2xl">🔍</span>
                 <div>
-                  <p className="font-medium text-slate-900">Прямые ответы</p>
+                  <p className="font-medium text-slate-900 dark:text-white">Прямые ответы</p>
                   <p className="text-slate-600 text-sm">Когда нужно мнение без политкорректности</p>
                 </div>
               </div>
@@ -155,25 +155,23 @@ export default function ArticlePage() {
         </div>
       </article>
 
-      <section className="py-12 px-4 bg-slate-100">
+      <section className="py-12 px-4 bg-slate-100 dark:bg-slate-700">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
-            <Link href="/blog/claude-vs-chatgpt" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Claude vs ChatGPT</h3>
-              <p className="text-sm text-slate-500 mt-1">Сравнение главных AI</p>
+            <Link href="/blog/claude-vs-chatgpt" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Claude vs ChatGPT</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Сравнение главных AI</p>
             </Link>
-            <Link href="/blog/gemini-google-obzor" className="bg-white p-4 rounded-xl hover:shadow-md transition">
-              <h3 className="font-semibold text-slate-900">Gemini от Google</h3>
-              <p className="text-sm text-slate-500 mt-1">Обзор нейросети</p>
+            <Link href="/blog/gemini-google-obzor" className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+              <h3 className="font-semibold text-slate-900 dark:text-white">Gemini от Google</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Обзор нейросети</p>
             </Link>
           </div>
         </div>
       </section>
 
-      <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
-        <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
-      </footer>
+      
     </>
   );
 }
