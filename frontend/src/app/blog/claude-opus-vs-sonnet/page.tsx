@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CatLogo } from "@/components/CatLogo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -15,58 +14,44 @@ export const metadata: Metadata = {
 
 export default function ArticlePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <CatLogo size={32} />
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/blog" className="text-slate-600 hover:text-purple-600 transition">Блог</Link>
-            <Link href="/register" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-xl hover:opacity-90 transition">
-              Попробовать
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      <article className="py-12 px-4">
+    <>
+<article className="py-12 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
-            <Link href="/blog" className="text-purple-600 hover:underline">← Блог</Link>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">29 ноября 2025</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">6 мин чтения</span>
+            <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">6 мин чтения</span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
             Claude Opus vs Claude Sonnet — в чём разница?
           </h1>
 
-          <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
             Anthropic предлагает несколько версий Claude. Разберёмся, чем отличаются 
             флагманский Opus и универсальный Sonnet, и когда какой выбрать.
           </p>
 
-          <div className="prose prose-lg prose-slate max-w-none">
+          <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
 
-            <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 my-6">
+            <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-6 my-6">
               <p className="text-orange-900 font-medium text-lg mb-2">⚡ Короткий ответ</p>
-              <p className="text-orange-800">
+              <p className="text-orange-800 dark:text-orange-200">
                 <strong>Claude Sonnet</strong> — для 90% задач. Отличный баланс качества и скорости.<br/>
                 <strong>Claude Opus</strong> — для сложнейших задач, где нужен максимальный интеллект.
               </p>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Линейка моделей Claude</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Линейка моделей Claude</h2>
 
-            <p className="text-slate-600 mb-4">
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               Anthropic назвала свои модели в честь музыкальных форм — от простых к сложным:
             </p>
 
             <div className="space-y-3 my-6">
-              <div className="bg-slate-100 rounded-xl p-4">
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
                 <p className="font-medium text-slate-900">🎵 Haiku — быстрый и дешёвый</p>
                 <p className="text-slate-600 text-sm mt-1">Для простых задач, где важна скорость</p>
               </div>
@@ -75,12 +60,12 @@ export default function ArticlePage() {
                 <p className="text-purple-700 text-sm mt-1">Оптимальный баланс для большинства задач</p>
               </div>
               <div className="bg-amber-100 rounded-xl p-4">
-                <p className="font-medium text-amber-900">🎹 Opus — максимальный интеллект</p>
+                <p className="font-medium text-amber-900 dark:text-amber-100">🎹 Opus — максимальный интеллект</p>
                 <p className="text-amber-700 text-sm mt-1">Самая умная модель для сложнейших задач</p>
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Сравнение Opus и Sonnet</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Сравнение Opus и Sonnet</h2>
 
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
@@ -121,10 +106,10 @@ export default function ArticlePage() {
               </table>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Когда выбрать Sonnet</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Когда выбрать Sonnet</h2>
 
-            <div className="bg-purple-50 border border-purple-200 rounded-xl p-5 my-4">
-              <ul className="text-purple-800 space-y-2">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-5 my-4">
+              <ul className="text-purple-800 dark:text-purple-200 space-y-2">
                 <li>✅ Повседневные рабочие задачи</li>
                 <li>✅ Программирование и код-ревью</li>
                 <li>✅ Написание и редактирование текстов</li>
@@ -134,10 +119,10 @@ export default function ArticlePage() {
               </ul>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Когда выбрать Opus</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Когда выбрать Opus</h2>
 
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 my-4">
-              <ul className="text-amber-800 space-y-2">
+            <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-5 my-4">
+              <ul className="text-amber-800 dark:text-amber-200 space-y-2">
                 <li>✅ Сложные исследовательские задачи</li>
                 <li>✅ Глубокий анализ и рассуждения</li>
                 <li>✅ Написание научных работ</li>
@@ -147,22 +132,22 @@ export default function ArticlePage() {
               </ul>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Что насчёт версий 3.5 и 3.7?</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Что насчёт версий 3.5 и 3.7?</h2>
 
-            <p className="text-slate-600 mb-4">
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               В LANA AI доступны несколько версий Claude:
             </p>
 
             <div className="space-y-3 my-6">
-              <div className="bg-slate-100 rounded-xl p-4">
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
                 <p className="font-medium text-slate-900">Claude 3.5 Haiku</p>
                 <p className="text-slate-600 text-sm mt-1">Самый быстрый и дешёвый. Для простых задач.</p>
               </div>
-              <div className="bg-slate-100 rounded-xl p-4">
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
                 <p className="font-medium text-slate-900">Claude 3.5 Sonnet</p>
                 <p className="text-slate-600 text-sm mt-1">Предыдущее поколение Sonnet. Всё ещё отличный.</p>
               </div>
-              <div className="bg-slate-100 rounded-xl p-4">
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
                 <p className="font-medium text-slate-900">Claude 3.7 Sonnet</p>
                 <p className="text-slate-600 text-sm mt-1">Улучшенная версия с гибридным мышлением.</p>
               </div>
@@ -171,7 +156,7 @@ export default function ArticlePage() {
                 <p className="text-purple-700 text-sm mt-1">Новейший Sonnet. Рекомендуем для большинства.</p>
               </div>
               <div className="bg-amber-100 rounded-xl p-4">
-                <p className="font-medium text-amber-900">Claude Opus 4 🏆</p>
+                <p className="font-medium text-amber-900 dark:text-amber-100">Claude Opus 4 🏆</p>
                 <p className="text-amber-700 text-sm mt-1">Максимальный интеллект для сложнейших задач.</p>
               </div>
             </div>
@@ -192,7 +177,7 @@ export default function ArticlePage() {
 
       <section className="py-12 px-4 bg-slate-100">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">Читайте также</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <Link href="/blog/claude-vs-chatgpt" className="bg-white p-4 rounded-xl hover:shadow-md transition">
               <h3 className="font-semibold text-slate-900">Claude vs ChatGPT</h3>
@@ -209,6 +194,6 @@ export default function ArticlePage() {
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
         <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
       </footer>
-    </div>
+    </>
   );
 }

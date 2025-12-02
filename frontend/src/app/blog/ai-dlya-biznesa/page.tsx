@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CatLogo } from "@/components/CatLogo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -15,45 +14,31 @@ export const metadata: Metadata = {
 
 export default function ArticlePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <CatLogo size={32} />
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/blog" className="text-slate-600 hover:text-purple-600 transition">Блог</Link>
-            <Link href="/register" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-xl hover:opacity-90 transition">
-              Попробовать
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      <article className="py-12 px-4">
+    <>
+<article className="py-12 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
-            <Link href="/blog" className="text-purple-600 hover:underline">← Блог</Link>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">29 ноября 2025</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">10 мин чтения</span>
+            <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">10 мин чтения</span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
             AI для бизнеса: как нейросети экономят время и деньги
           </h1>
 
-          <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
             Нейросети — не игрушка, а рабочий инструмент. Разбираем конкретные способы 
             применения AI в бизнесе с реальными примерами.
           </p>
 
-          <div className="prose prose-lg prose-slate max-w-none">
+          <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
 
-            <div className="bg-green-50 border border-green-200 rounded-xl p-6 my-6">
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6 my-6">
               <p className="text-green-900 font-medium text-lg mb-2">💰 AI экономит</p>
-              <ul className="text-green-800 space-y-1 text-sm">
+              <ul className="text-green-800 dark:text-green-200 space-y-1 text-sm">
                 <li>• До 80% времени на рутинных задачах</li>
                 <li>• Затраты на контент-производство</li>
                 <li>• Расходы на первую линию поддержки</li>
@@ -61,10 +46,10 @@ export default function ArticlePage() {
               </ul>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Где AI уже работает</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Где AI уже работает</h2>
 
             {/* Поддержка */}
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 my-6">
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">🎧</span>
                 <h3 className="text-xl font-bold text-blue-900 m-0">Клиентская поддержка</h3>
@@ -73,14 +58,14 @@ export default function ArticlePage() {
                 AI-бот отвечает на типовые вопросы 24/7. Сложные случаи передаёт человеку. 
                 Один бот заменяет 3-5 операторов первой линии.
               </p>
-              <div className="bg-blue-100 rounded-lg p-3 text-sm text-blue-800">
+              <div className="bg-blue-100 rounded-lg p-3 text-sm text-blue-800 dark:text-blue-200">
                 <strong>Пример:</strong> Интернет-магазин подключил AI-бота. 
                 70% вопросов закрываются автоматически: статус заказа, условия доставки, возврат.
               </div>
             </div>
 
             {/* Контент */}
-            <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 my-6">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">✍️</span>
                 <h3 className="text-xl font-bold text-purple-900 m-0">Генерация контента</h3>
@@ -89,30 +74,30 @@ export default function ArticlePage() {
                 Посты для соцсетей, описания товаров, email-рассылки, статьи для блога. 
                 AI генерирует черновики, человек редактирует и публикует.
               </p>
-              <div className="bg-purple-100 rounded-lg p-3 text-sm text-purple-800">
+              <div className="bg-purple-100 rounded-lg p-3 text-sm text-purple-800 dark:text-purple-200">
                 <strong>Пример:</strong> Маркетолог делал 5 постов в неделю. 
                 С AI делает 20 — тратит время только на финальную редактуру.
               </div>
             </div>
 
             {/* Продажи */}
-            <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 my-6">
+            <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">💼</span>
                 <h3 className="text-xl font-bold text-orange-900 m-0">Продажи и лиды</h3>
               </div>
-              <p className="text-orange-800 mb-3">
+              <p className="text-orange-800 dark:text-orange-200 mb-3">
                 AI квалифицирует лиды, отвечает на первичные вопросы, помогает выбрать товар. 
                 Менеджеры работают только с "горячими" клиентами.
               </p>
-              <div className="bg-orange-100 rounded-lg p-3 text-sm text-orange-800">
+              <div className="bg-orange-100 rounded-lg p-3 text-sm text-orange-800 dark:text-orange-200">
                 <strong>Пример:</strong> AI-консультант на сайте недвижимости. 
                 Отвечает на вопросы о планировках, ценах, ипотеке. Конверсия выросла на 40%.
               </div>
             </div>
 
             {/* Аналитика */}
-            <div className="bg-green-50 border border-green-200 rounded-xl p-6 my-6">
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">📊</span>
                 <h3 className="text-xl font-bold text-green-900 m-0">Анализ данных</h3>
@@ -121,7 +106,7 @@ export default function ArticlePage() {
                 Загрузите отчёт, и AI найдёт паттерны, аномалии, сделает выводы. 
                 То, на что аналитик тратит день, AI делает за минуты.
               </p>
-              <div className="bg-green-100 rounded-lg p-3 text-sm text-green-800">
+              <div className="bg-green-100 rounded-lg p-3 text-sm text-green-800 dark:text-green-200">
                 <strong>Пример:</strong> Финансовый директор загружает квартальный отчёт. 
                 AI выделяет ключевые метрики, находит отклонения, предлагает рекомендации.
               </div>
@@ -143,7 +128,7 @@ export default function ArticlePage() {
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">С чего начать</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">С чего начать</h2>
 
             <div className="space-y-4 my-6">
               <div className="flex items-start gap-3 bg-slate-100 p-4 rounded-xl">
@@ -176,7 +161,7 @@ export default function ArticlePage() {
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Какую модель выбрать для бизнеса</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Какую модель выбрать для бизнеса</h2>
 
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
@@ -227,7 +212,7 @@ export default function ArticlePage() {
 
       <section className="py-12 px-4 bg-slate-100">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">Читайте также</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <Link href="/blog/nejroset-dlya-tekstov" className="bg-white p-4 rounded-xl hover:shadow-md transition">
               <h3 className="font-semibold text-slate-900">Нейросети для текстов</h3>
@@ -244,6 +229,6 @@ export default function ArticlePage() {
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
         <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
       </footer>
-    </div>
+    </>
   );
 }

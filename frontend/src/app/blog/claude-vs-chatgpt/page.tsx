@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CatLogo } from "@/components/CatLogo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -15,61 +14,46 @@ export const metadata: Metadata = {
 
 export default function ArticlePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      {/* Header */}
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <CatLogo size={32} />
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/blog" className="text-slate-600 hover:text-purple-600 transition">Блог</Link>
-            <Link href="/register" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-xl hover:opacity-90 transition">
-              Попробовать
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      {/* Article */}
+    <>
+{/* Article */}
       <article className="py-12 px-4">
         <div className="max-w-3xl mx-auto">
           {/* Meta */}
           <div className="flex items-center gap-3 mb-6">
-            <Link href="/blog" className="text-purple-600 hover:underline">← Блог</Link>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">29 ноября 2025</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">8 мин чтения</span>
+            <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">8 мин чтения</span>
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
             Claude vs ChatGPT — какая нейросеть лучше в 2025?
           </h1>
 
-          <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
             Два главных AI-ассистента — Claude от Anthropic и ChatGPT от OpenAI. Оба умные, 
             оба платные, оба недоступны напрямую в России. Разбираемся, какой выбрать.
           </p>
 
           {/* Content */}
-          <div className="prose prose-lg prose-slate max-w-none">
+          <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
             
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Кратко: кто победил?</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Кратко: кто победил?</h2>
             
             <div className="grid md:grid-cols-2 gap-4 my-6">
-              <div className="bg-orange-50 border border-orange-200 rounded-xl p-5">
-                <h3 className="font-bold text-orange-900 mb-2">🏆 Claude лучше для:</h3>
-                <ul className="text-orange-800 text-sm space-y-1">
+              <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-5">
+                <h3 className="font-bold text-orange-900 dark:text-orange-100 mb-2">🏆 Claude лучше для:</h3>
+                <ul className="text-orange-800 dark:text-orange-200 text-sm space-y-1">
                   <li>• Длинных текстов и документов</li>
                   <li>• Анализа и редактирования</li>
                   <li>• Программирования</li>
                   <li>• Безопасных ответов</li>
                 </ul>
               </div>
-              <div className="bg-green-50 border border-green-200 rounded-xl p-5">
-                <h3 className="font-bold text-green-900 mb-2">🏆 ChatGPT лучше для:</h3>
+              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-5">
+                <h3 className="font-bold text-green-900 dark:text-green-100 mb-2">🏆 ChatGPT лучше для:</h3>
                 <ul className="text-green-800 text-sm space-y-1">
                   <li>• Креатива и brainstorm</li>
                   <li>• Работы с картинками</li>
@@ -79,8 +63,8 @@ export default function ArticlePage() {
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Модели Claude в LANA AI</h2>
-            <p className="text-slate-600 mb-4">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Модели Claude в LANA AI</h2>
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               Anthropic выпускает несколько версий Claude. Вот что доступно у нас:
             </p>
             
@@ -129,7 +113,7 @@ export default function ArticlePage() {
               </table>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Модели ChatGPT (OpenAI) в LANA AI</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Модели ChatGPT (OpenAI) в LANA AI</h2>
             
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse border border-slate-300 text-left">
@@ -176,44 +160,44 @@ export default function ArticlePage() {
               </table>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Сравнение по задачам</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Сравнение по задачам</h2>
 
             <h3 className="text-xl font-semibold text-slate-800 mt-6 mb-3">📝 Написание текстов</h3>
-            <p className="text-slate-600 mb-4">
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               <strong>Claude</strong> пишет более структурированные, аккуратные тексты. Лучше следует инструкциям.
               <br /><strong>ChatGPT</strong> более креативный, иногда "отходит от темы", но идеи генерирует интереснее.
             </p>
             <p className="text-purple-600 font-medium mb-4">Победитель: Claude для деловых текстов, ChatGPT для креатива</p>
 
             <h3 className="text-xl font-semibold text-slate-800 mt-6 mb-3">💻 Программирование</h3>
-            <p className="text-slate-600 mb-4">
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               <strong>Claude</strong> отлично пишет чистый, читаемый код. Хорошо объясняет.
               <br /><strong>ChatGPT o1</strong> лучше для сложной логики и алгоритмов.
             </p>
             <p className="text-purple-600 font-medium mb-4">Победитель: Ничья — зависит от задачи</p>
 
             <h3 className="text-xl font-semibold text-slate-800 mt-6 mb-3">📊 Анализ документов</h3>
-            <p className="text-slate-600 mb-4">
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               <strong>Claude</strong> может обработать до 200K символов — это ~500 страниц текста!
               <br /><strong>ChatGPT</strong> ограничен 128K символов в GPT-4 Turbo.
             </p>
             <p className="text-purple-600 font-medium mb-4">Победитель: Claude</p>
 
             <h3 className="text-xl font-semibold text-slate-800 mt-6 mb-3">🖼️ Работа с изображениями</h3>
-            <p className="text-slate-600 mb-4">
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               Оба понимают картинки (Vision). Но <strong>ChatGPT</strong> умеет ещё и генерировать 
               изображения через DALL-E (в LANA пока недоступно).
             </p>
             <p className="text-purple-600 font-medium mb-4">Победитель: ChatGPT (если нужна генерация)</p>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Что выбрать?</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Что выбрать?</h2>
             
-            <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 my-6">
-              <p className="text-purple-900 mb-4">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-6 my-6">
+              <p className="text-purple-900 dark:text-purple-100 mb-4">
                 <strong>Наш совет:</strong> не выбирайте что-то одно! В LANA AI доступны обе нейросети. 
                 Используйте ту, что лучше подходит для конкретной задачи:
               </p>
-              <ul className="text-purple-800 space-y-2">
+              <ul className="text-purple-800 dark:text-purple-200 space-y-2">
                 <li>• <strong>Claude 3.5 Sonnet</strong> — для текстов, анализа, кода</li>
                 <li>• <strong>GPT-4o</strong> — для креатива, картинок, быстрых ответов</li>
                 <li>• <strong>Claude Opus 4</strong> — для сложнейших задач</li>
@@ -232,8 +216,8 @@ export default function ArticlePage() {
               </Link>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Заключение</h2>
-            <p className="text-slate-600 mb-4">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Заключение</h2>
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               Claude и ChatGPT — оба отличные AI-ассистенты. Claude сильнее в работе с текстом 
               и документами, ChatGPT — в креативе и мультимодальности. Лучшая стратегия — 
               использовать оба инструмента для разных задач. В LANA AI Helper доступны все модели 
@@ -246,7 +230,7 @@ export default function ArticlePage() {
       {/* Related */}
       <section className="py-12 px-4 bg-slate-100">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">Читайте также</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <Link href="/blog/chatgpt-v-rossii-2025" className="bg-white p-4 rounded-xl hover:shadow-md transition">
               <h3 className="font-semibold text-slate-900">ChatGPT в России 2025</h3>
@@ -264,6 +248,6 @@ export default function ArticlePage() {
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
         <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
       </footer>
-    </div>
+    </>
   );
 }

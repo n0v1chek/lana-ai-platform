@@ -23,7 +23,7 @@ export function Footer() {
               Cookies
             </Link>
           </nav>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             © 2025 LANA AI Helper. ИНН 263109568337
           </p>
         </div>

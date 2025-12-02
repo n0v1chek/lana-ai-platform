@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CatLogo } from "@/components/CatLogo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -15,43 +14,29 @@ export const metadata: Metadata = {
 
 export default function ArticlePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <CatLogo size={32} />
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/blog" className="text-slate-600 hover:text-purple-600 transition">Блог</Link>
-            <Link href="/register" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-xl hover:opacity-90 transition">
-              Попробовать
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      <article className="py-12 px-4">
+    <>
+<article className="py-12 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
-            <Link href="/blog" className="text-purple-600 hover:underline">← Блог</Link>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">29 ноября 2025</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">8 мин чтения</span>
+            <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">8 мин чтения</span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
             Бесплатные vs платные нейросети: стоит ли платить?
           </h1>
 
-          <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
             Многие AI доступны бесплатно, но с ограничениями. Разбираемся, 
             когда хватит бесплатной версии, а когда стоит заплатить.
           </p>
 
-          <div className="prose prose-lg prose-slate max-w-none">
+          <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Что дают бесплатно</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Что дают бесплатно</h2>
 
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
@@ -87,43 +72,43 @@ export default function ArticlePage() {
               </table>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Типичные ограничения бесплатных версий</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Типичные ограничения бесплатных версий</h2>
 
             <div className="space-y-4 my-6">
               <div className="flex items-start gap-3 bg-red-50 p-4 rounded-xl">
                 <span className="text-xl">⏱️</span>
                 <div>
-                  <p className="font-medium text-red-900">Лимиты сообщений</p>
+                  <p className="font-medium text-red-900 dark:text-red-100">Лимиты сообщений</p>
                   <p className="text-red-700 text-sm">"Вы достигли лимита. Подождите 3 часа или оформите подписку"</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-red-50 p-4 rounded-xl">
                 <span className="text-xl">🐢</span>
                 <div>
-                  <p className="font-medium text-red-900">Медленные ответы</p>
+                  <p className="font-medium text-red-900 dark:text-red-100">Медленные ответы</p>
                   <p className="text-red-700 text-sm">Бесплатные пользователи в очереди, платные — в приоритете</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-red-50 p-4 rounded-xl">
                 <span className="text-xl">🧠</span>
                 <div>
-                  <p className="font-medium text-red-900">Слабые модели</p>
+                  <p className="font-medium text-red-900 dark:text-red-100">Слабые модели</p>
                   <p className="text-red-700 text-sm">Доступ к урезанным версиям вместо флагманских</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 bg-red-50 p-4 rounded-xl">
                 <span className="text-xl">🚫</span>
                 <div>
-                  <p className="font-medium text-red-900">Нет продвинутых функций</p>
+                  <p className="font-medium text-red-900 dark:text-red-100">Нет продвинутых функций</p>
                   <p className="text-red-700 text-sm">Генерация картинок, анализ файлов, плагины — только в платной</p>
                 </div>
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Когда хватит бесплатного</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Когда хватит бесплатного</h2>
 
-            <div className="bg-green-50 border border-green-200 rounded-xl p-5 my-4">
-              <ul className="text-green-800 space-y-2">
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-5 my-4">
+              <ul className="text-green-800 dark:text-green-200 space-y-2">
                 <li>✅ Редкое использование (пару раз в неделю)</li>
                 <li>✅ Простые вопросы и задачи</li>
                 <li>✅ Знакомство с AI, эксперименты</li>
@@ -131,10 +116,10 @@ export default function ArticlePage() {
               </ul>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Когда стоит платить</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Когда стоит платить</h2>
 
-            <div className="bg-purple-50 border border-purple-200 rounded-xl p-5 my-4">
-              <ul className="text-purple-800 space-y-2">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-5 my-4">
+              <ul className="text-purple-800 dark:text-purple-200 space-y-2">
                 <li>✅ Используете AI каждый день</li>
                 <li>✅ Важна скорость и стабильность</li>
                 <li>✅ Нужны топовые модели (GPT-4o, Claude Opus)</li>
@@ -143,7 +128,7 @@ export default function ArticlePage() {
               </ul>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Сколько стоит платный AI</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Сколько стоит платный AI</h2>
 
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
@@ -174,16 +159,16 @@ export default function ArticlePage() {
               </table>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Альтернатива: оплата за использование</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Альтернатива: оплата за использование</h2>
 
-            <p className="text-slate-600 mb-4">
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               Подписка $20/месяц — это дорого, если не пользуетесь каждый день. 
               Альтернатива — сервисы с оплатой за использование (pay-as-you-go):
             </p>
 
             <div className="bg-gradient-to-r from-purple-100 to-pink-100 border border-purple-200 rounded-xl p-6 my-6">
-              <h3 className="font-bold text-purple-900 mb-3">LANA AI — платите только за то, что используете</h3>
-              <ul className="text-purple-800 space-y-2 text-sm">
+              <h3 className="font-bold text-purple-900 dark:text-purple-100 mb-3">LANA AI — платите только за то, что используете</h3>
+              <ul className="text-purple-800 dark:text-purple-200 space-y-2 text-sm">
                 <li>✅ Все топовые модели: GPT-4o, Claude, Gemini, Grok, DeepSeek</li>
                 <li>✅ Минимальное пополнение: 49₽</li>
                 <li>✅ Баланс не сгорает</li>
@@ -192,11 +177,11 @@ export default function ArticlePage() {
               </ul>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Сравнение моделей оплаты</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Сравнение моделей оплаты</h2>
 
             <div className="grid md:grid-cols-3 gap-4 my-6">
-              <div className="bg-slate-100 rounded-xl p-5">
-                <h3 className="font-bold text-slate-900 mb-2">Бесплатно</h3>
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-5">
+                <h3 className="font-bold text-slate-900 dark:text-white mb-2">Бесплатно</h3>
                 <p className="text-slate-600 text-sm mb-3">Для редкого использования</p>
                 <ul className="text-slate-700 text-sm space-y-1">
                   <li>• Лимиты</li>
@@ -204,8 +189,8 @@ export default function ArticlePage() {
                   <li>• Слабые модели</li>
                 </ul>
               </div>
-              <div className="bg-slate-100 rounded-xl p-5">
-                <h3 className="font-bold text-slate-900 mb-2">Подписка</h3>
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-5">
+                <h3 className="font-bold text-slate-900 dark:text-white mb-2">Подписка</h3>
                 <p className="text-slate-600 text-sm mb-3">$20/мес фиксированно</p>
                 <ul className="text-slate-700 text-sm space-y-1">
                   <li>• Топовые модели</li>
@@ -214,7 +199,7 @@ export default function ArticlePage() {
                 </ul>
               </div>
               <div className="bg-purple-100 rounded-xl p-5 border-2 border-purple-300">
-                <h3 className="font-bold text-purple-900 mb-2">Pay-as-you-go</h3>
+                <h3 className="font-bold text-purple-900 dark:text-purple-100 mb-2">Pay-as-you-go</h3>
                 <p className="text-purple-700 text-sm mb-3">Платите за использование</p>
                 <ul className="text-purple-800 text-sm space-y-1">
                   <li>• Топовые модели</li>
@@ -240,7 +225,7 @@ export default function ArticlePage() {
 
       <section className="py-12 px-4 bg-slate-100">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">Читайте также</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <Link href="/blog/chatgpt-v-rossii-2025" className="bg-white p-4 rounded-xl hover:shadow-md transition">
               <h3 className="font-semibold text-slate-900">ChatGPT в России 2025</h3>
@@ -257,6 +242,6 @@ export default function ArticlePage() {
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
         <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
       </footer>
-    </div>
+    </>
   );
 }

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CatLogo } from '@/components/CatLogo';
-import { Footer } from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: "Блог о нейросетях и AI — LANA AI Helper",
@@ -22,7 +20,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "7 мин",
     tag: "Гайд",
-    tagColor: "bg-purple-100 text-purple-700",
+    tagColor: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
   },
   {
     slug: "luchshie-nejroseti-2025",
@@ -31,7 +29,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "10 мин",
     tag: "Обзор",
-    tagColor: "bg-blue-100 text-blue-700",
+    tagColor: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
   },
   {
     slug: "claude-vs-chatgpt",
@@ -40,7 +38,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "8 мин",
     tag: "Сравнение",
-    tagColor: "bg-green-100 text-green-700",
+    tagColor: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
   },
   {
     slug: "kak-pisat-prompty",
@@ -49,7 +47,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "12 мин",
     tag: "Гайд",
-    tagColor: "bg-purple-100 text-purple-700",
+    tagColor: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
   },
   {
     slug: "gemini-google-obzor",
@@ -58,7 +56,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "8 мин",
     tag: "Обзор",
-    tagColor: "bg-blue-100 text-blue-700",
+    tagColor: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
   },
   {
     slug: "deepseek-obzor",
@@ -67,7 +65,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "7 мин",
     tag: "Обзор",
-    tagColor: "bg-blue-100 text-blue-700",
+    tagColor: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
   },
   {
     slug: "grok-xai-obzor",
@@ -76,7 +74,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "6 мин",
     tag: "Обзор",
-    tagColor: "bg-blue-100 text-blue-700",
+    tagColor: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
   },
   {
     slug: "gpt4o-vs-gpt4-turbo",
@@ -85,7 +83,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "5 мин",
     tag: "Сравнение",
-    tagColor: "bg-green-100 text-green-700",
+    tagColor: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
   },
   {
     slug: "claude-opus-vs-sonnet",
@@ -94,7 +92,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "6 мин",
     tag: "Сравнение",
-    tagColor: "bg-green-100 text-green-700",
+    tagColor: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
   },
   {
     slug: "nejroset-dlya-tekstov",
@@ -103,7 +101,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "8 мин",
     tag: "Гайд",
-    tagColor: "bg-purple-100 text-purple-700",
+    tagColor: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
   },
   {
     slug: "nejroset-dlya-programmistov",
@@ -112,7 +110,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "9 мин",
     tag: "Гайд",
-    tagColor: "bg-purple-100 text-purple-700",
+    tagColor: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
   },
   {
     slug: "nejroset-dlya-ucheby",
@@ -121,7 +119,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "10 мин",
     tag: "Гайд",
-    tagColor: "bg-purple-100 text-purple-700",
+    tagColor: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
   },
   {
     slug: "ai-dlya-biznesa",
@@ -130,7 +128,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "10 мин",
     tag: "Бизнес",
-    tagColor: "bg-orange-100 text-orange-700",
+    tagColor: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300",
   },
   {
     slug: "ai-dlya-anglijskogo",
@@ -139,7 +137,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "8 мин",
     tag: "Гайд",
-    tagColor: "bg-purple-100 text-purple-700",
+    tagColor: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
   },
   {
     slug: "nejroset-dlya-rezyume",
@@ -148,7 +146,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "7 мин",
     tag: "Гайд",
-    tagColor: "bg-purple-100 text-purple-700",
+    tagColor: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
   },
   {
     slug: "gpt4o-vs-gemini",
@@ -157,7 +155,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "7 мин",
     tag: "Сравнение",
-    tagColor: "bg-green-100 text-green-700",
+    tagColor: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
   },
   {
     slug: "besplatnye-vs-platnye-nejroseti",
@@ -166,7 +164,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "8 мин",
     tag: "Гайд",
-    tagColor: "bg-purple-100 text-purple-700",
+    tagColor: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
   },
   {
     slug: "rossijskie-analogi-chatgpt",
@@ -175,7 +173,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "9 мин",
     tag: "Обзор",
-    tagColor: "bg-blue-100 text-blue-700",
+    tagColor: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
   },
   {
     slug: "novinki-ai-2025",
@@ -184,7 +182,7 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "10 мин",
     tag: "Новости",
-    tagColor: "bg-red-100 text-red-700",
+    tagColor: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
   },
   {
     slug: "budushchee-nejrosetej",
@@ -193,38 +191,23 @@ const articles = [
     date: "29 ноября 2025",
     readTime: "11 мин",
     tag: "Аналитика",
-    tagColor: "bg-pink-100 text-pink-700",
+    tagColor: "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300",
   },
 ];
 
 export default function BlogPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      {/* Header */}
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <CatLogo size={32} />
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/login" className="text-slate-600 hover:text-purple-600 transition">Войти</Link>
-            <Link href="/register" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-xl hover:opacity-90 transition">
-              Попробовать
-            </Link>
-          </nav>
-        </div>
-      </header>
-
+    <>
       {/* Hero */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
             Блог о нейросетях и AI
           </h1>
-          <p className="text-xl text-slate-600">
+          <p className="text-xl text-slate-600 dark:text-slate-300">
             Полезные статьи, гайды и сравнения. Учимся использовать искусственный интеллект эффективно.
           </p>
-          <p className="text-sm text-slate-500 mt-2">
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
             {articles.length} статей
           </p>
         </div>
@@ -235,24 +218,24 @@ export default function BlogPage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {articles.map((article) => (
-              <Link 
+              <Link
                 key={article.slug}
                 href={"/blog/" + article.slug}
-                className="bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-lg hover:border-purple-200 transition group"
+                className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 hover:shadow-lg hover:border-purple-200 dark:hover:border-purple-700 transition group"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <span className={"text-xs font-medium px-2 py-1 rounded-full " + article.tagColor}>
                     {article.tag}
                   </span>
-                  <span className="text-xs text-slate-400">{article.readTime}</span>
+                  <span className="text-xs text-slate-400 dark:text-slate-500">{article.readTime}</span>
                 </div>
-                <h2 className="text-lg font-semibold text-slate-900 mb-2 group-hover:text-purple-600 transition">
+                <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition">
                   {article.title}
                 </h2>
-                <p className="text-sm text-slate-600 mb-3">
+                <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
                   {article.description}
                 </p>
-                <p className="text-xs text-slate-400">{article.date}</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500">{article.date}</p>
               </Link>
             ))}
           </div>
@@ -266,17 +249,14 @@ export default function BlogPage() {
           <p className="text-lg opacity-90 mb-8">
             Лучшие нейросети мира. Работает в России без VPN.
           </p>
-          <Link 
-            href="/register" 
+          <Link
+            href="/register"
             className="inline-block bg-white text-purple-600 font-semibold px-8 py-3 rounded-xl hover:bg-slate-100 transition"
           >
             Попробовать сейчас
           </Link>
         </div>
       </section>
-
-      {/* Footer */}
-      <Footer />
-    </div>
+    </>
   );
 }

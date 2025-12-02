@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CatLogo } from "@/components/CatLogo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -15,46 +14,32 @@ export const metadata: Metadata = {
 
 export default function ArticlePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <CatLogo size={32} />
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/blog" className="text-slate-600 hover:text-purple-600 transition">Блог</Link>
-            <Link href="/register" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-xl hover:opacity-90 transition">
-              Попробовать
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      <article className="py-12 px-4">
+    <>
+<article className="py-12 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
-            <Link href="/blog" className="text-purple-600 hover:underline">← Блог</Link>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">29 ноября 2025</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">10 мин чтения</span>
+            <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">10 мин чтения</span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
             Что нового в AI в 2025 году: главные события
           </h1>
 
-          <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
             2025 год стал прорывным для искусственного интеллекта. 
             Обзор главных релизов, трендов и событий в мире нейросетей.
           </p>
 
-          <div className="prose prose-lg prose-slate max-w-none">
+          <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Главные релизы 2025</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Главные релизы 2025</h2>
 
             {/* GPT-4o */}
-            <div className="bg-green-50 border border-green-200 rounded-xl p-6 my-6">
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">🟢</span>
                 <h3 className="text-xl font-bold text-green-900 m-0">GPT-4o и o1/o3 от OpenAI</h3>
@@ -70,12 +55,12 @@ export default function ArticlePage() {
             </div>
 
             {/* Claude 4 */}
-            <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 my-6">
+            <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">🟠</span>
                 <h3 className="text-xl font-bold text-orange-900 m-0">Claude 4 (Sonnet и Opus) от Anthropic</h3>
               </div>
-              <p className="text-orange-800 mb-3">
+              <p className="text-orange-800 dark:text-orange-200 mb-3">
                 Anthropic представила Claude 4 — новое поколение с улучшенным кодом, 
                 анализом и "честностью". Claude Opus 4 стал одной из умнейших моделей в мире.
               </p>
@@ -85,7 +70,7 @@ export default function ArticlePage() {
             </div>
 
             {/* Gemini 2.5 */}
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 my-6">
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">🔵</span>
                 <h3 className="text-xl font-bold text-blue-900 m-0">Gemini 2.5 от Google</h3>
@@ -100,12 +85,12 @@ export default function ArticlePage() {
             </div>
 
             {/* DeepSeek */}
-            <div className="bg-red-50 border border-red-200 rounded-xl p-6 my-6">
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">🔴</span>
-                <h3 className="text-xl font-bold text-red-900 m-0">DeepSeek R1 из Китая</h3>
+                <h3 className="text-xl font-bold text-red-900 dark:text-red-100 m-0">DeepSeek R1 из Китая</h3>
               </div>
-              <p className="text-red-800 mb-3">
+              <p className="text-red-800 dark:text-red-200 mb-3">
                 Китайский стартап DeepSeek удивил мир моделью R1, которая конкурирует 
                 с GPT-4 при значительно меньшей стоимости. Открытый код и доступность.
               </p>
@@ -114,7 +99,7 @@ export default function ArticlePage() {
               </p>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Главные тренды 2025</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Главные тренды 2025</h2>
 
             <div className="space-y-4 my-6">
               <div className="flex items-start gap-4 bg-slate-100 p-5 rounded-xl">
@@ -173,11 +158,11 @@ export default function ArticlePage() {
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Что это значит для пользователей</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Что это значит для пользователей</h2>
 
             <div className="grid md:grid-cols-2 gap-4 my-6">
-              <div className="bg-green-50 border border-green-200 rounded-xl p-5">
-                <h3 className="font-bold text-green-900 mb-2">✅ Хорошие новости</h3>
+              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-5">
+                <h3 className="font-bold text-green-900 dark:text-green-100 mb-2">✅ Хорошие новости</h3>
                 <ul className="text-green-800 text-sm space-y-1">
                   <li>• AI стал умнее и полезнее</li>
                   <li>• Цены снижаются</li>
@@ -185,9 +170,9 @@ export default function ArticlePage() {
                   <li>• Новые возможности</li>
                 </ul>
               </div>
-              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5">
-                <h3 className="font-bold text-yellow-900 mb-2">⚠️ Вызовы</h3>
-                <ul className="text-yellow-800 text-sm space-y-1">
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-5">
+                <h3 className="font-bold text-yellow-900 dark:text-yellow-100 mb-2">⚠️ Вызовы</h3>
+                <ul className="text-yellow-800 dark:text-yellow-200 text-sm space-y-1">
                   <li>• Сложно выбрать модель</li>
                   <li>• Быстро устаревает информация</li>
                   <li>• Нужно учиться использовать</li>
@@ -211,7 +196,7 @@ export default function ArticlePage() {
 
       <section className="py-12 px-4 bg-slate-100">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">Читайте также</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <Link href="/blog/luchshie-nejroseti-2025" className="bg-white p-4 rounded-xl hover:shadow-md transition">
               <h3 className="font-semibold text-slate-900">Лучшие нейросети 2025</h3>
@@ -228,6 +213,6 @@ export default function ArticlePage() {
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
         <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
       </footer>
-    </div>
+    </>
   );
 }

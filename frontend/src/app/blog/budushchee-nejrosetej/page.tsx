@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CatLogo } from "@/components/CatLogo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -15,52 +14,38 @@ export const metadata: Metadata = {
 
 export default function ArticlePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <CatLogo size={32} />
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/blog" className="text-slate-600 hover:text-purple-600 transition">Блог</Link>
-            <Link href="/register" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-xl hover:opacity-90 transition">
-              Попробовать
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      <article className="py-12 px-4">
+    <>
+<article className="py-12 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
-            <Link href="/blog" className="text-purple-600 hover:underline">← Блог</Link>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">29 ноября 2025</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">11 мин чтения</span>
+            <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">11 мин чтения</span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
             Будущее нейросетей: прогнозы на 2026 год и далее
           </h1>
 
-          <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
             AI развивается стремительно. Что нас ждёт в ближайшие годы? 
             Разбираем прогнозы экспертов и тренды развития нейросетей.
           </p>
 
-          <div className="prose prose-lg prose-slate max-w-none">
+          <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
 
-            <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 my-6">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-6 my-6">
               <p className="text-purple-900 font-medium text-lg mb-2">🔮 Главный вопрос</p>
-              <p className="text-purple-800">
+              <p className="text-purple-800 dark:text-purple-200">
                 Когда появится AGI (Artificial General Intelligence) — AI, 
                 способный решать любые задачи на уровне человека? 
                 Эксперты называют сроки от 2-3 до 10+ лет.
               </p>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Прогнозы на 2026 год</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Прогнозы на 2026 год</h2>
 
             <div className="space-y-4 my-6">
               <div className="flex items-start gap-4 bg-blue-50 p-5 rounded-xl">
@@ -89,7 +74,7 @@ export default function ArticlePage() {
                 <span className="text-3xl">🎬</span>
                 <div>
                   <h3 className="font-bold text-orange-900 m-0">Генерация видео</h3>
-                  <p className="text-orange-800 text-sm mt-1">
+                  <p className="text-orange-800 dark:text-orange-200 text-sm mt-1">
                     После Sora от OpenAI — бум генерации видео. 
                     Создание рекламы, клипов, фильмов с помощью AI.
                   </p>
@@ -119,7 +104,7 @@ export default function ArticlePage() {
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Долгосрочные тренды</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Долгосрочные тренды</h2>
 
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
@@ -146,12 +131,12 @@ export default function ArticlePage() {
               </table>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Как изменится работа</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Как изменится работа</h2>
 
             <div className="grid md:grid-cols-2 gap-4 my-6">
-              <div className="bg-red-50 border border-red-200 rounded-xl p-5">
-                <h3 className="font-bold text-red-900 mb-2">Профессии под угрозой</h3>
-                <ul className="text-red-800 text-sm space-y-1">
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-5">
+                <h3 className="font-bold text-red-900 dark:text-red-100 mb-2">Профессии под угрозой</h3>
+                <ul className="text-red-800 dark:text-red-200 text-sm space-y-1">
                   <li>• Рутинное программирование</li>
                   <li>• Базовый копирайтинг</li>
                   <li>• Первая линия поддержки</li>
@@ -159,8 +144,8 @@ export default function ArticlePage() {
                   <li>• Базовый перевод</li>
                 </ul>
               </div>
-              <div className="bg-green-50 border border-green-200 rounded-xl p-5">
-                <h3 className="font-bold text-green-900 mb-2">Профессии будущего</h3>
+              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-5">
+                <h3 className="font-bold text-green-900 dark:text-green-100 mb-2">Профессии будущего</h3>
                 <ul className="text-green-800 text-sm space-y-1">
                   <li>• Prompt Engineer</li>
                   <li>• AI Trainer</li>
@@ -171,7 +156,7 @@ export default function ArticlePage() {
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Что делать уже сейчас</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Что делать уже сейчас</h2>
 
             <div className="space-y-3 my-6">
               <div className="flex items-start gap-3 bg-slate-100 p-4 rounded-xl">
@@ -204,9 +189,9 @@ export default function ArticlePage() {
               </div>
             </div>
 
-            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 my-6">
-              <p className="text-yellow-900 font-medium mb-2">💡 Главный вывод</p>
-              <p className="text-yellow-800">
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-6 my-6">
+              <p className="text-yellow-900 dark:text-yellow-100 font-medium mb-2">💡 Главный вывод</p>
+              <p className="text-yellow-800 dark:text-yellow-200">
                 AI не заменит людей — но люди, умеющие использовать AI, 
                 заменят тех, кто не умеет. Начните осваивать нейросети сейчас.
               </p>
@@ -228,7 +213,7 @@ export default function ArticlePage() {
 
       <section className="py-12 px-4 bg-slate-100">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">Читайте также</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <Link href="/blog/novinki-ai-2025" className="bg-white p-4 rounded-xl hover:shadow-md transition">
               <h3 className="font-semibold text-slate-900">Новинки AI 2025</h3>
@@ -245,6 +230,6 @@ export default function ArticlePage() {
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
         <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
       </footer>
-    </div>
+    </>
   );
 }

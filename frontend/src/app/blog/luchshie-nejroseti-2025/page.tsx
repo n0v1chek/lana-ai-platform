@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CatLogo } from "@/components/CatLogo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -15,50 +14,35 @@ export const metadata: Metadata = {
 
 export default function ArticlePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      {/* Header */}
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <CatLogo size={32} />
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/blog" className="text-slate-600 hover:text-purple-600 transition">Блог</Link>
-            <Link href="/register" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-xl hover:opacity-90 transition">
-              Попробовать
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      {/* Article */}
+    <>
+{/* Article */}
       <article className="py-12 px-4">
         <div className="max-w-3xl mx-auto">
           {/* Meta */}
           <div className="flex items-center gap-3 mb-6">
-            <Link href="/blog" className="text-purple-600 hover:underline">← Блог</Link>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">29 ноября 2025</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">10 мин чтения</span>
+            <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">10 мин чтения</span>
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
             Лучшие нейросети для работы в 2025 году
           </h1>
 
-          <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
             Полный гид по AI-моделям: от бюджетных до премиум. Какую нейросеть выбрать 
             для текстов, кода, анализа? Все лучшие модели AI доступны в LANA AI Helper.
           </p>
 
           {/* Content */}
-          <div className="prose prose-lg prose-slate max-w-none">
+          <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
             
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 my-6">
-              <h3 className="text-lg font-bold text-blue-900 mb-2">📋 Содержание</h3>
-              <ul className="text-blue-800 space-y-1 text-sm">
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6 my-6">
+              <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-2">📋 Содержание</h3>
+              <ul className="text-blue-800 dark:text-blue-200 space-y-1 text-sm">
                 <li>• <a href="#openai" className="hover:underline">OpenAI (ChatGPT)</a> — GPT-4o, o1, o3-mini</li>
                 <li>• <a href="#anthropic" className="hover:underline">Anthropic (Claude)</a> — Claude 3.5, Opus 4</li>
                 <li>• <a href="#google" className="hover:underline">Google (Gemini)</a> — Gemini 2.0, 2.5</li>
@@ -69,8 +53,8 @@ export default function ArticlePage() {
             </div>
 
             {/* OpenAI */}
-            <h2 id="openai" className="text-2xl font-bold text-slate-900 mt-10 mb-4">🟢 OpenAI (ChatGPT)</h2>
-            <p className="text-slate-600 mb-4">
+            <h2 id="openai" className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">🟢 OpenAI (ChatGPT)</h2>
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               Самые популярные нейросети в мире. OpenAI — создатели ChatGPT, лидеры рынка AI.
             </p>
 
@@ -142,7 +126,7 @@ export default function ArticlePage() {
               </div>
 
               <div className="bg-white border border-slate-200 rounded-xl p-5">
-                <h3 className="font-bold text-slate-900 mb-2">GPT-4 Turbo</h3>
+                <h3 className="font-bold text-slate-900 dark:text-white mb-2">GPT-4 Turbo</h3>
                 <p className="text-slate-600 text-sm mb-3">
                   Длинный контекст 128K символов. Для работы с большими документами.
                 </p>
@@ -150,8 +134,8 @@ export default function ArticlePage() {
             </div>
 
             {/* Anthropic */}
-            <h2 id="anthropic" className="text-2xl font-bold text-slate-900 mt-10 mb-4">🟠 Anthropic (Claude)</h2>
-            <p className="text-slate-600 mb-4">
+            <h2 id="anthropic" className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">🟠 Anthropic (Claude)</h2>
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               Главный конкурент OpenAI. Claude — безопасный, точный, отлично пишет код и тексты.
             </p>
 
@@ -213,8 +197,8 @@ export default function ArticlePage() {
             </div>
 
             {/* Google */}
-            <h2 id="google" className="text-2xl font-bold text-slate-900 mt-10 mb-4">🔵 Google (Gemini)</h2>
-            <p className="text-slate-600 mb-4">
+            <h2 id="google" className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">🔵 Google (Gemini)</h2>
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               AI от Google. Быстрый, хорошо работает с фактами и поиском информации.
             </p>
 
@@ -251,8 +235,8 @@ export default function ArticlePage() {
             </div>
 
             {/* DeepSeek */}
-            <h2 id="deepseek" className="text-2xl font-bold text-slate-900 mt-10 mb-4">🟣 DeepSeek</h2>
-            <p className="text-slate-600 mb-4">
+            <h2 id="deepseek" className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">🟣 DeepSeek</h2>
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               Китайская компания с прорывными моделями. Очень дешёвые и при этом умные.
             </p>
 
@@ -279,8 +263,8 @@ export default function ArticlePage() {
             </div>
 
             {/* xAI */}
-            <h2 id="xai" className="text-2xl font-bold text-slate-900 mt-10 mb-4">⚫ xAI (Grok)</h2>
-            <p className="text-slate-600 mb-4">
+            <h2 id="xai" className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">⚫ xAI (Grok)</h2>
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               Компания Илона Маска. Grok — дерзкий AI с чувством юмора.
             </p>
 
@@ -297,14 +281,14 @@ export default function ArticlePage() {
             </div>
 
             {/* Mistral */}
-            <h2 id="mistral" className="text-2xl font-bold text-slate-900 mt-10 mb-4">🔴 Mistral AI</h2>
-            <p className="text-slate-600 mb-4">
+            <h2 id="mistral" className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">🔴 Mistral AI</h2>
+            <p className="text-slate-600 dark:text-slate-300 mb-4">
               Французский стартап. Открытые модели высокого качества.
             </p>
 
             <div className="space-y-4 my-6">
               <div className="bg-white border border-slate-200 rounded-xl p-5">
-                <h3 className="font-bold text-slate-900 mb-2">Mistral Large</h3>
+                <h3 className="font-bold text-slate-900 dark:text-white mb-2">Mistral Large</h3>
                 <p className="text-slate-600 text-sm mb-3">
                   Топовая модель Mistral. Хороша для европейских языков, кода, анализа.
                 </p>
@@ -312,7 +296,7 @@ export default function ArticlePage() {
             </div>
 
             {/* Summary */}
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Какую выбрать?</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Какую выбрать?</h2>
             
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse border border-slate-300 text-left text-sm">
@@ -382,6 +366,6 @@ export default function ArticlePage() {
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
         <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
       </footer>
-    </div>
+    </>
   );
 }

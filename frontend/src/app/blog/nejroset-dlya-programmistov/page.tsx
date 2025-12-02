@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CatLogo } from "@/components/CatLogo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -15,55 +14,41 @@ export const metadata: Metadata = {
 
 export default function ArticlePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <CatLogo size={32} />
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/blog" className="text-slate-600 hover:text-purple-600 transition">Блог</Link>
-            <Link href="/register" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-xl hover:opacity-90 transition">
-              Попробовать
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      <article className="py-12 px-4">
+    <>
+<article className="py-12 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
-            <Link href="/blog" className="text-purple-600 hover:underline">← Блог</Link>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">29 ноября 2025</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">9 мин чтения</span>
+            <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">9 мин чтения</span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
             Лучшие нейросети для программирования в 2025
           </h1>
 
-          <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
             AI-ассистенты стали незаменимыми для разработчиков. Разбираемся, 
             какая нейросеть лучше пишет код, отлаживает и помогает с архитектурой.
           </p>
 
-          <div className="prose prose-lg prose-slate max-w-none">
+          <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
 
             <div className="bg-slate-800 text-white rounded-xl p-6 my-6">
               <p className="font-medium text-lg mb-2">💻 Короткий ответ</p>
-              <p className="text-slate-300">
+              <p className="text-slate-500 dark:text-slate-600">
                 <strong className="text-white">Claude Sonnet</strong> — лучший для сложного кода и архитектуры<br/>
                 <strong className="text-white">GPT-4o</strong> — универсальный, хорош для всего<br/>
                 <strong className="text-white">DeepSeek</strong> — отличное качество за минимальные деньги
               </p>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Рейтинг AI для программирования</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Рейтинг AI для программирования</h2>
 
             {/* 1. Claude */}
-            <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 my-6">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">🥇</span>
                 <h3 className="text-xl font-bold text-purple-900 m-0">Claude Sonnet — король кода</h3>
@@ -81,7 +66,7 @@ export default function ArticlePage() {
             </div>
 
             {/* 2. GPT-4o */}
-            <div className="bg-green-50 border border-green-200 rounded-xl p-6 my-6">
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">🥈</span>
                 <h3 className="text-xl font-bold text-green-900 m-0">GPT-4o — универсальный боец</h3>
@@ -99,12 +84,12 @@ export default function ArticlePage() {
             </div>
 
             {/* 3. DeepSeek */}
-            <div className="bg-red-50 border border-red-200 rounded-xl p-6 my-6">
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">🥉</span>
-                <h3 className="text-xl font-bold text-red-900 m-0">DeepSeek R1 — бюджетный гений</h3>
+                <h3 className="text-xl font-bold text-red-900 dark:text-red-100 m-0">DeepSeek R1 — бюджетный гений</h3>
               </div>
-              <p className="text-red-800 mb-3">
+              <p className="text-red-800 dark:text-red-200 mb-3">
                 DeepSeek удивляет: качество на уровне GPT-4, но значительно дешевле. 
                 Модель R1 особенно хороша в логических задачах и алгоритмах.
               </p>
@@ -117,7 +102,7 @@ export default function ArticlePage() {
             </div>
 
             {/* 4. o1/o3 */}
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 my-6">
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">4️⃣</span>
                 <h3 className="text-xl font-bold text-blue-900 m-0">OpenAI o1/o3 — для сверхсложных задач</h3>
@@ -134,7 +119,7 @@ export default function ArticlePage() {
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Какую модель под какую задачу</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Какую модель под какую задачу</h2>
 
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
@@ -181,28 +166,28 @@ export default function ArticlePage() {
               </table>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Советы для работы с AI</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Советы для работы с AI</h2>
 
             <div className="space-y-4 my-6">
-              <div className="bg-slate-100 rounded-xl p-4">
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
                 <p className="font-medium text-slate-900">📋 Давайте контекст</p>
                 <p className="text-slate-600 text-sm mt-1">
                   "Пишу на Python 3.11, использую FastAPI и SQLAlchemy. Нужна функция для..."
                 </p>
               </div>
-              <div className="bg-slate-100 rounded-xl p-4">
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
                 <p className="font-medium text-slate-900">🔍 Показывайте код</p>
                 <p className="text-slate-600 text-sm mt-1">
                   Вставляйте существующий код — AI лучше поймёт стиль и структуру проекта
                 </p>
               </div>
-              <div className="bg-slate-100 rounded-xl p-4">
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
                 <p className="font-medium text-slate-900">❓ Просите объяснения</p>
                 <p className="text-slate-600 text-sm mt-1">
                   "Объясни почему ты выбрал такой подход" — поможет учиться и находить ошибки
                 </p>
               </div>
-              <div className="bg-slate-100 rounded-xl p-4">
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
                 <p className="font-medium text-slate-900">🧪 Просите тесты</p>
                 <p className="text-slate-600 text-sm mt-1">
                   "Напиши unit-тесты для этой функции" — AI хорошо генерирует тесты
@@ -226,7 +211,7 @@ export default function ArticlePage() {
 
       <section className="py-12 px-4 bg-slate-100">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">Читайте также</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <Link href="/blog/claude-opus-vs-sonnet" className="bg-white p-4 rounded-xl hover:shadow-md transition">
               <h3 className="font-semibold text-slate-900">Claude Opus vs Sonnet</h3>
@@ -243,6 +228,6 @@ export default function ArticlePage() {
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
         <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
       </footer>
-    </div>
+    </>
   );
 }

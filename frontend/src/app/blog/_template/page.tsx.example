@@ -1,0 +1,85 @@
+// ШАБЛОН ДЛЯ НОВОЙ СТАТЬИ БЛОГА
+// Скопируйте этот файл в новую папку и переименуйте в page.tsx
+
+import type { Metadata } from "next";
+import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Заголовок статьи — LANA AI Helper",
+  description: "Описание статьи для поисковиков (150-160 символов)",
+  keywords: ["ключевое слово 1", "ключевое слово 2"],
+  openGraph: {
+    title: "Заголовок статьи",
+    description: "Описание для соцсетей",
+    url: "https://lanaaihelper.ru/blog/slug-statyi",
+  },
+};
+
+export default function ArticlePage() {
+  return (
+    <article className="py-12 px-4">
+      <div className="max-w-3xl mx-auto">
+        {/* Meta */}
+        <div className="flex items-center gap-3 mb-6">
+          <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
+          <span className="text-slate-400 dark:text-slate-600">|</span>
+          <span className="text-slate-500 dark:text-slate-400">DD месяца YYYY</span>
+          <span className="text-slate-400 dark:text-slate-600">|</span>
+          <span className="text-slate-500 dark:text-slate-400">X мин чтения</span>
+        </div>
+
+        {/* Title */}
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
+          Заголовок статьи
+        </h1>
+
+        <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
+          Вводный абзац статьи. Кратко о чём пойдёт речь.
+        </p>
+
+        {/* Content */}
+        <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">
+            Подзаголовок раздела
+          </h2>
+          <p className="text-slate-600 dark:text-slate-300 mb-4">
+            Текст раздела...
+          </p>
+
+          {/* Блок-подсказка (фиолетовый) */}
+          <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-6 my-6">
+            <h3 className="text-lg font-bold text-purple-900 dark:text-purple-100 mb-2">Заголовок блока</h3>
+            <ul className="text-purple-800 dark:text-purple-200 space-y-2">
+              <li>✅ Пункт 1</li>
+              <li>✅ Пункт 2</li>
+            </ul>
+          </div>
+
+          {/* Блок информации (синий) */}
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6 my-6">
+            <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-2">Информация</h3>
+            <p className="text-blue-800 dark:text-blue-200">Текст...</p>
+          </div>
+
+          {/* Блок предупреждения (оранжевый) */}
+          <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-6 my-6">
+            <h3 className="text-lg font-bold text-orange-900 dark:text-orange-100 mb-2">⚠️ Важно</h3>
+            <p className="text-orange-800 dark:text-orange-200">Текст предупреждения...</p>
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="mt-12 p-8 bg-gradient-to-r from-purple-600 to-pink-500 rounded-2xl text-center text-white">
+          <h3 className="text-2xl font-bold mb-3">Попробуйте LANA AI</h3>
+          <p className="opacity-90 mb-6">Все модели в одном месте. Работает в России.</p>
+          <Link
+            href="/register"
+            className="inline-block bg-white text-purple-600 font-semibold px-8 py-3 rounded-xl hover:bg-slate-100 transition"
+          >
+            Попробовать бесплатно
+          </Link>
+        </div>
+      </div>
+    </article>
+  );
+}

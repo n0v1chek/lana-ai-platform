@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CatLogo } from "@/components/CatLogo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -15,51 +14,37 @@ export const metadata: Metadata = {
 
 export default function ArticlePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <CatLogo size={32} />
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/blog" className="text-slate-600 hover:text-purple-600 transition">Блог</Link>
-            <Link href="/register" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-xl hover:opacity-90 transition">
-              Попробовать
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      <article className="py-12 px-4">
+    <>
+<article className="py-12 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
-            <Link href="/blog" className="text-purple-600 hover:underline">← Блог</Link>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">29 ноября 2025</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-500">9 мин чтения</span>
+            <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
+            <span className="text-slate-500 dark:text-slate-600">|</span>
+            <span className="text-slate-500 dark:text-slate-400">9 мин чтения</span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
             Российские аналоги ChatGPT: что есть в 2025 году
           </h1>
 
-          <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
             В России развиваются свои нейросети: YandexGPT, GigaChat от Сбера. 
             Разбираем, могут ли они конкурировать с ChatGPT и Claude.
           </p>
 
-          <div className="prose prose-lg prose-slate max-w-none">
+          <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Главные российские нейросети</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Главные российские нейросети</h2>
 
             {/* YandexGPT */}
-            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 my-6">
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">🔍</span>
-                <h3 className="text-xl font-bold text-yellow-900 m-0">YandexGPT (Алиса)</h3>
+                <h3 className="text-xl font-bold text-yellow-900 dark:text-yellow-100 m-0">YandexGPT (Алиса)</h3>
               </div>
-              <p className="text-yellow-800 mb-3">
+              <p className="text-yellow-800 dark:text-yellow-200 mb-3">
                 Нейросеть от Яндекса, встроенная в Алису и Яндекс Браузер. 
                 Хорошо знает русский язык и российские реалии.
               </p>
@@ -72,7 +57,7 @@ export default function ArticlePage() {
             </div>
 
             {/* GigaChat */}
-            <div className="bg-green-50 border border-green-200 rounded-xl p-6 my-6">
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">💚</span>
                 <h3 className="text-xl font-bold text-green-900 m-0">GigaChat (Сбер)</h3>
@@ -90,7 +75,7 @@ export default function ArticlePage() {
             </div>
 
             {/* Kandinsky */}
-            <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 my-6">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-6 my-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-2xl">🎨</span>
                 <h3 className="text-xl font-bold text-purple-900 m-0">Kandinsky (Сбер)</h3>
@@ -107,7 +92,7 @@ export default function ArticlePage() {
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Сравнение с мировыми лидерами</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Сравнение с мировыми лидерами</h2>
 
             <div className="overflow-x-auto my-6">
               <table className="w-full border-collapse text-sm">
@@ -154,10 +139,10 @@ export default function ArticlePage() {
               </table>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Плюсы российских нейросетей</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Плюсы российских нейросетей</h2>
 
-            <div className="bg-green-50 border border-green-200 rounded-xl p-5 my-4">
-              <ul className="text-green-800 space-y-2">
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-5 my-4">
+              <ul className="text-green-800 dark:text-green-200 space-y-2">
                 <li>✅ Работают в России без VPN и ограничений</li>
                 <li>✅ Оплата в рублях</li>
                 <li>✅ Хорошо понимают русский контекст и реалии</li>
@@ -166,10 +151,10 @@ export default function ArticlePage() {
               </ul>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Минусы российских нейросетей</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Минусы российских нейросетей</h2>
 
-            <div className="bg-red-50 border border-red-200 rounded-xl p-5 my-4">
-              <ul className="text-red-800 space-y-2">
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-5 my-4">
+              <ul className="text-red-800 dark:text-red-200 space-y-2">
                 <li>❌ Уступают GPT-4 и Claude по качеству</li>
                 <li>❌ Слабее в коде и сложной логике</li>
                 <li>❌ Меньше возможностей и интеграций</li>
@@ -177,30 +162,30 @@ export default function ArticlePage() {
               </ul>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">Когда что использовать</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Когда что использовать</h2>
 
             <div className="space-y-3 my-6">
-              <div className="bg-slate-100 rounded-xl p-4">
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
                 <p className="font-medium text-slate-900">Простые задачи на русском</p>
                 <p className="text-slate-600 text-sm mt-1">→ YandexGPT или GigaChat (бесплатно)</p>
               </div>
-              <div className="bg-slate-100 rounded-xl p-4">
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
                 <p className="font-medium text-slate-900">Генерация картинок</p>
                 <p className="text-slate-600 text-sm mt-1">→ Kandinsky (бесплатно, хорошее качество)</p>
               </div>
-              <div className="bg-slate-100 rounded-xl p-4">
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
                 <p className="font-medium text-slate-900">Программирование</p>
                 <p className="text-slate-600 text-sm mt-1">→ GPT-4o или Claude (российские слабы в коде)</p>
               </div>
-              <div className="bg-slate-100 rounded-xl p-4">
+              <div className="bg-slate-100 dark:bg-slate-700 rounded-xl p-4">
                 <p className="font-medium text-slate-900">Серьёзная работа</p>
                 <p className="text-slate-600 text-sm mt-1">→ GPT-4o, Claude, Gemini (мировые лидеры)</p>
               </div>
             </div>
 
-            <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 my-6">
+            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-6 my-6">
               <p className="text-purple-900 font-medium mb-2">💡 Оптимальная стратегия</p>
-              <p className="text-purple-800">
+              <p className="text-purple-800 dark:text-purple-200">
                 Используйте российские нейросети для простых задач (бесплатно), 
                 а для серьёзной работы — мировые модели через LANA AI (доступ в России, оплата в рублях).
               </p>
@@ -222,7 +207,7 @@ export default function ArticlePage() {
 
       <section className="py-12 px-4 bg-slate-100">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">Читайте также</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Читайте также</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <Link href="/blog/chatgpt-v-rossii-2025" className="bg-white p-4 rounded-xl hover:shadow-md transition">
               <h3 className="font-semibold text-slate-900">ChatGPT в России</h3>
@@ -239,6 +224,6 @@ export default function ArticlePage() {
       <footer className="py-8 px-4 bg-slate-900 text-slate-400 text-center">
         <p>© 2025 LANA AI Helper. ИНН 263109568337</p>
       </footer>
-    </div>
+    </>
   );
 }
