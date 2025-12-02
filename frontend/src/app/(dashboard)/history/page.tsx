@@ -1,6 +1,5 @@
 'use client';
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -20,7 +19,7 @@ import type { Conversation } from '@/types';
 
 export default function HistoryPage() {
   const router = useRouter();
-  const { isAuthenticated, isLoading: authLoading, fetchUser } = useAuthStore();
+  const { isAuthenticated, isLoading: authLoading, isInitialized, fetchUser } = useAuthStore();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -30,18 +29,12 @@ export default function HistoryPage() {
   }, [fetchUser]);
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
+    if (isInitialized && !isAuthenticated) {
       router.push('/login');
     }
-  }, [authLoading, isAuthenticated, router]);
+  }, [isInitialized, isAuthenticated, router]);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      loadConversations();
-    }
-  }, [isAuthenticated]);
-
-  const loadConversations = async () => {
+  const loadConversations = useCallback(async () => {
     try {
       setLoading(true);
       const data = await chatApi.getConversations();
@@ -51,11 +44,17 @@ export default function HistoryPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadConversations();
+    }
+  }, [isAuthenticated, loadConversations]);
 
   const deleteConversation = async (id: number) => {
     if (!confirm('Удалить этот диалог?')) return;
-    
+
     try {
       await chatApi.deleteConversation(id);
       setConversations(prev => prev.filter(c => c.id !== id));
@@ -78,66 +77,59 @@ export default function HistoryPage() {
     });
   };
 
-  if (authLoading) {
+  if (authLoading || !isInitialized) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
-        <div className="text-center">
-          <CatLogo size={28} />
-          <p className="text-slate-500">Загрузка...</p>
-        </div>
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center">
+        <div className="text-slate-600 dark:text-slate-400">Загрузка...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
-      {/* Header */}
-      <header className="sticky top-0 z-10 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
-        <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/chat">
-              <Button variant="ghost" size="sm" leftIcon={<ArrowLeft size={18} />}>
-                Назад
-              </Button>
-            </Link>
-            <h1 className="font-display text-xl font-bold text-slate-900 dark:text-white">
-              История диалогов
-            </h1>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        <div className="max-w-5xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Link href="/chat">
+                <Button variant="ghost" size="sm" leftIcon={<ArrowLeft size={18} />}>
+                  Назад
+                </Button>
+              </Link>
+              <div>
+                <h1 className="text-xl font-bold text-slate-900 dark:text-white">История диалогов</h1>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                  {conversations.length} {conversations.length === 1 ? 'диалог' : 'диалогов'}
+                </p>
+              </div>
+            </div>
+            <CatLogo size={40} />
           </div>
         </div>
       </header>
 
-      {/* Content */}
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        {/* Search */}
+      <main className="max-w-5xl mx-auto px-4 py-8">
         <div className="mb-6">
           <Input
-            placeholder="Поиск по диалогам..."
             leftIcon={<Search size={18} />}
+            placeholder="Поиск по диалогам..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
-        {/* Conversations List */}
         {loading ? (
-          <div className="text-center py-12">
-            <div className="w-8 h-8 border-2 border-lana-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-slate-500">Загрузка диалогов...</p>
+          <div className="text-center py-12 text-slate-600 dark:text-slate-400">
+            Загрузка диалогов...
           </div>
         ) : filteredConversations.length === 0 ? (
           <Card className="text-center py-12">
-            <MessageSquare className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
-            <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-white mb-2">
-              {searchQuery ? 'Ничего не найдено' : 'Нет диалогов'}
-            </h3>
-            <p className="text-slate-500 dark:text-slate-400 mb-6">
-              {searchQuery
-                ? 'Попробуйте изменить поисковый запрос'
-                : 'Начните новый разговор с AI'}
+            <MessageSquare size={48} className="mx-auto mb-4 text-slate-400" />
+            <p className="text-slate-600 dark:text-slate-400 mb-4">
+              {searchQuery ? 'Диалоги не найдены' : 'У вас пока нет диалогов'}
             </p>
             <Link href="/chat">
-              <Button>Начать чат</Button>
+              <Button>Начать диалог</Button>
             </Link>
           </Card>
         ) : (
@@ -145,39 +137,37 @@ export default function HistoryPage() {
             {filteredConversations.map((conv) => (
               <Card
                 key={conv.id}
-                className="group hover:shadow-md transition-all duration-200"
-                padding="md"
+                className="hover:shadow-md transition-shadow cursor-pointer"
+                onClick={() => router.push(`/chat?id=${conv.id}`)}
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 flex-1 min-w-0">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-lana-100 to-purple-100 dark:from-lana-900/30 dark:to-purple-900/30 flex items-center justify-center flex-shrink-0">
-                      <MessageSquare className="w-5 h-5 text-lana-600 dark:text-lana-400" />
-                    </div>
+                  <div className="flex items-start gap-3 flex-1 min-w-0">
+                    <MessageSquare size={20} className="text-purple-600 mt-1 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <h3 className="font-medium text-slate-900 dark:text-white truncate">
-                        {conv.title || 'Без названия'}
+                        {conv.title || 'Новый диалог'}
                       </h3>
-                      <div className="flex items-center gap-2 text-sm text-slate-500">
+                      <div className="flex items-center gap-2 mt-1 text-sm text-slate-500 dark:text-slate-400">
                         <Calendar size={14} />
-                        <span>{formatDate(conv.created_at)}</span>
+                        <span>{formatDate(conv.updated_at)}</span>
                         <span>•</span>
                         <span>{conv.messages_count || 0} сообщений</span>
                       </div>
                     </div>
                   </div>
-                  
                   <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => deleteConversation(conv.id)}
-                      className="p-2 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 opacity-0 group-hover:opacity-100 transition-all"
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteConversation(conv.id);
+                      }}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
                     >
-                      <Trash2 size={18} />
-                    </button>
-                    <Link href={`/chat?id=${conv.id}`}>
-                      <Button variant="ghost" size="sm" rightIcon={<ChevronRight size={16} />}>
-                        Открыть
-                      </Button>
-                    </Link>
+                      <Trash2 size={16} />
+                    </Button>
+                    <ChevronRight size={20} className="text-slate-400" />
                   </div>
                 </div>
               </Card>

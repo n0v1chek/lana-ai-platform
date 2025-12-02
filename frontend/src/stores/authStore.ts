@@ -22,6 +22,7 @@ interface AuthState {
   user: User | null;
   token: string | null;
   isLoading: boolean;
+  isInitialized: boolean;
   isAuthenticated: boolean;
   error: string | null;
   login: (data: LoginRequest) => Promise<void>;
@@ -38,6 +39,7 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       token: null,
       isLoading: false,
+      isInitialized: false,
       isAuthenticated: false,
       error: null,
 
@@ -51,11 +53,12 @@ export const useAuthStore = create<AuthState>()(
             token: response.access_token,
             isAuthenticated: true,
             isLoading: false,
+            isInitialized: true,
           });
         } catch (error: unknown) {
           const axiosError = error as { response?: { data?: { detail?: string } } };
           const message = axiosError.response?.data?.detail || 'Ошибка входа';
-          set({ error: message, isLoading: false });
+          set({ error: message, isLoading: false, isInitialized: true });
           throw error;
         }
       },
@@ -70,11 +73,12 @@ export const useAuthStore = create<AuthState>()(
             token: response.access_token,
             isAuthenticated: true,
             isLoading: false,
+            isInitialized: true,
           });
         } catch (error: unknown) {
           const axiosError = error as { response?: { data?: { detail?: string } } };
           const message = axiosError.response?.data?.detail || 'Ошибка регистрации';
-          set({ error: message, isLoading: false });
+          set({ error: message, isLoading: false, isInitialized: true });
           throw error;
         }
       },
@@ -86,6 +90,7 @@ export const useAuthStore = create<AuthState>()(
           token: null,
           isAuthenticated: false,
           isLoading: false,
+          isInitialized: true,
           error: null,
         });
       },
@@ -93,9 +98,10 @@ export const useAuthStore = create<AuthState>()(
       fetchUser: async () => {
         const token = get().token || localStorage.getItem('token');
         if (!token) {
-          set({ isAuthenticated: false, isLoading: false });
+          set({ isAuthenticated: false, isLoading: false, isInitialized: true });
           return;
         }
+        
         set({ isLoading: true });
         try {
           const user = await authApi.me();
@@ -104,15 +110,30 @@ export const useAuthStore = create<AuthState>()(
             token,
             isAuthenticated: true,
             isLoading: false,
+            isInitialized: true,
           });
-        } catch {
-          localStorage.removeItem('token');
-          set({
-            user: null,
-            token: null,
-            isAuthenticated: false,
-            isLoading: false,
-          });
+        } catch (error: any) {
+          // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: удаляем токен ТОЛЬКО при 401
+          const is401 = error?.response?.status === 401;
+          
+          if (is401) {
+            // Токен невалидный - удаляем
+            localStorage.removeItem('token');
+            set({
+              user: null,
+              token: null,
+              isAuthenticated: false,
+              isLoading: false,
+              isInitialized: true,
+            });
+          } else {
+            // Временная ошибка (сеть, 500) - НЕ удаляем токен
+            set({
+              isLoading: false,
+              isInitialized: true,
+              // Оставляем isAuthenticated false, но токен сохраняем
+            });
+          }
         }
       },
 

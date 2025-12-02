@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { CatLogo } from '@/components/CatLogo';
-import { User, Lock, Mail, ArrowRight } from 'lucide-react';
+import { User, Lock, Mail, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Button, Input, Card } from '@/components/ui';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -137,6 +137,12 @@ function RegisterForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 p-4">
       <Card className="w-full max-w-md p-8 bg-white dark:bg-slate-800 shadow-xl border-slate-200 dark:border-slate-700">
+          <div className="flex justify-start mb-4">
+            <Link href="/" className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 flex items-center gap-1 text-sm">
+              <ArrowLeft className="w-4 h-4" />
+              На главную
+            </Link>
+          </div>
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <CatLogo size={64} />

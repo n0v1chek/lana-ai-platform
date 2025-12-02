@@ -57,7 +57,7 @@ interface PricesData {
 
 export default function PricingPage() {
   const router = useRouter();
-  const { user, isAuthenticated, isLoading: authLoading, fetchUser } = useAuthStore();
+  const { user, isAuthenticated, isLoading: authLoading, isInitialized, fetchUser } = useAuthStore();
   const [rubAmount, setRubAmount] = useState<string>('100');
   const [topupLoading, setTopupLoading] = useState(false);
   const [pricesData, setPricesData] = useState<PricesData | null>(null);
@@ -116,10 +116,10 @@ export default function PricingPage() {
   }, [fetchUser]);
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
+    if (isInitialized && !isAuthenticated) {
       router.push('/login');
     }
-  }, [authLoading, isAuthenticated, router]);
+  }, [isInitialized, isAuthenticated, router]);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('ru-RU').format(price);

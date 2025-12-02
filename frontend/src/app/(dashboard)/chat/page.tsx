@@ -94,7 +94,7 @@ function ChatPageContent() {
   const [topupAmount, setTopupAmount] = useState(49);
   const [topupLoading, setTopupLoading] = useState(false);
 
-  const { user, isAuthenticated, isLoading: authLoading, fetchUser, logout } = useAuthStore();
+  const { user, isAuthenticated, isLoading: authLoading, isInitialized, fetchUser, logout } = useAuthStore();
   const {
     messages,
     conversations,
@@ -116,10 +116,10 @@ function ChatPageContent() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!authLoading && !isAuthenticated && !token) {
+    if (isInitialized && !isAuthenticated) {
       router.push('/login');
     }
-  }, [authLoading, isAuthenticated, router]);
+  }, [isInitialized, isAuthenticated, router]);
 
   useEffect(() => {
     if (isAuthenticated) {

@@ -33,7 +33,7 @@ export default function CookiesPage() {
 
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm prose prose-slate dark:prose-invert max-w-none">
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-              Редакция от 28 ноября 2025 года
+              Редакция от 2 декабря 2025 года
             </p>
 
             <h2>1. Что такое cookies</h2>
@@ -45,77 +45,85 @@ export default function CookiesPage() {
 
             <h2>2. Какие cookies мы используем</h2>
             
-            <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800 my-4">
-              <strong>Мы используем только строго необходимые (технические) cookies.</strong>
-            </div>
-
-            <h3>2.1. Технические cookies</h3>
+            <h3>2.1. Технические cookies (обязательные)</h3>
             <p>Необходимы для работы сайта:</p>
             <ul>
               <li><strong>Авторизация</strong> — хранение токена для входа в аккаунт</li>
-              <li><strong>Сессия</strong> — поддержание активной сессии пользователя</li>
               <li><strong>Настройки интерфейса</strong> — тема оформления (светлая/тёмная)</li>
+              <li><strong>Согласие</strong> — запоминание вашего согласия с политиками</li>
             </ul>
 
-            <h3>2.2. Чего мы НЕ используем</h3>
-            <ul>
-              <li>Рекламные cookies</li>
-              <li>Cookies для отслеживания (tracking)</li>
-              <li>Аналитические cookies третьих сторон</li>
-              <li>Cookies социальных сетей</li>
-              <li>Cookies для таргетированной рекламы</li>
-            </ul>
+            <h3>2.2. Аналитические cookies</h3>
+            <p>Используются для улучшения качества сервиса:</p>
+            
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800 my-4">
+              <p className="mb-2 font-semibold">Яндекс.Метрика (счётчик № 105576416)</p>
+              <ul className="mb-0 text-sm">
+                <li>Вебвизор — запись действий на сайте</li>
+                <li>Карта кликов и скроллинга</li>
+                <li>Аналитика форм</li>
+                <li>Источники трафика</li>
+              </ul>
+              <p className="mt-2 text-xs">
+                <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener noreferrer" className="text-lana-500">
+                  Политика Яндекса →
+                </a>
+              </p>
+            </div>
 
-            <h2>3. Срок хранения</h2>
-            <table className="w-full text-sm">
-              <thead>
-                <tr>
-                  <th className="text-left p-2 border-b">Тип</th>
-                  <th className="text-left p-2 border-b">Назначение</th>
-                  <th className="text-left p-2 border-b">Срок</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="p-2 border-b">token</td>
-                  <td className="p-2 border-b">Авторизация</td>
-                  <td className="p-2 border-b">30 дней</td>
-                </tr>
-                <tr>
-                  <td className="p-2 border-b">theme</td>
-                  <td className="p-2 border-b">Тема оформления</td>
-                  <td className="p-2 border-b">1 год</td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800 my-4">
+              <p className="mb-2 font-semibold">Google Analytics 4 (G-G2L3FBV3TG)</p>
+              <ul className="mb-0 text-sm">
+                <li>Статистика посещений</li>
+                <li>Источники трафика</li>
+                <li>Поведение пользователей</li>
+                <li>Конверсии</li>
+              </ul>
+              <p className="mt-2 text-xs">
+                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-lana-500">
+                  Политика Google →
+                </a>
+              </p>
+            </div>
 
-            <h2>4. Управление cookies</h2>
+            <h3>2.3. Рекламные cookies</h3>
+            <p>Используются для показа релевантной рекламы:</p>
+            
+            <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200 dark:border-amber-800 my-4">
+              <p className="mb-2 font-semibold">Яндекс.Директ</p>
+              <ul className="mb-0 text-sm">
+                <li>Показ рекламы в поисковых системах</li>
+                <li>Ретаргетинг на партнёрских сайтах</li>
+              </ul>
+            </div>
+
+            <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200 dark:border-amber-800 my-4">
+              <p className="mb-2 font-semibold">Google Ads</p>
+              <ul className="mb-0 text-sm">
+                <li>Показ рекламы в Google и партнёрских сайтах</li>
+                <li>Ремаркетинг и отслеживание конверсий</li>
+              </ul>
+            </div>
+
+            <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200 dark:border-amber-800 my-4">
+              <p className="mb-2 font-semibold">Microsoft Advertising (Bing)</p>
+              <ul className="mb-0 text-sm">
+                <li>Показ рекламы в Bing и MSN</li>
+                <li>Отслеживание конверсий</li>
+              </ul>
+            </div>
+
+            <h2>3. Управление cookies</h2>
             <p>
-              4.1. Вы можете отключить cookies в настройках браузера. Однако это может
-              привести к невозможности использования некоторых функций сайта (например, авторизации).
+              Вы можете отключить cookies в настройках браузера. Однако это может
+              привести к невозможности использования некоторых функций сайта.
             </p>
             <p>
-              4.2. При отключении cookies вы не сможете войти в свой аккаунт.
+              Для отключения аналитики и рекламы используйте настройки браузера
+              или блокировщики рекламы.
             </p>
 
-            <h2>5. Согласие</h2>
-            <p>
-              5.1. Продолжая использовать сайт, вы соглашаетесь на использование
-              технических cookies, необходимых для работы сервиса.
-            </p>
-            <p>
-              5.2. Поскольку мы используем только строго необходимые cookies,
-              отдельное согласие на их использование не требуется в соответствии
-              с законодательством.
-            </p>
-
-            <h2>6. Передача данных</h2>
-            <p>
-              Мы НЕ передаём данные cookies третьим лицам и НЕ используем их
-              для отслеживания вашей активности на других сайтах.
-            </p>
-
-            <h2>7. Контакты</h2>
+            <h2>4. Контакты</h2>
             <div className="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-lg">
               <p className="mb-1">По вопросам использования cookies:</p>
               <p className="mb-1">Email: support@lanaaihelper.ru</p>

@@ -34,7 +34,7 @@ type PasswordForm = z.infer<typeof passwordSchema>;
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { user, isAuthenticated, isLoading: authLoading, fetchUser } = useAuthStore();
+  const { user, isAuthenticated, isLoading: authLoading, isInitialized, fetchUser } = useAuthStore();
   const [email, setEmail] = useState('');
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState('');
@@ -54,10 +54,10 @@ export default function SettingsPage() {
   }, [fetchUser]);
 
   useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
+    if (isInitialized && !isAuthenticated) {
       router.push('/login');
     }
-  }, [authLoading, isAuthenticated, router]);
+  }, [isInitialized, isAuthenticated, router]);
 
   useEffect(() => {
     if (user?.email) {
@@ -108,7 +108,7 @@ export default function SettingsPage() {
     }
   };
 
-  if (authLoading) {
+  if (authLoading || !isInitialized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
         <div className="text-center">
