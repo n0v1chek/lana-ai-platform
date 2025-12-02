@@ -115,7 +115,14 @@ function ChatPageContent() {
   }, [fetchUser]);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const authStorage = sessionStorage.getItem('auth-storage');
+      let token = null;
+      if (authStorage) {
+        try {
+          const parsed = JSON.parse(authStorage);
+          token = parsed?.state?.token;
+        } catch {}
+      }
     if (isInitialized && !isAuthenticated) {
       router.push('/login');
     }
@@ -162,7 +169,14 @@ function ChatPageContent() {
     }
     setTopupLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const authStorage = sessionStorage.getItem('auth-storage');
+      let token = null;
+      if (authStorage) {
+        try {
+          const parsed = JSON.parse(authStorage);
+          token = parsed?.state?.token;
+        } catch {}
+      }
       const res = await fetch((process.env.NEXT_PUBLIC_API_URL || '') + '/payments/create', {
         method: 'POST',
         headers: {
@@ -203,7 +217,14 @@ function ChatPageContent() {
 
   const loadBudget = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const authStorage = sessionStorage.getItem('auth-storage');
+      let token = null;
+      if (authStorage) {
+        try {
+          const parsed = JSON.parse(authStorage);
+          token = parsed?.state?.token;
+        } catch {}
+      }
       const res = await fetch('/api/budget', {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -221,7 +242,14 @@ function ChatPageContent() {
   const saveBudget = async () => {
     try {
       setBudgetSaving(true);
-      const token = localStorage.getItem('token');
+      const authStorage = sessionStorage.getItem('auth-storage');
+      let token = null;
+      if (authStorage) {
+        try {
+          const parsed = JSON.parse(authStorage);
+          token = parsed?.state?.token;
+        } catch {}
+      }
       const res = await fetch('/api/budget', {
         method: 'POST',
         headers: {

@@ -190,7 +190,16 @@ export default function AdminPage() {
   const [analyticsDays, setAnalyticsDays] = useState(30);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
-  const getToken = () => localStorage.getItem('token');
+  const getToken = () => {
+    const authStorage = sessionStorage.getItem('auth-storage');
+    if (authStorage) {
+      try {
+        const parsed = JSON.parse(authStorage);
+        return parsed?.state?.token;
+      } catch {}
+    }
+    return null;
+  };
 
   const fetchApi = async (endpoint: string, options: RequestInit = {}) => {
     const token = getToken();
