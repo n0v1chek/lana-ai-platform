@@ -247,6 +247,9 @@ export default function PricingPage() {
           </p>
 
           <div className="mt-6 text-center">
+            <p className="text-xs text-amber-600 dark:text-amber-400 mb-3">
+              ⚠️ Отключите VPN перед оплатой — YooMoney блокирует иностранные IP
+            </p>
             <Button
               variant="primary"
               size="lg"
