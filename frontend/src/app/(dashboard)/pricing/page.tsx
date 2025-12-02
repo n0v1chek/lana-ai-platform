@@ -88,7 +88,16 @@ export default function PricingPage() {
     }
     setTopupLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = (() => {
+      const authStorage = sessionStorage.getItem('auth-storage');
+      if (authStorage) {
+        try {
+          const parsed = JSON.parse(authStorage);
+          return parsed?.state?.token;
+        } catch {}
+      }
+      return null;
+    })();
       const res = await fetch((process.env.NEXT_PUBLIC_API_URL || '') + '/payments/create', {
         method: 'POST',
         headers: {

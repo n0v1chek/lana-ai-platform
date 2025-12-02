@@ -66,7 +66,16 @@ function RegisterForm() {
   }, [searchParams]);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = (() => {
+      const authStorage = sessionStorage.getItem('auth-storage');
+      if (authStorage) {
+        try {
+          const parsed = JSON.parse(authStorage);
+          return parsed?.state?.token;
+        } catch {}
+      }
+      return null;
+    })();
     if (token && !success) {
       router.push('/chat');
     }

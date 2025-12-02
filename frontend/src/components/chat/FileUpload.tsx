@@ -57,7 +57,16 @@ export function FileUpload({
     setIsUploading(true);
 
     try {
-      const token = localStorage.getItem('token');
+      const token = (() => {
+      const authStorage = sessionStorage.getItem('auth-storage');
+      if (authStorage) {
+        try {
+          const parsed = JSON.parse(authStorage);
+          return parsed?.state?.token;
+        } catch {}
+      }
+      return null;
+    })();
       const formData = new FormData();
       formData.append('file', file);
 

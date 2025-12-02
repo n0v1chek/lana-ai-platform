@@ -37,7 +37,16 @@ export default function ModelSelector({ currentModel, onModelChange }: ModelSele
     try {
       const response = await fetch('/api/profile/models', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${(() => {
+      const authStorage = sessionStorage.getItem('auth-storage');
+      if (authStorage) {
+        try {
+          const parsed = JSON.parse(authStorage);
+          return parsed?.state?.token;
+        } catch {}
+      }
+      return null;
+    })()}`
         }
       });
 
@@ -63,7 +72,16 @@ export default function ModelSelector({ currentModel, onModelChange }: ModelSele
       const response = await fetch('/api/profile/preferred-model', {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${(() => {
+      const authStorage = sessionStorage.getItem('auth-storage');
+      if (authStorage) {
+        try {
+          const parsed = JSON.parse(authStorage);
+          return parsed?.state?.token;
+        } catch {}
+      }
+      return null;
+    })()}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ preferred_model: modelId })
