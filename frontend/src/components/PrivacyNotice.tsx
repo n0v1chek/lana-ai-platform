@@ -1,9 +1,10 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Shield, Lock, BarChart3 } from 'lucide-react';
+import { Shield, Lock, BarChart3, X } from 'lucide-react';
 
 export default function PrivacyNotice() {
   const [showPrivacyNotice, setShowPrivacyNotice] = useState(false);
+  const [isTemporarilyHidden, setIsTemporarilyHidden] = useState(false);
 
   useEffect(() => {
     const accepted = localStorage.getItem('privacy-accepted-v5');
@@ -12,16 +13,47 @@ export default function PrivacyNotice() {
     }
   }, []);
 
+  // При переходе обратно на главную показываем плашку снова
+  useEffect(() => {
+    if (showPrivacyNotice && !isTemporarilyHidden) {
+      const handleFocus = () => {
+        const accepted = localStorage.getItem('privacy-accepted-v5');
+        if (!accepted && window.location.pathname === '/') {
+          setIsTemporarilyHidden(false);
+        }
+      };
+      window.addEventListener('focus', handleFocus);
+      return () => window.removeEventListener('focus', handleFocus);
+    }
+  }, [showPrivacyNotice, isTemporarilyHidden]);
+
   const acceptPrivacy = () => {
     localStorage.setItem('privacy-accepted-v5', 'true');
     setShowPrivacyNotice(false);
   };
 
-  if (!showPrivacyNotice) return null;
+  const handleLinkClick = () => {
+    // Временно скрываем плашку чтобы можно было прочитать политику
+    setIsTemporarilyHidden(true);
+  };
+
+  const handleClose = () => {
+    setIsTemporarilyHidden(true);
+  };
+
+  if (!showPrivacyNotice || isTemporarilyHidden) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-md w-full shadow-2xl">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-md w-full shadow-2xl relative">
+        <button
+          onClick={handleClose}
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+          title="Закрыть (можно прочитать политики)"
+        >
+          <X className="w-5 h-5 text-slate-400" />
+        </button>
+
         <div className="flex items-center gap-3 mb-4">
           <div className="w-12 h-12 rounded-xl bg-lana-100 dark:bg-lana-900/30 flex items-center justify-center">
             <Shield className="w-6 h-6 text-lana-600" />
@@ -69,9 +101,9 @@ export default function PrivacyNotice() {
 
         <div className="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-lg mb-4 text-xs text-slate-600 dark:text-slate-400">
           <p>Ознакомьтесь: 
-            <a href="/terms" className="text-lana-500 hover:underline mx-1">Оферта</a>•
-            <a href="/privacy" className="text-lana-500 hover:underline mx-1">Конфиденциальность</a>•
-            <a href="/cookies" className="text-lana-500 hover:underline mx-1">Cookies</a>
+            <a href="/terms" onClick={handleLinkClick} className="text-lana-500 hover:underline mx-1">Оферта</a>•
+            <a href="/privacy" onClick={handleLinkClick} className="text-lana-500 hover:underline mx-1">Конфиденциальность</a>•
+            <a href="/cookies" onClick={handleLinkClick} className="text-lana-500 hover:underline mx-1">Cookies</a>
           </p>
         </div>
 
