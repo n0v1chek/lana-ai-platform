@@ -609,3 +609,12 @@ async def get_usage_stats(
             for m in top_models
         ]
     }
+
+
+@router.get("/models/prices")
+async def get_models_prices():
+    """Публичный endpoint для получения цен моделей (для Telegram бота)"""
+    from ..services.ai_service import get_model_prices, MODEL_INFO
+    
+    prices_data = await get_model_prices()
+    return prices_data
