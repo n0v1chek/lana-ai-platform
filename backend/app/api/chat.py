@@ -411,8 +411,8 @@ async def send_message(
         # Записываем транзакцию с себестоимостью для мониторинга
         await db.execute(
             text("""
-                INSERT INTO transactions (user_id, type, amount, balance_before, balance_after, description, model, tokens_used, cost_usd, usd_rate)
-                VALUES (:user_id, 'spend', :amount, :before, :after, :desc, :model, :tokens, :cost_usd, :usd_rate)
+                INSERT INTO transactions (user_id, type, amount, balance_before, balance_after, description, model, tokens_used, cost_usd, usd_rate, source)
+                VALUES (:user_id, 'spend', :amount, :before, :after, :desc, :model, :tokens, :cost_usd, :usd_rate, :source)
             """),
             {
                 "user_id": user_id,
@@ -423,7 +423,8 @@ async def send_message(
                 "model": ai_response["model"],
                 "tokens": ai_response["tokens_used"],
                 "cost_usd": cost_usd,
-                "usd_rate": usd_rate
+                "usd_rate": usd_rate,
+                "source": chat_request.source or "web"
             }
         )
 

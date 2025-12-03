@@ -545,6 +545,7 @@ bot.on('text', async (ctx) => {
     const response = await axios.post(API_URL + '/chat/send', {
       message: text,
       ai_model: session.model,
+      source: "telegram",
       conversation_id: session.conversationId
     }, {
       headers: { Authorization: 'Bearer ' + session.token, 'Content-Type': 'application/json' },

@@ -1241,3 +1241,51 @@ async def get_utm_analytics(
         "period_days": days,
         "utm_campaigns": utm_data
     }
+
+
+@router.get("/stats/sources")
+async def get_source_stats(
+    days: int = 7,
+    current_user: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db)
+):
+    """Статистика по источникам (web/telegram)"""
+    result = await db.execute(
+        text("""
+            SELECT 
+                COALESCE(source, 'web') as source,
+                COUNT(*) as requests,
+                COUNT(DISTINCT user_id) as unique_users,
+                SUM(ABS(amount)) as total_coins,
+                SUM(tokens_used) as total_tokens,
+                SUM(cost_usd) as total_cost_usd
+            FROM transactions
+            WHERE type = 'spend'
+                AND created_at >= NOW() - INTERVAL :days DAY
+            GROUP BY COALESCE(source, 'web')
+            ORDER BY requests DESC
+        """),
+        {"days": f"{days} days"}
+    )
+    rows = result.fetchall()
+    
+    sources = []
+    for row in rows:
+        sources.append({
+            "source": row[0],
+            "requests": row[1],
+            "unique_users": row[2],
+            "total_coins": row[3] or 0,
+            "total_rub": (row[3] or 0) / 100,
+            "total_tokens": row[4] or 0,
+            "total_cost_usd": float(row[5] or 0)
+        })
+    
+    # Общая статистика
+    total_requests = sum(s["requests"] for s in sources)
+    
+    return {
+        "period_days": days,
+        "sources": sources,
+        "total_requests": total_requests
+    }

@@ -54,6 +54,7 @@ class ChatRequest(BaseModel):
     ai_model: str = "google/gemini-2.0-flash-001"
     file_id: Optional[str] = None  # ID загруженного файла
     file_type: Optional[str] = None  # "image" или "document"
+    source: Optional[str] = "web"  # "web" или "telegram"
 
 class ChatResponse(BaseModel):
     conversation_id: int

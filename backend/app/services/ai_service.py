@@ -283,17 +283,29 @@ class AIService:
         output_tokens = usage.get("completion_tokens", 0)
         total_tokens = usage.get("total_tokens", input_tokens + output_tokens)
 
-        # Рассчитываем стоимость с детализацией
-        cost_details = await calculate_cost_detailed(input_tokens, output_tokens, model)
-
+        # Используем реальную стоимость от OpenRouter если есть
+        openrouter_cost = usage.get("cost")
+        usd_rate = await currency_service.get_usd_rate()
+        
+        if openrouter_cost is not None:
+            # OpenRouter вернул реальную стоимость - используем её
+            cost_usd = float(openrouter_cost)
+            multiplier = get_usd_to_coins_multiplier(usd_rate)
+            cost_coins = max(1, math.ceil(cost_usd * multiplier))
+        else:
+            # Fallback на наш расчёт
+            cost_details = await calculate_cost_detailed(input_tokens, output_tokens, model)
+            cost_usd = cost_details["cost_usd"]
+            cost_coins = cost_details["coins"]
+        
         return {
             "content": content,
             "tokens_used": total_tokens,
             "input_tokens": input_tokens,
             "output_tokens": output_tokens,
-            "coins_spent": cost_details["coins"],
-            "cost_usd": cost_details["cost_usd"],
-            "usd_rate": cost_details["usd_rate"],
+            "coins_spent": cost_coins,
+            "cost_usd": cost_usd,
+            "usd_rate": usd_rate,
             "model": model
         }
 
