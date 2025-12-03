@@ -9,13 +9,13 @@ interface LogoProps {
 
 export function Logo({ size = 'md', showText = true, href = '/' }: LogoProps) {
   const sizes = {
-    sm: { img: 32, text: 'text-lg' },
-    md: { img: 40, text: 'text-xl' },
-    lg: { img: 56, text: 'text-2xl' },
+    sm: { img: 160, text: 'text-3xl' },
+    md: { img: 200, text: 'text-4xl' },
+    lg: { img: 280, text: 'text-5xl' },
   };
 
   const content = (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-3">
       <Image
         src="/images/cat-logo.png"
         alt="LANA AI"

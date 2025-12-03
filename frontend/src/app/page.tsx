@@ -149,7 +149,7 @@ export default function HomePage() {
       <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-700">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <CatLogo size={24} />
+            <CatLogo size={80} />
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">

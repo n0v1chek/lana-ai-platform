@@ -10,7 +10,7 @@ export default function AboutPage() {
       <header className="border-b border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm bg-white/70 dark:bg-slate-900/70 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/" className="flex items-center">
-            <CatLogo size={32} />
+            <CatLogo size={80} />
           </Link>
           <nav className="flex gap-6">
             <Link href="/" className="text-slate-600 hover:text-indigo-500 dark:text-slate-300 dark:hover:text-indigo-400 transition-colors">Главная</Link>

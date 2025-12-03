@@ -103,7 +103,7 @@ export default function HistoryPage() {
                 </p>
               </div>
             </div>
-            <CatLogo size={40} />
+            <CatLogo size={80} />
           </div>
         </div>
       </header>

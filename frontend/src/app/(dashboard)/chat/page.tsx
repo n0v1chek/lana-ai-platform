@@ -291,7 +291,7 @@ function ChatPageContent() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
         <div className="text-center">
-          <CatLogo size={28} />
+          <CatLogo size={80} />
           <p className="text-slate-500">Загрузка...</p>
         </div>
       </div>
@@ -305,7 +305,7 @@ function ChatPageContent() {
           <div className="p-4 border-b border-slate-200 dark:border-slate-700">
             <div className="flex items-center justify-between">
               <Link href="/" className="flex items-center gap-2">
-                <CatLogo size={24} />
+                <CatLogo size={48} />
               </Link>
               <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
                 <X size={20} />
@@ -481,7 +481,7 @@ function ChatPageContent() {
               {messages.map((message) => (<ChatMessage key={message.id} message={message} />))}
               {isSending && (
                 <div className="flex gap-4">
-                  <CatLogo size={16} />
+                  <CatLogo size={32} />
                   <div className="bg-white dark:bg-slate-800 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
                     <p className="text-sm text-slate-500 mb-2">AI печатает ответ...</p><div className="flex gap-1">
                       <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />

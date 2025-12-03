@@ -7,7 +7,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
-            <CatLogo size={20} />
+            <CatLogo size={48} />
           </div>
           <nav className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-sm text-slate-600 dark:text-slate-300">
             <Link href="/contacts" className="hover:text-slate-900 dark:hover:text-white transition-colors">

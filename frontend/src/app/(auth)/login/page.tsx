@@ -67,7 +67,7 @@ export default function LoginPage() {
           </div>
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <CatLogo size={64} />
+            <CatLogo size={192} />
           </div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Добро пожаловать!</h1>
           <p className="text-slate-500 dark:text-slate-400">Войдите в LANA AI Helper</p>

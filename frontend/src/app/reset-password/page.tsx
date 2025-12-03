@@ -134,7 +134,7 @@ function ResetPasswordContent() {
       <Card className="w-full max-w-md p-8 bg-white dark:bg-slate-800 shadow-xl border-slate-200 dark:border-slate-700">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <CatLogo size={64} />
+            <CatLogo size={192} />
           </div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Новый пароль</h1>
           <p className="text-slate-500 dark:text-slate-400">Введите новый пароль для аккаунта</p>

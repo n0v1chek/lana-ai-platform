@@ -1,27 +1,25 @@
 {
   "name": "LANA AI Helper",
   "short_name": "LANA AI",
-  "description": "Доступ к лучшим AI моделям: GPT-4o, Claude, Gemini. Работает в России без VPN.",
+  "description": "AI Chat Platform - GPT-4o, Claude, Gemini в России без VPN",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#8b5cf6",
-  "orientation": "portrait-primary",
-  "lang": "ru",
   "icons": [
     {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "/favicon.ico",
+      "src": "/favicon-32.png",
       "sizes": "32x32",
-      "type": "image/x-icon"
+      "type": "image/png"
     },
     {
-      "src": "/images/favicon.png",
-      "sizes": "128x128",
+      "src": "/favicon-48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
       "type": "image/png"
     },
     {
@@ -36,6 +34,5 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "categories": ["productivity", "utilities", "business"]
+  ]
 }

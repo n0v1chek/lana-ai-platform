@@ -13,7 +13,7 @@ export default function BlogLayout({
       <header className="border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center">
-            <CatLogo size={32} />
+            <CatLogo size={80} />
           </Link>
           <nav className="flex items-center gap-6">
             <Link href="/blog" className="text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition">
