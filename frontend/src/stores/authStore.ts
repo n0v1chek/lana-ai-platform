@@ -31,6 +31,7 @@ interface AuthState {
   fetchUser: () => Promise<void>;
   clearError: () => void;
   updateUser: (userData: Partial<User>) => void;
+  initializeAuth: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -101,7 +102,7 @@ export const useAuthStore = create<AuthState>()(
           set({ isAuthenticated: false, isLoading: false, isInitialized: true });
           return;
         }
-        
+
         set({ isLoading: true });
         try {
           const user = await authApi.me();
@@ -113,11 +114,9 @@ export const useAuthStore = create<AuthState>()(
             isInitialized: true,
           });
         } catch (error: any) {
-          // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: удаляем токен ТОЛЬКО при 401
           const is401 = error?.response?.status === 401;
-          
+
           if (is401) {
-            // Токен невалидный - удаляем
             sessionStorage.removeItem('token');
             set({
               user: null,
@@ -127,13 +126,26 @@ export const useAuthStore = create<AuthState>()(
               isInitialized: true,
             });
           } else {
-            // Временная ошибка (сеть, 500) - НЕ удаляем токен
             set({
               isLoading: false,
               isInitialized: true,
-              // Оставляем isAuthenticated false, но токен сохраняем
             });
           }
+        }
+      },
+
+      // Новый метод для инициализации
+      initializeAuth: async () => {
+        const state = get();
+        // Если уже инициализировано - пропускаем
+        if (state.isInitialized) return;
+        
+        // Если есть токен - проверяем его
+        const token = state.token || sessionStorage.getItem('token');
+        if (token) {
+          await get().fetchUser();
+        } else {
+          set({ isInitialized: true, isAuthenticated: false });
         }
       },
 
@@ -150,6 +162,13 @@ export const useAuthStore = create<AuthState>()(
       name: 'auth-storage',
       storage: createJSONStorage(() => sessionStorage),
       partialize: (state) => ({ token: state.token }),
+      // Автоматически инициализируем после восстановления из storage
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          // После гидрации вызываем инициализацию
+          state.initializeAuth();
+        }
+      },
     }
   )
 );

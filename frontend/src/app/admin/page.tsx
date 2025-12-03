@@ -7,26 +7,71 @@ import {
   RefreshCw, Ban, Unlock, Trash2, DollarSign,
   Banknote, Eye, Bell, AlertTriangle,
   TrendingUp, Coins, MessageSquare, Menu,
-  ChevronLeft, ChevronRight, X, Save, Activity
+  ChevronLeft, ChevronRight, X, Save, Activity, Send
 } from 'lucide-react';
 import { Button, Card } from '@/components/ui';
 
-interface DashboardData {
-  total_users: number;
-  active_users_7d: number;
-  blocked_users: number;
-  new_users_today: number;
-  total_balance_coins: number;
-  total_balance_rub: number;
-  total_deposits_coins: number;
-  total_deposits_rub: number;
-  total_spent_coins: number;
-  total_spent_rub: number;
-  total_tokens_used: number;
-  profit_coins: number;
-  profit_rub: number;
-  today_deposits_coins: number;
-  today_spent_coins: number;
+interface CombinedStats {
+  period_days: number;
+  rates: { cbr: number; selling: number };
+  users: {
+    total: number;
+    new_today: number;
+    new_week: number;
+    blocked: number;
+    paid: number;
+    active_period: number;
+    conversion_percent: number;
+  };
+  finance: {
+    total_balance_coins: number;
+    total_balance_rub: number;
+    total_deposited_coins: number;
+    total_deposited_rub: number;
+    total_spent_coins: number;
+    total_spent_rub: number;
+    payments_period: number;
+    payments_period_rub: number;
+    payments_today: number;
+    payments_today_rub: number;
+  };
+  usage: {
+    requests: number;
+    tokens: number;
+    tokens_millions: number;
+    revenue_rub: number;
+    cost_rub: number;
+    profit_rub: number;
+    margin_percent: number;
+  };
+  today: { requests: number; coins: number; tokens: number; rub: number };
+  sources: Record<string, { requests: number; users: number; coins: number; rub: number }>;
+  top_models: Array<{
+    model: string;
+    requests: number;
+    tokens: number;
+    revenue_rub: number;
+    cost_rub: number;
+    profit_rub: number;
+    margin_percent: number;
+  }>;
+  registration_sources: Array<{ source: string; registrations: number; paid: number; conversion_percent: number }>;
+  daily: Array<{ date: string; requests: number; users: number; coins: number; rub: number }>;
+}
+
+interface TelegramStats {
+  period_days: number;
+  summary: {
+    telegram: { requests: number; unique_users: number; total_tokens: number; total_coins: number; total_rub: number; cost_usd: number; cost_rub: number };
+    web: { requests: number; unique_users: number; total_tokens: number; total_coins: number; total_rub: number; cost_usd: number; cost_rub: number };
+    telegram_share_percent: number;
+  };
+  today: { requests: number; users: number; coins: number; rub: number };
+  yesterday: { requests: number; users: number; coins: number; rub: number };
+  daily: Array<{ date: string; requests: number; unique_users: number; tokens: number; coins: number; rub: number }>;
+  models: Array<{ model: string; requests: number; tokens: number; coins: number; rub: number }>;
+  top_users: Array<{ username: string; requests: number; tokens: number; coins: number; rub: number }>;
+  hourly: Record<number, number>;
 }
 
 interface UserData {
@@ -57,12 +102,7 @@ interface BannerData {
 }
 
 interface DbStats {
-  counts: {
-    users: number;
-    conversations: number;
-    messages: number;
-    transactions: number;
-  };
+  counts: { users: number; conversations: number; messages: number; transactions: number };
   table_sizes: Array<{ table: string; size: string }>;
 }
 
@@ -89,86 +129,17 @@ interface Transaction {
   created_at: string | null;
 }
 
-interface MarginModel {
-  model: string;
-  requests: number;
-  total_tokens: number;
-  coins_charged: number;
-  revenue_rub: number;
-  cost_usd: number;
-  cost_rub: number;
-  profit_rub: number;
-  margin_percent: number;
-  avg_usd_rate: number;
-  avg_tokens_per_request: number;
-  avg_coins_per_request: number;
-}
-
-interface MarginAlert {
-  type: string;
-  model: string;
-  margin_percent: number;
-  message: string;
-}
-
-interface MarginData {
-  period_days: number;
-  current_usd_rate: number;
-  cbr_rate: number;
-  summary: {
-    total_requests: number;
-    total_tokens: number;
-    total_revenue_coins: number;
-    total_revenue_rub: number;
-    total_cost_usd: number;
-    total_cost_rub: number;
-    total_profit_rub: number;
-    average_margin_percent: number;
-  };
-  models: MarginModel[];
-  alerts: MarginAlert[];
-  alerts_count: number;
-}
-interface AnalyticsSource {
-  source: string;
-  registrations: number;
-  paid_users: number;
-  conversion_percent: number;
-  total_deposited_coins: number;
-  total_deposited_rub: number;
-  total_spent_coins: number;
-  avg_deposit_rub: number;
-}
-interface AnalyticsFunnel {
-  stage: string;
-  count: number;
-  rate_percent: number;
-}
-interface AnalyticsData {
-  period_days: number;
-  summary: {
-    total_registrations: number;
-    total_paid_users: number;
-    overall_conversion_percent: number;
-    total_revenue_coins: number;
-    total_revenue_rub: number;
-  };
-  sources: AnalyticsSource[];
-}
-interface FunnelData {
-  period_days: number;
-  funnel: AnalyticsFunnel[];
-}
-
-type TabType = 'dashboard' | 'analytics' | 'users' | 'monitoring' | 'banner' | 'database' | 'logs';
+type TabType = 'dashboard' | 'telegram' | 'users' | 'banner' | 'database' | 'logs';
 
 export default function AdminPage() {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [periodDays, setPeriodDays] = useState(30);
 
-  const [dashboard, setDashboard] = useState<DashboardData | null>(null);
+  const [combinedStats, setCombinedStats] = useState<CombinedStats | null>(null);
+  const [telegramStats, setTelegramStats] = useState<TelegramStats | null>(null);
   const [users, setUsers] = useState<UserData[]>([]);
   const [usersPage, setUsersPage] = useState(1);
   const [usersTotal, setUsersTotal] = useState(0);
@@ -180,14 +151,8 @@ export default function AdminPage() {
   const [adjustAmount, setAdjustAmount] = useState(0);
   const [adjustReason, setAdjustReason] = useState('');
   const [banner, setBanner] = useState<BannerData>({ enabled: false, text: '', type: 'info' });
-  const [currencyInfo, setCurrencyInfo] = useState<any>(null);
   const [dbStats, setDbStats] = useState<DbStats | null>(null);
   const [logs, setLogs] = useState<AdminLog[]>([]);
-  const [marginData, setMarginData] = useState<MarginData | null>(null);
-  const [marginDays, setMarginDays] = useState(7);
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
-  const [funnelData, setFunnelData] = useState<FunnelData | null>(null);
-  const [analyticsDays, setAnalyticsDays] = useState(30);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
   const getToken = () => {
@@ -216,13 +181,12 @@ export default function AdminPage() {
   };
 
   const { isInitialized, isAuthenticated, user } = useAuthStore();
-  
+
   useEffect(() => {
     if (isInitialized) {
       if (isAuthenticated && user?.is_admin) {
         setIsAdmin(true);
-        loadDashboard();
-        loadCurrency();
+        loadCombinedStats();
         setLoading(false);
       } else if (isAuthenticated && !user?.is_admin) {
         setIsAdmin(false);
@@ -233,23 +197,11 @@ export default function AdminPage() {
     }
   }, [isInitialized, isAuthenticated, user]);
 
-  const loadCurrency = async () => {
-    try {
-      const data = await fetchApi("/admin/currency");
-      if (data) {
-        setCurrencyInfo(data);
-      }
-    } catch (e) {}
-  };
-
   const checkAdmin = async () => {
     try {
       const user = await fetchApi('/auth/me');
       setIsAdmin(user.is_admin);
-      if (user.is_admin) {
-        loadDashboard();
-        loadCurrency();
-      }
+      if (user.is_admin) loadCombinedStats();
     } catch {
       setIsAdmin(false);
     } finally {
@@ -257,12 +209,21 @@ export default function AdminPage() {
     }
   };
 
-  const loadDashboard = async () => {
+  const loadCombinedStats = async (days = periodDays) => {
     try {
-      const data = await fetchApi('/admin/dashboard');
-      setDashboard(data);
+      const data = await fetchApi('/admin/stats/combined?days=' + days);
+      setCombinedStats(data);
     } catch (e) {
-      console.error('Failed to load dashboard:', e);
+      console.error('Failed to load combined stats:', e);
+    }
+  };
+
+  const loadTelegramStats = async (days = periodDays) => {
+    try {
+      const data = await fetchApi('/admin/telegram/stats?days=' + days);
+      setTelegramStats(data);
+    } catch (e) {
+      console.error('Failed to load telegram stats:', e);
     }
   };
 
@@ -299,10 +260,7 @@ export default function AdminPage() {
 
   const saveBanner = async () => {
     try {
-      await fetchApi('/admin/settings/banner', {
-        method: 'POST',
-        body: JSON.stringify(banner),
-      });
+      await fetchApi('/admin/settings/banner', { method: 'POST', body: JSON.stringify(banner) });
       alert('Баннер сохранён');
     } catch (e) {
       console.error('Failed to save banner:', e);
@@ -327,37 +285,21 @@ export default function AdminPage() {
     }
   };
 
-  const loadMarginData = async (days = 7) => {
-    try {
-      const data = await fetchApi('/admin/monitoring/margin?days=' + days);
-      setMarginData(data);
-    } catch (e) {
-      console.error('Failed to load margin data:', e);
-    }
-  };
-  const loadAnalytics = async (days = 30) => {
-    try {
-      const [sources, funnel] = await Promise.all([
-        fetchApi("/admin/analytics/sources?days=" + days),
-        fetchApi("/admin/analytics/funnel?days=" + days)
-      ]);
-      setAnalyticsData(sources);
-      setFunnelData(funnel);
-    } catch (e) {
-      console.error("Failed to load analytics:", e);
-    }
-  };
-
   const handleTabChange = (tab: TabType) => {
     setActiveTab(tab);
     setSidebarOpen(false);
-    if (tab === 'dashboard') loadDashboard();
+    if (tab === 'dashboard') loadCombinedStats(periodDays);
+    if (tab === 'telegram') loadTelegramStats(periodDays);
     if (tab === 'users') loadUsers();
-    if (tab === 'monitoring') loadMarginData(marginDays);
     if (tab === 'banner') loadBanner();
     if (tab === 'database') loadDbStats();
     if (tab === 'logs') loadLogs();
-    if (tab === 'analytics') loadAnalytics(analyticsDays);
+  };
+
+  const handlePeriodChange = (days: number) => {
+    setPeriodDays(days);
+    if (activeTab === 'dashboard') loadCombinedStats(days);
+    if (activeTab === 'telegram') loadTelegramStats(days);
   };
 
   const handleBlockUser = async (userId: number, block: boolean) => {
@@ -369,9 +311,7 @@ export default function AdminPage() {
         body: JSON.stringify({ reason }),
       });
       loadUsers(usersPage, usersSearch);
-      if (selectedUser?.id === userId) {
-        loadUserDetail(userId);
-      }
+      if (selectedUser?.id === userId) loadUserDetail(userId);
     } catch (e) {
       console.error('Failed to block/unblock user:', e);
     }
@@ -408,9 +348,7 @@ export default function AdminPage() {
   const handleCleanupMessages = async (days: number) => {
     if (!confirm('Удалить сообщения старше ' + days + ' дней?')) return;
     try {
-      const result = await fetchApi('/admin/database/cleanup-old-messages?days=' + days, {
-        method: 'POST',
-      });
+      const result = await fetchApi('/admin/database/cleanup-old-messages?days=' + days, { method: 'POST' });
       alert('Удалено: ' + (result.deleted_messages || 0) + ' сообщений');
       loadDbStats();
     } catch (e) {
@@ -421,9 +359,7 @@ export default function AdminPage() {
   const handleCleanupConversations = async () => {
     if (!confirm('Удалить пустые диалоги?')) return;
     try {
-      const result = await fetchApi('/admin/database/cleanup-empty-conversations', {
-        method: 'POST',
-      });
+      const result = await fetchApi('/admin/database/cleanup-empty-conversations', { method: 'POST' });
       alert('Удалено: ' + (result.deleted_conversations || 0) + ' диалогов');
       loadDbStats();
     } catch (e) {
@@ -451,9 +387,7 @@ export default function AdminPage() {
           <Shield className="w-16 h-16 text-red-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Доступ запрещён</h1>
           <p className="text-slate-500 dark:text-slate-400 mb-6">У вас нет прав администратора</p>
-          <Link href="/chat">
-            <Button leftIcon={<ArrowLeft size={18} />}>Вернуться в чат</Button>
-          </Link>
+          <Link href="/chat"><Button leftIcon={<ArrowLeft size={18} />}>Вернуться в чат</Button></Link>
         </Card>
       </div>
     );
@@ -461,13 +395,26 @@ export default function AdminPage() {
 
   const tabs = [
     { id: 'dashboard', label: 'Статистика', icon: BarChart3 },
-    { id: 'analytics', label: 'Аналитика', icon: TrendingUp },
+    { id: 'telegram', label: 'Telegram', icon: Send },
     { id: 'users', label: 'Пользователи', icon: Users },
-    { id: 'monitoring', label: 'Мониторинг', icon: Activity },
     { id: 'banner', label: 'Баннер', icon: Bell },
     { id: 'database', label: 'База данных', icon: Database },
     { id: 'logs', label: 'Логи', icon: Eye },
   ];
+
+  const PeriodSelector = () => (
+    <select
+      value={periodDays}
+      onChange={(e) => handlePeriodChange(Number(e.target.value))}
+      className="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm"
+    >
+      <option value={1}>1 день</option>
+      <option value={7}>7 дней</option>
+      <option value={14}>14 дней</option>
+      <option value={30}>30 дней</option>
+      <option value={90}>90 дней</option>
+    </select>
+  );
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
@@ -489,9 +436,7 @@ export default function AdminPage() {
         </div>
       </header>
 
-      {sidebarOpen && (
-        <div className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setSidebarOpen(false)} />
-      )}
+      {sidebarOpen && <div className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setSidebarOpen(false)} />}
 
       {/* Sidebar */}
       <aside className={'fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 transform transition-transform duration-300 lg:translate-x-0 ' + (sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0')}>
@@ -540,125 +485,112 @@ export default function AdminPage() {
       {/* Main Content */}
       <main className="lg:ml-64 pt-16 lg:pt-0 min-h-screen">
         <div className="p-4 lg:p-8">
+          
+          {/* === DASHBOARD TAB === */}
           {activeTab === 'dashboard' && (
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Статистика</h2>
-                <Button size="sm" variant="secondary" onClick={loadDashboard} leftIcon={<RefreshCw size={16} />}>
-                  Обновить
-                </Button>
-              </div>
-
-              {dashboard && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <StatCard icon={Users} label="Всего пользователей" value={dashboard.total_users} color="blue" />
-                  <StatCard icon={TrendingUp} label="Активных за 7 дней" value={dashboard.active_users_7d} color="green" />
-                  <StatCard icon={Ban} label="Заблокировано" value={dashboard.blocked_users} color="red" />
-                  <StatCard icon={Users} label="Новых сегодня" value={dashboard.new_users_today} color="purple" />
-                  <StatCard icon={Coins} label="Баланс (₽)" value={dashboard.total_balance_rub.toFixed(0)} color="amber" />
-                  <StatCard icon={TrendingUp} label="Потрачено (₽)" value={dashboard.total_spent_rub.toFixed(0)} color="green" />
-                  <StatCard icon={MessageSquare} label="Токенов всего" value={(dashboard.total_tokens_used / 1000000).toFixed(1) + 'M'} color="blue" />
-                  <StatCard icon={DollarSign} label="Прибыль (₽)" value={dashboard.profit_rub.toFixed(0)} color="green" />
-                  {currencyInfo && (
-                    <StatCard icon={Banknote} label="Курс USD/RUB" value={currencyInfo.usd_rate + '₽'} color="cyan" />
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-
-          {activeTab === 'monitoring' && (
-            <div className="space-y-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Мониторинг маржи</h2>
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Статистика и аналитика</h2>
                 <div className="flex items-center gap-2">
-                  <select
-                    value={marginDays}
-                    onChange={(e) => {
-                      setMarginDays(Number(e.target.value));
-                      loadMarginData(Number(e.target.value));
-                    }}
-                    className="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-                  >
-                    <option value={1}>1 день</option>
-                    <option value={7}>7 дней</option>
-                    <option value={30}>30 дней</option>
-                    <option value={90}>90 дней</option>
-                  </select>
-                  <Button size="sm" variant="secondary" onClick={() => loadMarginData(marginDays)} leftIcon={<RefreshCw size={16} />}>
+                  <PeriodSelector />
+                  <Button size="sm" variant="secondary" onClick={() => loadCombinedStats(periodDays)} leftIcon={<RefreshCw size={16} />}>
                     Обновить
                   </Button>
                 </div>
               </div>
 
-              {marginData && (
+              {combinedStats && (
                 <>
-                  {/* Alerts */}
-                  {marginData.alerts_count > 0 && (
-                    <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-2xl p-4">
-                      <div className="flex items-center gap-2 mb-3">
-                        <AlertTriangle className="text-yellow-600 dark:text-yellow-400" size={20} />
-                        <span className="font-bold text-yellow-800 dark:text-yellow-200">Предупреждения ({marginData.alerts_count})</span>
-                      </div>
-                      <div className="space-y-2">
-                        {marginData.alerts.map((alert, i) => (
-                          <div key={i} className="text-sm text-yellow-700 dark:text-yellow-300">
-                            • {alert.message}
+                  {/* Курсы */}
+                  <div className="flex flex-wrap gap-4 text-sm bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700">
+                    <div><span className="text-slate-500">Курс ЦБ:</span> <span className="font-bold text-slate-900 dark:text-white">{combinedStats.rates.cbr}₽</span></div>
+                    <div><span className="text-slate-500">Курс продажи:</span> <span className="font-bold text-slate-900 dark:text-white">{combinedStats.rates.selling}₽</span></div>
+                    <div><span className="text-slate-500">Маржа:</span> <span className="font-bold text-green-600">{combinedStats.usage.margin_percent}%</span></div>
+                  </div>
+
+                  {/* Основные метрики */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <StatCard icon={Users} label="Всего" value={combinedStats.users.total} color="blue" />
+                    <StatCard icon={TrendingUp} label="Новых сегодня" value={combinedStats.users.new_today} color="green" />
+                    <StatCard icon={DollarSign} label="Оплатили" value={combinedStats.users.paid} color="purple" />
+                    <StatCard icon={Activity} label="Активных" value={combinedStats.users.active_period} color="cyan" />
+                    <StatCard icon={Coins} label="Конверсия" value={combinedStats.users.conversion_percent + '%'} color="amber" />
+                    <StatCard icon={Ban} label="Заблокировано" value={combinedStats.users.blocked} color="red" />
+                  </div>
+
+                  {/* Финансы */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <StatCard icon={Banknote} label="Баланс всех" value={combinedStats.finance.total_balance_rub.toFixed(0) + '₽'} color="blue" />
+                    <StatCard icon={TrendingUp} label="Пополнено" value={combinedStats.finance.total_deposited_rub.toFixed(0) + '₽'} color="green" />
+                    <StatCard icon={MessageSquare} label="Потрачено" value={combinedStats.finance.total_spent_rub.toFixed(0) + '₽'} color="amber" />
+                    <StatCard icon={DollarSign} label="Прибыль" value={combinedStats.usage.profit_rub.toFixed(0) + '₽'} color="green" />
+                    <StatCard icon={Coins} label="Платежей сегодня" value={combinedStats.finance.payments_today_rub.toFixed(0) + '₽'} color="purple" />
+                  </div>
+
+                  {/* Использование по источникам */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <Card padding="lg">
+                      <h3 className="font-bold text-slate-900 dark:text-white mb-4">По источникам</h3>
+                      <div className="space-y-4">
+                        {Object.entries(combinedStats.sources).map(([source, data]) => (
+                          <div key={source} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
+                            <div className="flex items-center gap-3">
+                              {source === 'telegram' ? <Send size={20} className="text-blue-500" /> : <MessageSquare size={20} className="text-green-500" />}
+                              <span className="font-medium text-slate-900 dark:text-white capitalize">{source}</span>
+                            </div>
+                            <div className="text-right">
+                              <div className="font-bold text-slate-900 dark:text-white">{data.requests} запросов</div>
+                              <div className="text-sm text-slate-500">{data.users} юзеров • {data.rub}₽</div>
+                            </div>
                           </div>
                         ))}
                       </div>
-                    </div>
-                  )}
+                    </Card>
 
-                  {/* Summary */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <StatCard icon={MessageSquare} label="Запросов" value={marginData.summary.total_requests} color="blue" />
-                    <StatCard icon={TrendingUp} label="Выручка" value={marginData.summary.total_revenue_rub.toFixed(2) + '₽'} color="green" />
-                    <StatCard icon={DollarSign} label="Себестоимость" value={marginData.summary.total_cost_rub.toFixed(2) + '₽'} color="amber" />
-                    <StatCard icon={Coins} label="Прибыль" value={marginData.summary.total_profit_rub.toFixed(2) + '₽'} color="green" />
+                    <Card padding="lg">
+                      <h3 className="font-bold text-slate-900 dark:text-white mb-4">Источники регистраций</h3>
+                      <div className="space-y-3">
+                        {combinedStats.registration_sources.slice(0, 5).map((src, i) => (
+                          <div key={i} className="flex items-center justify-between">
+                            <span className="text-slate-600 dark:text-slate-400">{src.source}</span>
+                            <div className="flex items-center gap-4">
+                              <span className="text-slate-900 dark:text-white">{src.registrations} рег.</span>
+                              <span className="text-green-600">{src.paid} оплат.</span>
+                              <span className={'px-2 py-0.5 rounded text-xs ' + (src.conversion_percent >= 10 ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-600')}>{src.conversion_percent}%</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
                   </div>
 
-                  {/* Rate Info */}
-                  <Card padding="md">
-                    <div className="flex flex-wrap gap-6 text-sm">
-                      <div><span className="text-slate-500 dark:text-slate-400">Курс ЦБ:</span> <span className="font-medium text-slate-900 dark:text-white">{marginData.cbr_rate}₽</span></div>
-                      <div><span className="text-slate-500 dark:text-slate-400">Курс продажи:</span> <span className="font-medium text-slate-900 dark:text-white">{marginData.current_usd_rate}₽</span></div>
-                      <div><span className="text-slate-500 dark:text-slate-400">Средняя маржа:</span> <span className="font-bold text-green-600 dark:text-green-400">{marginData.summary.average_margin_percent}%</span></div>
-                    </div>
-                  </Card>
-
-                  {/* Models Table */}
-                  <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+                  {/* Топ моделей */}
+                  <Card padding="lg">
+                    <h3 className="font-bold text-slate-900 dark:text-white mb-4">Топ моделей</h3>
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead className="bg-slate-50 dark:bg-slate-700/50">
                           <tr>
                             <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Модель</th>
                             <th className="px-4 py-3 text-right text-sm font-medium text-slate-600 dark:text-slate-300">Запросов</th>
-                            <th className="px-4 py-3 text-right text-sm font-medium text-slate-600 dark:text-slate-300 hidden md:table-cell">Токенов</th>
+                            <th className="px-4 py-3 text-right text-sm font-medium text-slate-600 dark:text-slate-300 hidden sm:table-cell">Токенов</th>
                             <th className="px-4 py-3 text-right text-sm font-medium text-slate-600 dark:text-slate-300">Выручка</th>
-                            <th className="px-4 py-3 text-right text-sm font-medium text-slate-600 dark:text-slate-300 hidden sm:table-cell">Себест.</th>
+                            <th className="px-4 py-3 text-right text-sm font-medium text-slate-600 dark:text-slate-300 hidden md:table-cell">Себест.</th>
                             <th className="px-4 py-3 text-right text-sm font-medium text-slate-600 dark:text-slate-300">Прибыль</th>
                             <th className="px-4 py-3 text-right text-sm font-medium text-slate-600 dark:text-slate-300">Маржа</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
-                          {marginData.models.map((m, i) => (
+                          {combinedStats.top_models.map((m, i) => (
                             <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-700/30">
                               <td className="px-4 py-3 text-sm font-medium text-slate-900 dark:text-white">{m.model}</td>
                               <td className="px-4 py-3 text-sm text-right text-slate-600 dark:text-slate-400">{m.requests}</td>
-                              <td className="px-4 py-3 text-sm text-right text-slate-600 dark:text-slate-400 hidden md:table-cell">{(m.total_tokens / 1000).toFixed(1)}k</td>
+                              <td className="px-4 py-3 text-sm text-right text-slate-600 dark:text-slate-400 hidden sm:table-cell">{(m.tokens / 1000).toFixed(1)}k</td>
                               <td className="px-4 py-3 text-sm text-right text-slate-900 dark:text-white">{m.revenue_rub.toFixed(2)}₽</td>
-                              <td className="px-4 py-3 text-sm text-right text-slate-500 dark:text-slate-400 hidden sm:table-cell">{m.cost_rub.toFixed(2)}₽</td>
-                              <td className="px-4 py-3 text-sm text-right font-medium text-green-600 dark:text-green-400">{m.profit_rub.toFixed(2)}₽</td>
+                              <td className="px-4 py-3 text-sm text-right text-slate-500 hidden md:table-cell">{m.cost_rub.toFixed(2)}₽</td>
+                              <td className="px-4 py-3 text-sm text-right font-medium text-green-600">{m.profit_rub.toFixed(2)}₽</td>
                               <td className="px-4 py-3 text-sm text-right">
-                                <span className={
-                                  m.margin_percent >= 800 
-                                    ? 'text-green-600 dark:text-green-400 font-bold' 
-                                    : m.margin_percent >= 500 
-                                      ? 'text-yellow-600 dark:text-yellow-400 font-medium'
-                                      : 'text-red-600 dark:text-red-400 font-medium'
-                                }>
+                                <span className={m.margin_percent >= 800 ? 'text-green-600 font-bold' : m.margin_percent >= 500 ? 'text-yellow-600' : 'text-red-600'}>
                                   {m.margin_percent.toFixed(0)}%
                                 </span>
                               </td>
@@ -667,17 +599,207 @@ export default function AdminPage() {
                         </tbody>
                       </table>
                     </div>
-                    {marginData.models.length === 0 && (
-                      <div className="p-8 text-center text-slate-500 dark:text-slate-400">
-                        Нет данных с себестоимостью за выбранный период
-                      </div>
-                    )}
-                  </div>
+                  </Card>
+
+                  {/* Динамика */}
+                  <Card padding="lg">
+                    <h3 className="font-bold text-slate-900 dark:text-white mb-4">Динамика по дням</h3>
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead className="bg-slate-50 dark:bg-slate-700/50">
+                          <tr>
+                            <th className="px-4 py-2 text-left text-sm text-slate-600 dark:text-slate-300">Дата</th>
+                            <th className="px-4 py-2 text-right text-sm text-slate-600 dark:text-slate-300">Запросов</th>
+                            <th className="px-4 py-2 text-right text-sm text-slate-600 dark:text-slate-300">Юзеров</th>
+                            <th className="px-4 py-2 text-right text-sm text-slate-600 dark:text-slate-300">Выручка</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
+                          {combinedStats.daily.slice(0, 7).map((d, i) => (
+                            <tr key={i}>
+                              <td className="px-4 py-2 text-sm text-slate-900 dark:text-white">{d.date}</td>
+                              <td className="px-4 py-2 text-sm text-right text-slate-600 dark:text-slate-400">{d.requests}</td>
+                              <td className="px-4 py-2 text-sm text-right text-slate-600 dark:text-slate-400">{d.users}</td>
+                              <td className="px-4 py-2 text-sm text-right text-green-600">{d.rub}₽</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </Card>
                 </>
               )}
             </div>
           )}
 
+          {/* === TELEGRAM TAB === */}
+          {activeTab === 'telegram' && (
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">📱 Telegram бот</h2>
+                <div className="flex items-center gap-2">
+                  <PeriodSelector />
+                  <Button size="sm" variant="secondary" onClick={() => loadTelegramStats(periodDays)} leftIcon={<RefreshCw size={16} />}>
+                    Обновить
+                  </Button>
+                </div>
+              </div>
+
+              {telegramStats && (
+                <>
+                  {/* Сравнение Telegram vs Web */}
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <Card padding="lg" className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-200 dark:border-blue-800">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Send size={24} className="text-blue-500" />
+                        <h3 className="font-bold text-slate-900 dark:text-white">Telegram</h3>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between"><span className="text-slate-500">Запросов:</span><span className="font-bold text-slate-900 dark:text-white">{telegramStats.summary.telegram.requests}</span></div>
+                        <div className="flex justify-between"><span className="text-slate-500">Юзеров:</span><span className="font-bold text-slate-900 dark:text-white">{telegramStats.summary.telegram.unique_users}</span></div>
+                        <div className="flex justify-between"><span className="text-slate-500">Выручка:</span><span className="font-bold text-green-600">{telegramStats.summary.telegram.total_rub}₽</span></div>
+                      </div>
+                    </Card>
+
+                    <Card padding="lg" className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-200 dark:border-green-800">
+                      <div className="flex items-center gap-3 mb-4">
+                        <MessageSquare size={24} className="text-green-500" />
+                        <h3 className="font-bold text-slate-900 dark:text-white">Web</h3>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between"><span className="text-slate-500">Запросов:</span><span className="font-bold text-slate-900 dark:text-white">{telegramStats.summary.web.requests}</span></div>
+                        <div className="flex justify-between"><span className="text-slate-500">Юзеров:</span><span className="font-bold text-slate-900 dark:text-white">{telegramStats.summary.web.unique_users}</span></div>
+                        <div className="flex justify-between"><span className="text-slate-500">Выручка:</span><span className="font-bold text-green-600">{telegramStats.summary.web.total_rub}₽</span></div>
+                      </div>
+                    </Card>
+
+                    <Card padding="lg">
+                      <h3 className="font-bold text-slate-900 dark:text-white mb-4">Доля Telegram</h3>
+                      <div className="relative pt-1">
+                        <div className="flex mb-2 items-center justify-between">
+                          <span className="text-3xl font-bold text-blue-600">{telegramStats.summary.telegram_share_percent}%</span>
+                        </div>
+                        <div className="overflow-hidden h-4 text-xs flex rounded-full bg-slate-200 dark:bg-slate-700">
+                          <div style={{ width: telegramStats.summary.telegram_share_percent + '%' }} className="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+
+                  {/* Сегодня vs Вчера */}
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <StatCard icon={Send} label="Сегодня запросов" value={telegramStats.today.requests} color="blue" />
+                    <StatCard icon={Users} label="Сегодня юзеров" value={telegramStats.today.users} color="green" />
+                    <StatCard icon={Send} label="Вчера запросов" value={telegramStats.yesterday.requests} color="cyan" />
+                    <StatCard icon={Coins} label="Сегодня выручка" value={telegramStats.today.rub + '₽'} color="amber" />
+                  </div>
+
+                  {/* Активность по часам */}
+                  <Card padding="lg">
+                    <h3 className="font-bold text-slate-900 dark:text-white mb-4">Активность по часам (МСК)</h3>
+                    <div className="flex items-end gap-1 h-32">
+                      {Array.from({ length: 24 }, (_, hour) => {
+                        const count = telegramStats.hourly[hour] || 0;
+                        const max = Math.max(...Object.values(telegramStats.hourly), 1);
+                        const height = (count / max) * 100;
+                        return (
+                          <div key={hour} className="flex-1 flex flex-col items-center">
+                            <div 
+                              className="w-full bg-gradient-to-t from-blue-500 to-cyan-400 rounded-t" 
+                              style={{ height: height + '%', minHeight: count > 0 ? '4px' : '0' }}
+                              title={hour + ':00 - ' + count + ' запросов'}
+                            />
+                            <span className="text-xs text-slate-400 mt-1">{hour}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </Card>
+
+                  {/* Топ пользователей Telegram */}
+                  <Card padding="lg">
+                    <h3 className="font-bold text-slate-900 dark:text-white mb-4">Топ пользователей Telegram</h3>
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead className="bg-slate-50 dark:bg-slate-700/50">
+                          <tr>
+                            <th className="px-4 py-2 text-left text-sm text-slate-600 dark:text-slate-300">Пользователь</th>
+                            <th className="px-4 py-2 text-right text-sm text-slate-600 dark:text-slate-300">Запросов</th>
+                            <th className="px-4 py-2 text-right text-sm text-slate-600 dark:text-slate-300">Токенов</th>
+                            <th className="px-4 py-2 text-right text-sm text-slate-600 dark:text-slate-300">Потрачено</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
+                          {telegramStats.top_users.map((u, i) => (
+                            <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-700/30">
+                              <td className="px-4 py-2 text-sm font-medium text-slate-900 dark:text-white">{u.username}</td>
+                              <td className="px-4 py-2 text-sm text-right text-slate-600 dark:text-slate-400">{u.requests}</td>
+                              <td className="px-4 py-2 text-sm text-right text-slate-600 dark:text-slate-400">{(u.tokens / 1000).toFixed(1)}k</td>
+                              <td className="px-4 py-2 text-sm text-right text-green-600">{u.rub}₽</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </Card>
+
+                  {/* Модели в Telegram */}
+                  <Card padding="lg">
+                    <h3 className="font-bold text-slate-900 dark:text-white mb-4">Модели в Telegram</h3>
+                    <div className="space-y-3">
+                      {telegramStats.models.map((m, i) => (
+                        <div key={i} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
+                          <span className="font-medium text-slate-900 dark:text-white">{m.model}</span>
+                          <div className="flex items-center gap-4 text-sm">
+                            <span className="text-slate-500">{m.requests} запросов</span>
+                            <span className="text-green-600 font-medium">{m.rub}₽</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+
+                  {/* Динамика Telegram */}
+                  <Card padding="lg">
+                    <h3 className="font-bold text-slate-900 dark:text-white mb-4">Динамика по дням</h3>
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead className="bg-slate-50 dark:bg-slate-700/50">
+                          <tr>
+                            <th className="px-4 py-2 text-left text-sm text-slate-600 dark:text-slate-300">Дата</th>
+                            <th className="px-4 py-2 text-right text-sm text-slate-600 dark:text-slate-300">Запросов</th>
+                            <th className="px-4 py-2 text-right text-sm text-slate-600 dark:text-slate-300">Юзеров</th>
+                            <th className="px-4 py-2 text-right text-sm text-slate-600 dark:text-slate-300">Токенов</th>
+                            <th className="px-4 py-2 text-right text-sm text-slate-600 dark:text-slate-300">Выручка</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
+                          {telegramStats.daily.slice(0, 7).map((d, i) => (
+                            <tr key={i}>
+                              <td className="px-4 py-2 text-sm text-slate-900 dark:text-white">{d.date}</td>
+                              <td className="px-4 py-2 text-sm text-right text-slate-600 dark:text-slate-400">{d.requests}</td>
+                              <td className="px-4 py-2 text-sm text-right text-slate-600 dark:text-slate-400">{d.unique_users}</td>
+                              <td className="px-4 py-2 text-sm text-right text-slate-600 dark:text-slate-400">{(d.tokens / 1000).toFixed(1)}k</td>
+                              <td className="px-4 py-2 text-sm text-right text-green-600">{d.rub}₽</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </Card>
+                </>
+              )}
+              
+              {!telegramStats && (
+                <div className="text-center py-12">
+                  <Send size={48} className="mx-auto text-slate-300 dark:text-slate-600 mb-4" />
+                  <p className="text-slate-500">Загрузка статистики Telegram...</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* === USERS TAB === */}
           {activeTab === 'users' && (
             <div className="space-y-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -762,129 +884,84 @@ export default function AdminPage() {
             </div>
           )}
 
+          {/* === BANNER TAB === */}
           {activeTab === 'banner' && (
             <div className="space-y-6">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Информационный баннер</h2>
-
               <Card padding="lg">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={banner.enabled}
-                        onChange={(e) => setBanner({ ...banner, enabled: e.target.checked })}
-                        className="sr-only peer"
-                      />
+                      <input type="checkbox" checked={banner.enabled} onChange={(e) => setBanner({ ...banner, enabled: e.target.checked })} className="sr-only peer" />
                       <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-red-500"></div>
                     </label>
                     <span className="text-slate-900 dark:text-white font-medium">Показывать баннер</span>
                   </div>
-
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Текст баннера</label>
-                    <textarea
-                      value={banner.text}
-                      onChange={(e) => setBanner({ ...banner, text: e.target.value })}
-                      rows={3}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
-                      placeholder="Введите текст баннера..."
-                    />
+                    <textarea value={banner.text} onChange={(e) => setBanner({ ...banner, text: e.target.value })} rows={3} className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Введите текст баннера..." />
                   </div>
-
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Тип баннера</label>
-                    <select
-                      value={banner.type}
-                      onChange={(e) => setBanner({ ...banner, type: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
-                    >
+                    <select value={banner.type} onChange={(e) => setBanner({ ...banner, type: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500">
                       <option value="info">Информация (синий)</option>
                       <option value="warning">Предупреждение (жёлтый)</option>
                       <option value="error">Ошибка (красный)</option>
                       <option value="success">Успех (зелёный)</option>
                     </select>
                   </div>
-
                   <Button onClick={saveBanner} leftIcon={<Save size={18} />}>Сохранить баннер</Button>
                 </div>
               </Card>
             </div>
           )}
 
+          {/* === DATABASE TAB === */}
           {activeTab === 'database' && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold text-slate-900 dark:text-white">База данных</h2>
-                <Button size="sm" variant="secondary" onClick={loadDbStats} leftIcon={<RefreshCw size={16} />}>
-                  Обновить
-                </Button>
+                <Button size="sm" variant="secondary" onClick={loadDbStats} leftIcon={<RefreshCw size={16} />}>Обновить</Button>
               </div>
-
               {dbStats && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Card padding="lg">
                     <h3 className="font-bold text-slate-900 dark:text-white mb-4">Количество записей</h3>
                     <div className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-slate-600 dark:text-slate-400">Пользователи</span>
-                        <span className="font-medium text-slate-900 dark:text-white">{dbStats.counts.users}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-600 dark:text-slate-400">Диалоги</span>
-                        <span className="font-medium text-slate-900 dark:text-white">{dbStats.counts.conversations}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-600 dark:text-slate-400">Сообщения</span>
-                        <span className="font-medium text-slate-900 dark:text-white">{dbStats.counts.messages}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-600 dark:text-slate-400">Транзакции</span>
-                        <span className="font-medium text-slate-900 dark:text-white">{dbStats.counts.transactions}</span>
-                      </div>
+                      <div className="flex justify-between"><span className="text-slate-600 dark:text-slate-400">Пользователи</span><span className="font-medium text-slate-900 dark:text-white">{dbStats.counts.users}</span></div>
+                      <div className="flex justify-between"><span className="text-slate-600 dark:text-slate-400">Диалоги</span><span className="font-medium text-slate-900 dark:text-white">{dbStats.counts.conversations}</span></div>
+                      <div className="flex justify-between"><span className="text-slate-600 dark:text-slate-400">Сообщения</span><span className="font-medium text-slate-900 dark:text-white">{dbStats.counts.messages}</span></div>
+                      <div className="flex justify-between"><span className="text-slate-600 dark:text-slate-400">Транзакции</span><span className="font-medium text-slate-900 dark:text-white">{dbStats.counts.transactions}</span></div>
                     </div>
                   </Card>
-
                   <Card padding="lg">
                     <h3 className="font-bold text-slate-900 dark:text-white mb-4">Размер таблиц</h3>
                     <div className="space-y-3">
-                      {dbStats.table_sizes.map((t: { table: string; size: string }) => (
-                        <div key={t.table} className="flex justify-between">
-                          <span className="text-slate-600 dark:text-slate-400">{t.table}</span>
-                          <span className="font-medium text-slate-900 dark:text-white">{t.size}</span>
-                        </div>
+                      {dbStats.table_sizes.map((t) => (
+                        <div key={t.table} className="flex justify-between"><span className="text-slate-600 dark:text-slate-400">{t.table}</span><span className="font-medium text-slate-900 dark:text-white">{t.size}</span></div>
                       ))}
                     </div>
                   </Card>
                 </div>
               )}
-
               <Card padding="lg">
                 <h3 className="font-bold text-slate-900 dark:text-white mb-4">Очистка данных</h3>
                 <div className="flex flex-wrap gap-3">
-                  <Button variant="secondary" onClick={() => handleCleanupMessages(90)}>
-                    Удалить сообщения старше 90 дней
-                  </Button>
-                  <Button variant="secondary" onClick={() => handleCleanupMessages(30)}>
-                    Удалить сообщения старше 30 дней
-                  </Button>
-                  <Button variant="secondary" onClick={handleCleanupConversations}>
-                    Удалить пустые диалоги
-                  </Button>
+                  <Button variant="secondary" onClick={() => handleCleanupMessages(90)}>Удалить сообщения старше 90 дней</Button>
+                  <Button variant="secondary" onClick={() => handleCleanupMessages(30)}>Удалить сообщения старше 30 дней</Button>
+                  <Button variant="secondary" onClick={handleCleanupConversations}>Удалить пустые диалоги</Button>
                 </div>
               </Card>
             </div>
           )}
 
+          {/* === LOGS TAB === */}
           {activeTab === 'logs' && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Логи действий</h2>
-                <Button size="sm" variant="secondary" onClick={loadLogs} leftIcon={<RefreshCw size={16} />}>
-                  Обновить
-                </Button>
+                <Button size="sm" variant="secondary" onClick={loadLogs} leftIcon={<RefreshCw size={16} />}>Обновить</Button>
               </div>
-
               <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full">
@@ -894,23 +971,15 @@ export default function AdminPage() {
                         <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Админ</th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Действие</th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300 hidden md:table-cell">Цель</th>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300 hidden lg:table-cell">Детали</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                       {logs.map(log => (
                         <tr key={log.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/30">
-                          <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">
-                            {log.created_at ? new Date(log.created_at).toLocaleString() : '-'}
-                          </td>
+                          <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{log.created_at ? new Date(log.created_at).toLocaleString() : '-'}</td>
                           <td className="px-4 py-3 text-sm font-medium text-slate-900 dark:text-white">{log.admin_username}</td>
-                          <td className="px-4 py-3">
-                            <span className="px-2 py-1 text-xs rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">{log.action}</span>
-                          </td>
+                          <td className="px-4 py-3"><span className="px-2 py-1 text-xs rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">{log.action}</span></td>
                           <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400 hidden md:table-cell">{log.target_username || '-'}</td>
-                          <td className="px-4 py-3 text-sm text-slate-500 dark:text-slate-500 hidden lg:table-cell">
-                            {log.details ? JSON.stringify(log.details).slice(0, 50) : '-'}
-                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -920,90 +989,6 @@ export default function AdminPage() {
             </div>
           )}
 
-          {activeTab === "analytics" && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between flex-wrap gap-4">
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Аналитика источников</h2>
-                <div className="flex items-center gap-2">
-                  <select
-                    value={analyticsDays}
-                    onChange={(e) => { setAnalyticsDays(Number(e.target.value)); loadAnalytics(Number(e.target.value)); }}
-                    className="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
-                  >
-                    <option value={7}>7 дней</option>
-                    <option value={14}>14 дней</option>
-                    <option value={30}>30 дней</option>
-                    <option value={90}>90 дней</option>
-                  </select>
-                  <Button size="sm" variant="secondary" onClick={() => loadAnalytics(analyticsDays)} leftIcon={<RefreshCw size={16} />}>Обновить</Button>
-                </div>
-              </div>
-
-              {analyticsData && (
-                <>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <StatCard icon={Users} label="Регистрации" value={analyticsData.summary.total_registrations} color="blue" />
-                    <StatCard icon={DollarSign} label="Оплатили" value={analyticsData.summary.total_paid_users} color="green" />
-                    <StatCard icon={TrendingUp} label="Конверсия" value={analyticsData.summary.overall_conversion_percent + "%"} color="purple" />
-                    <StatCard icon={Coins} label="Выручка" value={analyticsData.summary.total_revenue_rub.toFixed(0) + " ₽"} color="amber" />
-                  </div>
-
-                  <Card className="p-6">
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Источники трафика</h3>
-                    <div className="overflow-x-auto">
-                      <table className="w-full">
-                        <thead className="bg-slate-50 dark:bg-slate-700/50">
-                          <tr>
-                            <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Источник</th>
-                            <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Регистрации</th>
-                            <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Оплатили</th>
-                            <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Конверсия</th>
-                            <th className="px-4 py-3 text-left text-sm font-medium text-slate-600 dark:text-slate-300">Выручка</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
-                          {analyticsData.sources.map((s, i) => (
-                            <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-700/30">
-                              <td className="px-4 py-3 font-medium text-slate-900 dark:text-white">{s.source}</td>
-                              <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{s.registrations}</td>
-                              <td className="px-4 py-3 text-green-600 dark:text-green-400">{s.paid_users}</td>
-                              <td className="px-4 py-3">
-                                <span className={"px-2 py-1 rounded text-xs " + (s.conversion_percent >= 10 ? "bg-green-100 dark:bg-green-900/30 text-green-600" : s.conversion_percent >= 5 ? "bg-amber-100 dark:bg-amber-900/30 text-amber-600" : "bg-slate-100 dark:bg-slate-700 text-slate-600")}>
-                                  {s.conversion_percent}%
-                                </span>
-                              </td>
-                              <td className="px-4 py-3 text-slate-900 dark:text-white">{s.total_deposited_rub.toFixed(0)} ₽</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </Card>
-                </>
-              )}
-
-              {funnelData && (
-                <Card className="p-6">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Воронка конверсий</h3>
-                  <div className="space-y-3">
-                    {funnelData.funnel.map((f, i) => (
-                      <div key={i} className="flex items-center gap-4">
-                        <div className="w-40 text-sm text-slate-600 dark:text-slate-400">{f.stage}</div>
-                        <div className="flex-1 bg-slate-100 dark:bg-slate-700 rounded-full h-6 overflow-hidden">
-                          <div
-                            className={"h-full rounded-full " + (i === 0 ? "bg-blue-500" : i === funnelData.funnel.length - 1 ? "bg-green-500" : "bg-purple-500")}
-                            style={{ width: f.rate_percent + "%" }}
-                          />
-                        </div>
-                        <div className="w-20 text-right text-sm font-medium text-slate-900 dark:text-white">{f.count}</div>
-                        <div className="w-16 text-right text-sm text-slate-500 dark:text-slate-400">{f.rate_percent}%</div>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-              )}
-            </div>
-          )}
         </div>
       </main>
 
@@ -1013,40 +998,26 @@ export default function AdminPage() {
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-bold text-slate-900 dark:text-white">Пользователь: {selectedUser.username}</h3>
-              <button onClick={() => setUserDetailOpen(false)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg">
-                <X size={20} className="text-slate-600 dark:text-slate-400" />
-              </button>
+              <button onClick={() => setUserDetailOpen(false)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg"><X size={20} className="text-slate-600 dark:text-slate-400" /></button>
             </div>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
               <div className="space-y-3">
-                <div className="flex justify-between"><span className="text-slate-500 dark:text-slate-400">ID:</span><span className="text-slate-900 dark:text-white">{selectedUser.id}</span></div>
-                <div className="flex justify-between"><span className="text-slate-500 dark:text-slate-400">Email:</span><span className="text-slate-900 dark:text-white">{selectedUser.email || '-'}</span></div>
-                <div className="flex justify-between"><span className="text-slate-500 dark:text-slate-400">Баланс:</span><span className="font-bold text-green-600 dark:text-green-400">{selectedUser.balance_rub.toFixed(2)} ₽</span></div>
-                <div className="flex justify-between"><span className="text-slate-500 dark:text-slate-400">Потрачено:</span><span className="text-slate-900 dark:text-white">{(selectedUser.total_spent / 100).toFixed(2)} ₽</span></div>
+                <div className="flex justify-between"><span className="text-slate-500">ID:</span><span className="text-slate-900 dark:text-white">{selectedUser.id}</span></div>
+                <div className="flex justify-between"><span className="text-slate-500">Email:</span><span className="text-slate-900 dark:text-white">{selectedUser.email || '-'}</span></div>
+                <div className="flex justify-between"><span className="text-slate-500">Баланс:</span><span className="font-bold text-green-600">{selectedUser.balance_rub.toFixed(2)} ₽</span></div>
+                <div className="flex justify-between"><span className="text-slate-500">Потрачено:</span><span className="text-slate-900 dark:text-white">{(selectedUser.total_spent / 100).toFixed(2)} ₽</span></div>
               </div>
               <div className="space-y-3">
-                <div className="flex justify-between"><span className="text-slate-500 dark:text-slate-400">Создан:</span><span className="text-slate-900 dark:text-white">{selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleString() : '-'}</span></div>
-                <div className="flex justify-between"><span className="text-slate-500 dark:text-slate-400">Бюджет:</span><span className="text-slate-900 dark:text-white">{selectedUser.budget_period}</span></div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500 dark:text-slate-400">Статус:</span>
-                  <span className={selectedUser.is_blocked ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'}>
-                    {selectedUser.is_blocked ? 'Заблокирован' : 'Активен'}
-                  </span>
-                </div>
+                <div className="flex justify-between"><span className="text-slate-500">Создан:</span><span className="text-slate-900 dark:text-white">{selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleString() : '-'}</span></div>
+                <div className="flex justify-between"><span className="text-slate-500">Бюджет:</span><span className="text-slate-900 dark:text-white">{selectedUser.budget_period}</span></div>
+                <div className="flex justify-between"><span className="text-slate-500">Статус:</span><span className={selectedUser.is_blocked ? 'text-red-600' : 'text-green-600'}>{selectedUser.is_blocked ? 'Заблокирован' : 'Активен'}</span></div>
               </div>
             </div>
-
             <div className="flex flex-wrap gap-2 mb-6">
               <Button size="sm" onClick={() => setAdjustBalanceOpen(true)} leftIcon={<DollarSign size={16} />}>Изменить баланс</Button>
-              <Button size="sm" variant="secondary" onClick={() => handleBlockUser(selectedUser.id, !selectedUser.is_blocked)}>
-                {selectedUser.is_blocked ? 'Разблокировать' : 'Заблокировать'}
-              </Button>
-              {!selectedUser.is_admin && (
-                <Button size="sm" variant="secondary" className="text-red-600" onClick={() => handleDeleteUser(selectedUser.id)}>Удалить</Button>
-              )}
+              <Button size="sm" variant="secondary" onClick={() => handleBlockUser(selectedUser.id, !selectedUser.is_blocked)}>{selectedUser.is_blocked ? 'Разблокировать' : 'Заблокировать'}</Button>
+              {!selectedUser.is_admin && <Button size="sm" variant="secondary" className="text-red-600" onClick={() => handleDeleteUser(selectedUser.id)}>Удалить</Button>}
             </div>
-
             <h4 className="font-bold text-slate-900 dark:text-white mb-3">Последние транзакции</h4>
             <div className="bg-slate-50 dark:bg-slate-900 rounded-xl overflow-hidden max-h-60 overflow-y-auto">
               <table className="w-full text-sm">
@@ -1061,14 +1032,10 @@ export default function AdminPage() {
                 <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
                   {userTransactions.map(t => (
                     <tr key={t.id}>
-                      <td className="px-3 py-2 text-slate-500 dark:text-slate-400">{t.created_at ? new Date(t.created_at).toLocaleString() : '-'}</td>
-                      <td className="px-3 py-2">
-                        <span className={'px-2 py-0.5 rounded text-xs ' + (t.type === 'spend' ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400')}>
-                          {t.type}
-                        </span>
-                      </td>
+                      <td className="px-3 py-2 text-slate-500">{t.created_at ? new Date(t.created_at).toLocaleString() : '-'}</td>
+                      <td className="px-3 py-2"><span className={'px-2 py-0.5 rounded text-xs ' + (t.type === 'spend' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600')}>{t.type}</span></td>
                       <td className="px-3 py-2 text-slate-900 dark:text-white">{t.amount > 0 ? '+' : ''}{t.amount}</td>
-                      <td className="px-3 py-2 text-slate-500 dark:text-slate-400 hidden sm:table-cell">{t.description || t.model || '-'}</td>
+                      <td className="px-3 py-2 text-slate-500 hidden sm:table-cell">{t.description || t.model || '-'}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -1083,29 +1050,16 @@ export default function AdminPage() {
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-md w-full">
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Изменить баланс: {selectedUser.username}</h3>
-            <p className="text-slate-500 dark:text-slate-400 mb-4">Текущий баланс: {selectedUser.balance_rub.toFixed(2)} ₽ ({selectedUser.balance} коинов)</p>
-
+            <p className="text-slate-500 mb-4">Текущий баланс: {selectedUser.balance_rub.toFixed(2)} ₽ ({selectedUser.balance} коинов)</p>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Изменение (коины, + или -)</label>
-                <input
-                  type="number"
-                  value={adjustAmount}
-                  onChange={(e) => setAdjustAmount(parseInt(e.target.value) || 0)}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
-                  placeholder="например: 1000 или -500"
-                />
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Новый баланс: {selectedUser.balance + adjustAmount} коинов ({((selectedUser.balance + adjustAmount) / 100).toFixed(2)} ₽)</p>
+                <input type="number" value={adjustAmount} onChange={(e) => setAdjustAmount(parseInt(e.target.value) || 0)} className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="например: 1000 или -500" />
+                <p className="text-xs text-slate-500 mt-1">Новый баланс: {selectedUser.balance + adjustAmount} коинов ({((selectedUser.balance + adjustAmount) / 100).toFixed(2)} ₽)</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Причина</label>
-                <input
-                  type="text"
-                  value={adjustReason}
-                  onChange={(e) => setAdjustReason(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
-                  placeholder="Тестирование / Компенсация / Бонус..."
-                />
+                <input type="text" value={adjustReason} onChange={(e) => setAdjustReason(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Тестирование / Компенсация / Бонус..." />
               </div>
               <div className="flex gap-2">
                 <Button onClick={handleAdjustBalance} disabled={!adjustReason}>Применить</Button>
@@ -1132,12 +1086,12 @@ function StatCard({ icon: Icon, label, value, color }: { icon: React.ElementType
   return (
     <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700">
       <div className="flex items-center gap-3">
-        <div className={'w-12 h-12 rounded-xl bg-gradient-to-br ' + (colors[color] || colors.blue) + ' flex items-center justify-center flex-shrink-0'}>
-          <Icon size={24} className="text-white" />
+        <div className={'w-10 h-10 rounded-xl bg-gradient-to-br ' + (colors[color] || colors.blue) + ' flex items-center justify-center flex-shrink-0'}>
+          <Icon size={20} className="text-white" />
         </div>
         <div className="min-w-0">
-          <div className="text-2xl font-bold text-slate-900 dark:text-white truncate">{value}</div>
-          <div className="text-sm text-slate-500 dark:text-slate-400 truncate">{label}</div>
+          <div className="text-xl font-bold text-slate-900 dark:text-white truncate">{value}</div>
+          <div className="text-xs text-slate-500 dark:text-slate-400 truncate">{label}</div>
         </div>
       </div>
     </div>

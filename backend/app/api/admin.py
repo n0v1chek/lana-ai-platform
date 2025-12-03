@@ -1289,3 +1289,485 @@ async def get_source_stats(
         "sources": sources,
         "total_requests": total_requests
     }
+
+
+# === Telegram Analytics ===
+
+@router.get("/telegram/stats")
+async def get_telegram_stats(
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+    days: int = Query(30, ge=1, le=365)
+):
+    """Полная статистика Telegram бота"""
+    
+    from ..services.currency_service import currency_service
+    cbr_rate = currency_service.get_cbr_rate()
+    
+    # Общая статистика по source
+    sources_result = await db.execute(
+        text("""
+            SELECT 
+                source,
+                COUNT(*) as requests,
+                COUNT(DISTINCT user_id) as unique_users,
+                SUM(tokens_used) as total_tokens,
+                SUM(ABS(amount)) as total_coins,
+                SUM(cost_usd) as total_cost_usd
+            FROM transactions
+            WHERE type = 'spend' 
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY source
+        """),
+        {"days": days}
+    )
+    
+    sources_data = {}
+    for row in sources_result.fetchall():
+        sources_data[row.source or 'web'] = {
+            "requests": row.requests,
+            "unique_users": row.unique_users,
+            "total_tokens": row.total_tokens or 0,
+            "total_coins": row.total_coins or 0,
+            "total_rub": round((row.total_coins or 0) / 100, 2),
+            "cost_usd": round(float(row.total_cost_usd or 0), 4),
+            "cost_rub": round(float(row.total_cost_usd or 0) * cbr_rate, 2)
+        }
+    
+    # Telegram детальная статистика по дням
+    daily_result = await db.execute(
+        text("""
+            SELECT 
+                DATE(created_at) as date,
+                COUNT(*) as requests,
+                COUNT(DISTINCT user_id) as unique_users,
+                SUM(tokens_used) as tokens,
+                SUM(ABS(amount)) as coins
+            FROM transactions
+            WHERE type = 'spend' 
+                AND source = 'telegram'
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY DATE(created_at)
+            ORDER BY date DESC
+        """),
+        {"days": days}
+    )
+    
+    daily_stats = []
+    for row in daily_result.fetchall():
+        daily_stats.append({
+            "date": row.date.isoformat() if row.date else None,
+            "requests": row.requests,
+            "unique_users": row.unique_users,
+            "tokens": row.tokens or 0,
+            "coins": row.coins or 0,
+            "rub": round((row.coins or 0) / 100, 2)
+        })
+    
+    # Telegram по моделям
+    models_result = await db.execute(
+        text("""
+            SELECT 
+                model,
+                COUNT(*) as requests,
+                SUM(tokens_used) as tokens,
+                SUM(ABS(amount)) as coins
+            FROM transactions
+            WHERE type = 'spend' 
+                AND source = 'telegram'
+                AND model IS NOT NULL
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY model
+            ORDER BY requests DESC
+        """),
+        {"days": days}
+    )
+    
+    models_stats = []
+    for row in models_result.fetchall():
+        models_stats.append({
+            "model": row.model,
+            "requests": row.requests,
+            "tokens": row.tokens or 0,
+            "coins": row.coins or 0,
+            "rub": round((row.coins or 0) / 100, 2)
+        })
+    
+    # Telegram топ пользователей
+    top_users_result = await db.execute(
+        text("""
+            SELECT 
+                u.username,
+                COUNT(*) as requests,
+                SUM(t.tokens_used) as tokens,
+                SUM(ABS(t.amount)) as coins
+            FROM transactions t
+            JOIN users u ON t.user_id = u.id
+            WHERE t.type = 'spend' 
+                AND t.source = 'telegram'
+                AND t.created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY u.id, u.username
+            ORDER BY requests DESC
+            LIMIT 10
+        """),
+        {"days": days}
+    )
+    
+    top_users = []
+    for row in top_users_result.fetchall():
+        top_users.append({
+            "username": row.username,
+            "requests": row.requests,
+            "tokens": row.tokens or 0,
+            "coins": row.coins or 0,
+            "rub": round((row.coins or 0) / 100, 2)
+        })
+    
+    # Telegram по часам (активность)
+    hourly_result = await db.execute(
+        text("""
+            SELECT 
+                EXTRACT(HOUR FROM created_at) as hour,
+                COUNT(*) as requests
+            FROM transactions
+            WHERE type = 'spend' 
+                AND source = 'telegram'
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY EXTRACT(HOUR FROM created_at)
+            ORDER BY hour
+        """),
+        {"days": days}
+    )
+    
+    hourly_stats = {int(row.hour): row.requests for row in hourly_result.fetchall()}
+    
+    # Telegram сегодня vs вчера
+    today_result = await db.execute(
+        text("""
+            SELECT 
+                COUNT(*) as requests,
+                COUNT(DISTINCT user_id) as users,
+                SUM(ABS(amount)) as coins
+            FROM transactions
+            WHERE type = 'spend' 
+                AND source = 'telegram'
+                AND DATE(created_at) = CURRENT_DATE
+        """)
+    )
+    today = today_result.fetchone()
+    
+    yesterday_result = await db.execute(
+        text("""
+            SELECT 
+                COUNT(*) as requests,
+                COUNT(DISTINCT user_id) as users,
+                SUM(ABS(amount)) as coins
+            FROM transactions
+            WHERE type = 'spend' 
+                AND source = 'telegram'
+                AND DATE(created_at) = CURRENT_DATE - 1
+        """)
+    )
+    yesterday = yesterday_result.fetchone()
+    
+    telegram_data = sources_data.get('telegram', {
+        "requests": 0, "unique_users": 0, "total_tokens": 0, 
+        "total_coins": 0, "total_rub": 0, "cost_usd": 0, "cost_rub": 0
+    })
+    web_data = sources_data.get('web', {
+        "requests": 0, "unique_users": 0, "total_tokens": 0,
+        "total_coins": 0, "total_rub": 0, "cost_usd": 0, "cost_rub": 0
+    })
+    
+    total_requests = telegram_data["requests"] + web_data["requests"]
+    telegram_share = round(telegram_data["requests"] / total_requests * 100, 1) if total_requests > 0 else 0
+    
+    return {
+        "period_days": days,
+        "summary": {
+            "telegram": telegram_data,
+            "web": web_data,
+            "telegram_share_percent": telegram_share
+        },
+        "today": {
+            "requests": today.requests if today else 0,
+            "users": today.users if today else 0,
+            "coins": today.coins or 0 if today else 0,
+            "rub": round((today.coins or 0) / 100, 2) if today else 0
+        },
+        "yesterday": {
+            "requests": yesterday.requests if yesterday else 0,
+            "users": yesterday.users if yesterday else 0,
+            "coins": yesterday.coins or 0 if yesterday else 0,
+            "rub": round((yesterday.coins or 0) / 100, 2) if yesterday else 0
+        },
+        "daily": daily_stats,
+        "models": models_stats,
+        "top_users": top_users,
+        "hourly": hourly_stats
+    }
+
+
+@router.get("/stats/combined")
+async def get_combined_stats(
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+    days: int = Query(30, ge=1, le=365)
+):
+    """Объединённая статистика (dashboard + analytics)"""
+    
+    from ..services.currency_service import currency_service
+    cbr_rate = currency_service.get_cbr_rate()
+    current_rate = currency_service.get_cached_rate()
+    
+    # === Пользователи ===
+    users_result = await db.execute(
+        text("""
+            SELECT 
+                COUNT(*) as total,
+                COUNT(CASE WHEN created_at > NOW() - INTERVAL '1 day' THEN 1 END) as new_today,
+                COUNT(CASE WHEN created_at > NOW() - INTERVAL '7 days' THEN 1 END) as new_week,
+                COUNT(CASE WHEN is_blocked = true THEN 1 END) as blocked,
+                COUNT(CASE WHEN total_deposited > 0 THEN 1 END) as paid_users
+            FROM users
+        """)
+    )
+    users = users_result.fetchone()
+    
+    # Активные за период
+    active_result = await db.execute(
+        text("""
+            SELECT COUNT(DISTINCT user_id) 
+            FROM transactions 
+            WHERE created_at > NOW() - INTERVAL '1 day' * :days
+        """),
+        {"days": days}
+    )
+    active_users = active_result.scalar() or 0
+    
+    # === Финансы ===
+    finance_result = await db.execute(
+        text("""
+            SELECT 
+                SUM(balance) as total_balance,
+                SUM(total_deposited) as total_deposited,
+                SUM(total_spent) as total_spent
+            FROM users
+        """)
+    )
+    finance = finance_result.fetchone()
+    
+    # Платежи за период
+    payments_result = await db.execute(
+        text("""
+            SELECT 
+                COUNT(*) as count,
+                SUM(amount) as total
+            FROM payments 
+            WHERE status = 'succeeded'
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+        """),
+        {"days": days}
+    )
+    payments = payments_result.fetchone()
+    
+    # Платежи сегодня
+    today_payments = await db.execute(
+        text("""
+            SELECT COUNT(*), COALESCE(SUM(amount), 0)
+            FROM payments 
+            WHERE status = 'succeeded' AND DATE(created_at) = CURRENT_DATE
+        """)
+    )
+    tp = today_payments.fetchone()
+    
+    # === Использование ===
+    usage_result = await db.execute(
+        text("""
+            SELECT 
+                COUNT(*) as requests,
+                SUM(tokens_used) as tokens,
+                SUM(ABS(amount)) as coins_spent,
+                SUM(cost_usd) as cost_usd
+            FROM transactions
+            WHERE type = 'spend'
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+        """),
+        {"days": days}
+    )
+    usage = usage_result.fetchone()
+    
+    # Сегодня
+    today_usage = await db.execute(
+        text("""
+            SELECT COUNT(*), SUM(ABS(amount)), SUM(tokens_used)
+            FROM transactions 
+            WHERE type = 'spend' AND DATE(created_at) = CURRENT_DATE
+        """)
+    )
+    tu = today_usage.fetchone()
+    
+    # === По источникам ===
+    sources_result = await db.execute(
+        text("""
+            SELECT 
+                source,
+                COUNT(*) as requests,
+                COUNT(DISTINCT user_id) as users,
+                SUM(ABS(amount)) as coins
+            FROM transactions
+            WHERE type = 'spend'
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY source
+        """),
+        {"days": days}
+    )
+    sources = {row.source or 'web': {
+        "requests": row.requests,
+        "users": row.users,
+        "coins": row.coins or 0,
+        "rub": round((row.coins or 0) / 100, 2)
+    } for row in sources_result.fetchall()}
+    
+    # === Топ моделей ===
+    models_result = await db.execute(
+        text("""
+            SELECT 
+                model,
+                COUNT(*) as requests,
+                SUM(tokens_used) as tokens,
+                SUM(ABS(amount)) as coins,
+                SUM(cost_usd) as cost_usd
+            FROM transactions
+            WHERE type = 'spend' AND model IS NOT NULL
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY model
+            ORDER BY requests DESC
+            LIMIT 10
+        """),
+        {"days": days}
+    )
+    
+    top_models = []
+    for row in models_result.fetchall():
+        revenue_rub = (row.coins or 0) / 100
+        cost_rub = float(row.cost_usd or 0) * cbr_rate
+        profit = revenue_rub - cost_rub
+        margin = ((revenue_rub - cost_rub) / cost_rub * 100) if cost_rub > 0 else 0
+        
+        top_models.append({
+            "model": row.model,
+            "requests": row.requests,
+            "tokens": row.tokens or 0,
+            "revenue_rub": round(revenue_rub, 2),
+            "cost_rub": round(cost_rub, 2),
+            "profit_rub": round(profit, 2),
+            "margin_percent": round(margin, 1)
+        })
+    
+    # === Воронка регистраций ===
+    funnel_result = await db.execute(
+        text("""
+            SELECT 
+                COALESCE(registration_source, 'direct') as source,
+                COUNT(*) as registrations,
+                COUNT(CASE WHEN total_deposited > 0 THEN 1 END) as paid
+            FROM users
+            WHERE created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY registration_source
+            ORDER BY registrations DESC
+        """),
+        {"days": days}
+    )
+    
+    registration_sources = []
+    for row in funnel_result.fetchall():
+        conversion = round(row.paid / row.registrations * 100, 1) if row.registrations > 0 else 0
+        registration_sources.append({
+            "source": row.source,
+            "registrations": row.registrations,
+            "paid": row.paid,
+            "conversion_percent": conversion
+        })
+    
+    # === Ежедневная динамика ===
+    daily_result = await db.execute(
+        text("""
+            SELECT 
+                DATE(created_at) as date,
+                COUNT(*) as requests,
+                COUNT(DISTINCT user_id) as users,
+                SUM(ABS(amount)) as coins
+            FROM transactions
+            WHERE type = 'spend'
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY DATE(created_at)
+            ORDER BY date DESC
+            LIMIT 14
+        """),
+        {"days": days}
+    )
+    
+    daily = []
+    for row in daily_result.fetchall():
+        daily.append({
+            "date": row.date.isoformat() if row.date else None,
+            "requests": row.requests,
+            "users": row.users,
+            "coins": row.coins or 0,
+            "rub": round((row.coins or 0) / 100, 2)
+        })
+    
+    # Рассчёт прибыли
+    total_revenue_rub = (usage.coins_spent or 0) / 100
+    total_cost_rub = float(usage.cost_usd or 0) * cbr_rate
+    total_profit = total_revenue_rub - total_cost_rub
+    avg_margin = ((total_revenue_rub - total_cost_rub) / total_cost_rub * 100) if total_cost_rub > 0 else 0
+    
+    return {
+        "period_days": days,
+        "rates": {
+            "cbr": round(cbr_rate, 2),
+            "selling": round(current_rate, 2)
+        },
+        "users": {
+            "total": users.total,
+            "new_today": users.new_today,
+            "new_week": users.new_week,
+            "blocked": users.blocked,
+            "paid": users.paid_users,
+            "active_period": active_users,
+            "conversion_percent": round(users.paid_users / users.total * 100, 1) if users.total > 0 else 0
+        },
+        "finance": {
+            "total_balance_coins": finance.total_balance or 0,
+            "total_balance_rub": round((finance.total_balance or 0) / 100, 2),
+            "total_deposited_coins": finance.total_deposited or 0,
+            "total_deposited_rub": round((finance.total_deposited or 0) / 100, 2),
+            "total_spent_coins": finance.total_spent or 0,
+            "total_spent_rub": round((finance.total_spent or 0) / 100, 2),
+            "payments_period": payments.count or 0,
+            "payments_period_rub": round((payments.total or 0) / 100, 2),
+            "payments_today": tp[0] or 0,
+            "payments_today_rub": round((tp[1] or 0) / 100, 2)
+        },
+        "usage": {
+            "requests": usage.requests or 0,
+            "tokens": usage.tokens or 0,
+            "tokens_millions": round((usage.tokens or 0) / 1000000, 2),
+            "revenue_rub": round(total_revenue_rub, 2),
+            "cost_rub": round(total_cost_rub, 2),
+            "profit_rub": round(total_profit, 2),
+            "margin_percent": round(avg_margin, 1)
+        },
+        "today": {
+            "requests": tu[0] or 0,
+            "coins": tu[1] or 0,
+            "tokens": tu[2] or 0,
+            "rub": round((tu[1] or 0) / 100, 2)
+        },
+        "sources": sources,
+        "top_models": top_models,
+        "registration_sources": registration_sources,
+        "daily": daily
+    }
