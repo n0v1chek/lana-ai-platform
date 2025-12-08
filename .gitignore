@@ -28,3 +28,8 @@ postgres_data/
 *.log
 uploads/
 tmp/
+
+# Server-specific
+backup-db.sh
+backups/
+nginx-*.conf

@@ -97,6 +97,19 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
+        {/* Service Worker Registration */}
+        <Script id="sw-register" strategy="afterInteractive">
+          {`
+            if ('serviceWorker' in navigator) {
+              window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                  .then(reg => console.log('SW registered'))
+                  .catch(err => console.log('SW registration failed'));
+              });
+            }
+          `}
+        </Script>
+
         {/* Google Analytics */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-G2L3FBV3TG" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">

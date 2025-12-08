@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 from datetime import datetime, timedelta
@@ -8,6 +8,12 @@ from ..core.database import get_db
 from ..models.api_usage import APIUsage
 from ..models.user import User
 from ..api.auth import get_current_user
+
+
+def require_admin(user: User):
+    """Проверка прав администратора"""
+    if not user.is_admin:
+        raise HTTPException(status_code=403, detail="Доступ запрещён. Требуются права администратора.")
 
 router = APIRouter(prefix="/analytics", tags=["Analytics"])
 
@@ -71,9 +77,9 @@ async def get_total_usage(
     db: AsyncSession = Depends(get_db)
 ):
     """ADMIN: Общая статистика по всем пользователям"""
-    
-    # TODO: Добавить проверку is_admin
-    
+
+    require_admin(current_user)
+
     start_date = datetime.utcnow() - timedelta(days=days)
     
     # Общие цифры

@@ -1,0 +1,53 @@
+name: Manual Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      component:
+        description: 'Component to deploy'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - backend
+          - frontend
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/deploy/lana-ai-platform
+
+            echo "Starting deployment of: ${{ github.event.inputs.component }}"
+
+            # Pull latest code
+            git pull origin main || git pull origin master
+
+            if [ "${{ github.event.inputs.component }}" = "all" ] || [ "${{ github.event.inputs.component }}" = "backend" ]; then
+              echo "Rebuilding backend..."
+              cd backend
+              docker-compose build backend
+              docker-compose up -d backend
+              cd ..
+            fi
+
+            if [ "${{ github.event.inputs.component }}" = "all" ] || [ "${{ github.event.inputs.component }}" = "frontend" ]; then
+              echo "Rebuilding frontend..."
+              cd frontend
+              npm ci
+              npm run build
+              pm2 restart lana-frontend || pm2 start npm --name "lana-frontend" -- start
+              cd ..
+            fi
+
+            echo "Deployment completed at $(date)"

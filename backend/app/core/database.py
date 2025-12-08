@@ -4,8 +4,12 @@ from .config import settings
 
 engine = create_async_engine(
     settings.DATABASE_URL,
-    echo=True,
-    future=True
+    echo=False,  # Отключаем SQL логирование в продакшене
+    future=True,
+    pool_size=20,  # Базовый размер пула
+    max_overflow=30,  # Дополнительные соединения при нагрузке
+    pool_pre_ping=True,  # Проверка соединений перед использованием
+    pool_recycle=3600,  # Пересоздание соединений каждый час
 )
 
 AsyncSessionLocal = async_sessionmaker(

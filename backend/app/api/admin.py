@@ -894,15 +894,17 @@ async def get_admin_logs(
 
 @router.post("/database/cleanup-old-messages")
 async def cleanup_old_messages(
-    days: int = Query(90, ge=30),
+    days: int = Query(90, ge=30, le=365),
     request: Request = None,
     admin: User = Depends(require_admin),
     db: AsyncSession = Depends(get_db)
 ):
     """Удалить сообщения старше N дней"""
 
+    # Используем параметризованный запрос для защиты от SQL injection
     result = await db.execute(
-        text(f"DELETE FROM messages WHERE created_at < NOW() - INTERVAL '{days} days' RETURNING id")
+        text("DELETE FROM messages WHERE created_at < NOW() - INTERVAL '1 day' * :days RETURNING id"),
+        {"days": days}
     )
     deleted = len(result.fetchall())
 

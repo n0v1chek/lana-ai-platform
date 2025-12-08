@@ -1,13 +1,57 @@
 import sys
+import time
 import traceback
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 from contextlib import asynccontextmanager
 from .api import auth, chat, payments, analytics, subscriptions, budget, admin, files, contact
 from .core.database import engine, Base
 from .services.currency_service import currency_service
 from .services.openrouter_prices import openrouter_prices_service
 from .services.file_service import cleanup_old_files, start_cleanup_scheduler
+from .core.logging import (
+    logger, generate_request_id, set_request_id,
+    log_api_request, log_api_response
+)
+
+
+# Security Headers Middleware
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
+        if request.url.scheme == "https":
+            response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+        return response
+
+
+# Request Logging Middleware
+class RequestLoggingMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        # Generate and set request ID
+        request_id = generate_request_id()
+        set_request_id(request_id)
+
+        # Skip logging for health checks
+        if request.url.path in ["/health", "/health/detailed", "/metrics"]:
+            return await call_next(request)
+
+        start_time = time.time()
+        log_api_request(request.method, request.url.path)
+
+        response = await call_next(request)
+
+        duration_ms = (time.time() - start_time) * 1000
+        log_api_response(request.method, request.url.path, response.status_code, duration_ms)
+
+        # Add request ID to response headers
+        response.headers["X-Request-ID"] = request_id
+        return response
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -59,12 +103,23 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+# Middleware stack (order matters - first added = last executed)
+app.add_middleware(RequestLoggingMiddleware)  # Logging
+app.add_middleware(SecurityHeadersMiddleware)  # Security headers
+
+# CORS middleware - только для разрешённых доменов
+ALLOWED_ORIGINS = [
+    "https://lanaaihelper.ru",
+    "https://www.lanaaihelper.ru",
+    "http://localhost:3000",  # для локальной разработки
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "X-Requested-With"],
 )
 
 # Подключение роутеров
@@ -90,6 +145,61 @@ async def root():
 @app.get("/health")
 async def health():
     return {"status": "healthy"}
+
+
+@app.get("/health/detailed")
+async def health_detailed():
+    """Детальная проверка здоровья всех сервисов"""
+    from datetime import datetime
+    from .core.cache import cache
+    from .core.database import engine
+    from sqlalchemy import text
+
+    result = {
+        "status": "healthy",
+        "timestamp": datetime.utcnow().isoformat(),
+        "services": {}
+    }
+
+    # Check Database
+    try:
+        async with engine.connect() as conn:
+            await conn.execute(text("SELECT 1"))
+        result["services"]["database"] = {"status": "healthy"}
+    except Exception as e:
+        result["services"]["database"] = {"status": "unhealthy", "error": str(e)}
+        result["status"] = "degraded"
+
+    # Check Redis
+    try:
+        is_healthy = await cache.is_healthy()
+        result["services"]["redis"] = {"status": "healthy" if is_healthy else "unhealthy"}
+        if not is_healthy:
+            result["status"] = "degraded"
+    except Exception as e:
+        result["services"]["redis"] = {"status": "unhealthy", "error": str(e)}
+        result["status"] = "degraded"
+
+    return result
+
+
+@app.get("/metrics")
+async def metrics_endpoint():
+    """Prometheus-compatible metrics endpoint"""
+    from fastapi.responses import PlainTextResponse
+    from .core.metrics import metrics
+    return PlainTextResponse(
+        content=metrics.get_prometheus_format(),
+        media_type="text/plain"
+    )
+
+
+@app.get("/metrics/json")
+async def metrics_json():
+    """Metrics in JSON format"""
+    from .core.metrics import metrics
+    return metrics.get_stats()
+
 
 @app.get("/api/info")
 async def api_info():
