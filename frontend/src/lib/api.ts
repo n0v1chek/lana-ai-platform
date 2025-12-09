@@ -168,4 +168,86 @@ export const paymentsApi = {
   },
 };
 
+// ========== IMAGES API ==========
+
+export interface ImageGenerateRequest {
+  prompt: string;
+  model?: string;
+  aspect_ratio?: string;
+}
+
+export interface ImageGenerateResponse {
+  images: Array<{ url: string; filename: string | null }>;
+  coins_spent: number;
+  balance_remaining: number;
+  model: string;
+  prompt: string;
+}
+
+export interface ImageModel {
+  model_id: string;
+  name: string;
+  provider: string;
+  desc: string;
+  coins_per_image: number;
+  aspect_ratios: string[];
+  supports_aspect_ratio: boolean;
+}
+
+export const imagesApi = {
+  generate: async (data: ImageGenerateRequest): Promise<ImageGenerateResponse> => {
+    const response = await api.post<ImageGenerateResponse>('/images/generate', data);
+    return response.data;
+  },
+
+  getModels: async (): Promise<{ models: ImageModel[] }> => {
+    const response = await api.get('/images/models');
+    return response.data;
+  },
+};
+
+// ========== VIDEOS API ==========
+
+export interface VideoGenerateRequest {
+  prompt: string;
+  model?: string;
+  aspect_ratio?: string;
+  duration?: number;
+}
+
+export interface VideoGenerateResponse {
+  video_url: string;
+  filename: string | null;
+  coins_spent: number;
+  balance_remaining: number;
+  model: string;
+  prompt: string;
+  duration: number;
+}
+
+export interface VideoModel {
+  model_id: string;
+  name: string;
+  provider: string;
+  desc: string;
+  coins_per_5sec: number;
+  cost_usd_per_5sec: number;
+  cost_per_second_usd: number;
+  max_duration: number;
+  aspect_ratios: string[];
+  supports_aspect_ratio: boolean;
+}
+
+export const videosApi = {
+  generate: async (data: VideoGenerateRequest): Promise<VideoGenerateResponse> => {
+    const response = await api.post<VideoGenerateResponse>('/videos/generate', data);
+    return response.data;
+  },
+
+  getModels: async (): Promise<{ models: VideoModel[] }> => {
+    const response = await api.get('/videos/models');
+    return response.data;
+  },
+};
+
 export default api;

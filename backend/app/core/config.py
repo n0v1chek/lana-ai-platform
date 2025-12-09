@@ -10,6 +10,7 @@ class Settings(BaseSettings):
 
     ANTHROPIC_API_KEY: Optional[str] = None
     OPENROUTER_API_KEY: Optional[str] = None
+    REPLICATE_API_TOKEN: Optional[str] = None
 
     YUKASSA_SHOP_ID: Optional[str] = None
     YUKASSA_SECRET_KEY: Optional[str] = None

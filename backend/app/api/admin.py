@@ -36,6 +36,9 @@ class AdjustBalanceRequest(BaseModel):
     amount: int  # positive or negative
     reason: str
 
+class SetCurrencyRateRequest(BaseModel):
+    rate: float  # курс USD/RUB
+
 # === Helpers ===
 
 async def require_admin(current_user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
@@ -73,6 +76,39 @@ async def get_currency_info(
 ):
     """Получить информацию о курсе валют"""
     return await get_current_rate_info()
+
+
+@router.post("/currency")
+async def set_currency_rate(
+    request: SetCurrencyRateRequest,
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+    req: Request = None
+):
+    """Установить курс USD/RUB вручную"""
+    from ..services.currency_service import currency_service
+
+    old_rate = currency_service.get_cached_rate()
+
+    if request.rate < 50 or request.rate > 500:
+        raise HTTPException(status_code=400, detail="Курс должен быть от 50 до 500")
+
+    currency_service.set_rate(request.rate)
+
+    # Логируем действие
+    await log_admin_action(
+        db, admin.id, "set_currency_rate",
+        details={"old_rate": old_rate, "new_rate": request.rate},
+        ip=req.client.host if req else None
+    )
+    await db.commit()
+
+    return {
+        "success": True,
+        "old_rate": old_rate,
+        "new_rate": request.rate,
+        "message": f"Курс изменён с {old_rate}₽ на {request.rate}₽"
+    }
 
 
 @router.get("/dashboard")
@@ -1510,6 +1546,191 @@ async def get_telegram_stats(
     }
 
 
+@router.get("/stats/images")
+async def get_image_generation_stats(
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+    days: int = Query(30, ge=1, le=365)
+):
+    """Статистика генерации изображений"""
+
+    from ..services.currency_service import currency_service
+    cbr_rate = currency_service.get_cbr_rate()
+    current_rate = currency_service.get_cached_rate()
+
+    # Фильтруем по моделям генерации изображений
+    image_model_patterns = ['image-generation', 'image']
+
+    # Общая статистика генерации изображений
+    stats_result = await db.execute(
+        text("""
+            SELECT
+                COUNT(*) as total_generations,
+                COUNT(DISTINCT user_id) as unique_users,
+                SUM(ABS(amount)) as total_coins,
+                SUM(tokens_used) as total_tokens,
+                SUM(cost_usd) as total_cost_usd
+            FROM transactions
+            WHERE type = 'spend'
+                AND description = 'Генерация изображения'
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+        """),
+        {"days": days}
+    )
+    stats = stats_result.fetchone()
+
+    total_coins = stats.total_coins or 0
+    total_cost_usd = float(stats.total_cost_usd or 0)
+    revenue_rub = total_coins / 100
+    cost_rub = total_cost_usd * cbr_rate
+    profit_rub = revenue_rub - cost_rub
+    margin = ((revenue_rub - cost_rub) / cost_rub * 100) if cost_rub > 0 else 0
+
+    # Статистика по моделям
+    models_result = await db.execute(
+        text("""
+            SELECT
+                model,
+                COUNT(*) as generations,
+                COUNT(DISTINCT user_id) as users,
+                SUM(ABS(amount)) as coins,
+                SUM(cost_usd) as cost_usd
+            FROM transactions
+            WHERE type = 'spend'
+                AND description = 'Генерация изображения'
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY model
+            ORDER BY generations DESC
+        """),
+        {"days": days}
+    )
+
+    models_stats = []
+    for row in models_result.fetchall():
+        model_revenue = (row.coins or 0) / 100
+        model_cost = float(row.cost_usd or 0) * cbr_rate
+        model_profit = model_revenue - model_cost
+        model_margin = ((model_revenue - model_cost) / model_cost * 100) if model_cost > 0 else 0
+
+        models_stats.append({
+            "model": row.model,
+            "generations": row.generations,
+            "unique_users": row.users,
+            "revenue_rub": round(model_revenue, 2),
+            "cost_rub": round(model_cost, 4),
+            "profit_rub": round(model_profit, 2),
+            "margin_percent": round(model_margin, 1),
+            "avg_cost_per_image": round(model_revenue / row.generations, 2) if row.generations > 0 else 0
+        })
+
+    # Ежедневная динамика
+    daily_result = await db.execute(
+        text("""
+            SELECT
+                DATE(created_at) as date,
+                COUNT(*) as generations,
+                COUNT(DISTINCT user_id) as users,
+                SUM(ABS(amount)) as coins,
+                SUM(cost_usd) as cost_usd
+            FROM transactions
+            WHERE type = 'spend'
+                AND description = 'Генерация изображения'
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY DATE(created_at)
+            ORDER BY date DESC
+            LIMIT 14
+        """),
+        {"days": days}
+    )
+
+    daily_stats = []
+    for row in daily_result.fetchall():
+        day_revenue = (row.coins or 0) / 100
+        day_cost = float(row.cost_usd or 0) * cbr_rate
+
+        daily_stats.append({
+            "date": row.date.isoformat() if row.date else None,
+            "generations": row.generations,
+            "users": row.users,
+            "revenue_rub": round(day_revenue, 2),
+            "cost_rub": round(day_cost, 4),
+            "profit_rub": round(day_revenue - day_cost, 2)
+        })
+
+    # Топ пользователей по генерациям
+    top_users_result = await db.execute(
+        text("""
+            SELECT
+                u.username,
+                COUNT(*) as generations,
+                SUM(ABS(t.amount)) as coins
+            FROM transactions t
+            JOIN users u ON t.user_id = u.id
+            WHERE t.type = 'spend'
+                AND t.description = 'Генерация изображения'
+                AND t.created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY u.id, u.username
+            ORDER BY generations DESC
+            LIMIT 10
+        """),
+        {"days": days}
+    )
+
+    top_users = []
+    for row in top_users_result.fetchall():
+        top_users.append({
+            "username": row.username,
+            "generations": row.generations,
+            "spent_rub": round((row.coins or 0) / 100, 2)
+        })
+
+    # По источникам (web/telegram)
+    sources_result = await db.execute(
+        text("""
+            SELECT
+                source,
+                COUNT(*) as generations,
+                SUM(ABS(amount)) as coins
+            FROM transactions
+            WHERE type = 'spend'
+                AND description = 'Генерация изображения'
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY source
+        """),
+        {"days": days}
+    )
+
+    sources = {}
+    for row in sources_result.fetchall():
+        sources[row.source or 'web'] = {
+            "generations": row.generations,
+            "revenue_rub": round((row.coins or 0) / 100, 2)
+        }
+
+    return {
+        "period_days": days,
+        "rates": {
+            "cbr": round(cbr_rate, 2),
+            "selling": round(current_rate, 2)
+        },
+        "summary": {
+            "total_generations": stats.total_generations or 0,
+            "unique_users": stats.unique_users or 0,
+            "total_tokens": stats.total_tokens or 0,
+            "revenue_rub": round(revenue_rub, 2),
+            "cost_usd": round(total_cost_usd, 4),
+            "cost_rub": round(cost_rub, 2),
+            "profit_rub": round(profit_rub, 2),
+            "margin_percent": round(margin, 1),
+            "avg_cost_per_image": round(revenue_rub / (stats.total_generations or 1), 2)
+        },
+        "models": models_stats,
+        "daily": daily_stats,
+        "top_users": top_users,
+        "sources": sources
+    }
+
+
 @router.get("/stats/combined")
 async def get_combined_stats(
     admin: User = Depends(require_admin),
@@ -1772,4 +1993,327 @@ async def get_combined_stats(
         "top_models": top_models,
         "registration_sources": registration_sources,
         "daily": daily
+    }
+
+
+# === Provider Cost Analytics ===
+
+@router.get("/stats/providers")
+async def get_provider_statistics(
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+    days: int = Query(30, ge=1, le=365)
+):
+    """
+    Статистика расходов по провайдерам API (OpenRouter vs Replicate)
+
+    Группирует модели по провайдерам и показывает:
+    - Фактические расходы (cost_usd)
+    - Выручку (коины в рубли)
+    - Маржу и прибыль
+    """
+    from ..services.currency_service import currency_service
+    cbr_rate = currency_service.get_cbr_rate()
+    current_rate = currency_service.get_cached_rate()
+
+    # Определяем провайдера по имени модели
+    # OpenRouter: google/, openai/, anthropic/, deepseek/, etc
+    # Replicate: wan-video/, minimax/, kwaivgi/, etc
+
+    result = await db.execute(
+        text("""
+            SELECT
+                model,
+                source,
+                COUNT(*) as requests,
+                SUM(tokens_used) as total_tokens,
+                SUM(ABS(amount)) as total_coins,
+                SUM(cost_usd) as total_cost_usd
+            FROM transactions
+            WHERE type = 'spend'
+                AND model IS NOT NULL
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY model, source
+            ORDER BY total_coins DESC
+        """),
+        {"days": days}
+    )
+
+    rows = result.fetchall()
+
+    # Группируем по провайдерам
+    providers = {
+        "openrouter": {
+            "name": "OpenRouter (текст + картинки)",
+            "models": [],
+            "total_requests": 0,
+            "total_tokens": 0,
+            "total_coins": 0,
+            "total_cost_usd": 0,
+            "total_revenue_rub": 0,
+            "total_cost_rub": 0,
+            "total_profit_rub": 0,
+            "by_source": {"web": {"requests": 0, "coins": 0, "cost_usd": 0},
+                          "telegram": {"requests": 0, "coins": 0, "cost_usd": 0}}
+        },
+        "replicate": {
+            "name": "Replicate (видео)",
+            "models": [],
+            "total_requests": 0,
+            "total_tokens": 0,
+            "total_coins": 0,
+            "total_cost_usd": 0,
+            "total_revenue_rub": 0,
+            "total_cost_rub": 0,
+            "total_profit_rub": 0,
+            "by_source": {"web": {"requests": 0, "coins": 0, "cost_usd": 0},
+                          "telegram": {"requests": 0, "coins": 0, "cost_usd": 0}}
+        }
+    }
+
+    # Модели Replicate (видео)
+    replicate_prefixes = ['wan-video/', 'minimax/', 'kwaivgi/', 'google/veo', 'pixverse/', 'bytedance/']
+
+    for row in rows:
+        model = row.model or "unknown"
+        source = row.source or "web"
+        requests = row.requests or 0
+        tokens = row.total_tokens or 0
+        coins = row.total_coins or 0
+        cost_usd = float(row.total_cost_usd) if row.total_cost_usd else 0
+
+        # Определяем провайдера
+        is_replicate = any(model.startswith(prefix) for prefix in replicate_prefixes)
+        provider_key = "replicate" if is_replicate else "openrouter"
+
+        provider = providers[provider_key]
+        provider["total_requests"] += requests
+        provider["total_tokens"] += tokens
+        provider["total_coins"] += coins
+        provider["total_cost_usd"] += cost_usd
+
+        # По источникам
+        if source in provider["by_source"]:
+            provider["by_source"][source]["requests"] += requests
+            provider["by_source"][source]["coins"] += coins
+            provider["by_source"][source]["cost_usd"] += cost_usd
+
+        # Детализация по модели
+        revenue_rub = coins / 100
+        cost_rub = cost_usd * cbr_rate
+        profit_rub = revenue_rub - cost_rub
+        margin = ((revenue_rub - cost_rub) / cost_rub * 100) if cost_rub > 0 else 0
+
+        provider["models"].append({
+            "model": model,
+            "source": source,
+            "requests": requests,
+            "tokens": tokens,
+            "coins": coins,
+            "revenue_rub": round(revenue_rub, 2),
+            "cost_usd": round(cost_usd, 6),
+            "cost_rub": round(cost_rub, 2),
+            "profit_rub": round(profit_rub, 2),
+            "margin_percent": round(margin, 1)
+        })
+
+    # Подсчитываем итоги по провайдерам
+    grand_total = {
+        "total_requests": 0,
+        "total_coins": 0,
+        "total_cost_usd": 0,
+        "total_revenue_rub": 0,
+        "total_cost_rub": 0,
+        "total_profit_rub": 0
+    }
+
+    for key, provider in providers.items():
+        provider["total_revenue_rub"] = round(provider["total_coins"] / 100, 2)
+        provider["total_cost_rub"] = round(provider["total_cost_usd"] * cbr_rate, 2)
+        provider["total_profit_rub"] = round(provider["total_revenue_rub"] - provider["total_cost_rub"], 2)
+        provider["margin_percent"] = round(
+            ((provider["total_revenue_rub"] - provider["total_cost_rub"]) / provider["total_cost_rub"] * 100)
+            if provider["total_cost_rub"] > 0 else 0, 1
+        )
+
+        # Обновляем by_source с рублями
+        for src in provider["by_source"].values():
+            src["revenue_rub"] = round(src["coins"] / 100, 2)
+            src["cost_rub"] = round(src["cost_usd"] * cbr_rate, 2)
+            src["profit_rub"] = round(src["revenue_rub"] - src["cost_rub"], 2)
+
+        grand_total["total_requests"] += provider["total_requests"]
+        grand_total["total_coins"] += provider["total_coins"]
+        grand_total["total_cost_usd"] += provider["total_cost_usd"]
+        grand_total["total_revenue_rub"] += provider["total_revenue_rub"]
+        grand_total["total_cost_rub"] += provider["total_cost_rub"]
+        grand_total["total_profit_rub"] += provider["total_profit_rub"]
+
+    grand_total["total_cost_usd"] = round(grand_total["total_cost_usd"], 6)
+    grand_total["margin_percent"] = round(
+        ((grand_total["total_revenue_rub"] - grand_total["total_cost_rub"]) / grand_total["total_cost_rub"] * 100)
+        if grand_total["total_cost_rub"] > 0 else 0, 1
+    )
+
+    return {
+        "period_days": days,
+        "cbr_rate": round(cbr_rate, 2),
+        "sell_rate": round(current_rate, 2),
+        "grand_total": grand_total,
+        "providers": providers
+    }
+
+
+@router.get("/stats/daily-costs")
+async def get_daily_costs(
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+    days: int = Query(30, ge=1, le=90)
+):
+    """
+    Дневная статистика расходов и прибыли
+    Для графика динамики маржи
+    """
+    from ..services.currency_service import currency_service
+    cbr_rate = currency_service.get_cbr_rate()
+
+    result = await db.execute(
+        text("""
+            SELECT
+                DATE(created_at) as date,
+                COUNT(*) as requests,
+                SUM(ABS(amount)) as total_coins,
+                SUM(cost_usd) as total_cost_usd,
+                SUM(tokens_used) as total_tokens
+            FROM transactions
+            WHERE type = 'spend'
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY DATE(created_at)
+            ORDER BY date DESC
+        """),
+        {"days": days}
+    )
+
+    daily_data = []
+    for row in result.fetchall():
+        coins = row.total_coins or 0
+        cost_usd = float(row.total_cost_usd) if row.total_cost_usd else 0
+        revenue_rub = coins / 100
+        cost_rub = cost_usd * cbr_rate
+        profit_rub = revenue_rub - cost_rub
+        margin = ((revenue_rub - cost_rub) / cost_rub * 100) if cost_rub > 0 else 0
+
+        daily_data.append({
+            "date": row.date.isoformat() if row.date else None,
+            "requests": row.requests or 0,
+            "tokens": row.total_tokens or 0,
+            "coins": coins,
+            "revenue_rub": round(revenue_rub, 2),
+            "cost_usd": round(cost_usd, 4),
+            "cost_rub": round(cost_rub, 2),
+            "profit_rub": round(profit_rub, 2),
+            "margin_percent": round(margin, 1)
+        })
+
+    return {
+        "period_days": days,
+        "cbr_rate": round(cbr_rate, 2),
+        "daily": daily_data
+    }
+
+
+@router.get("/stats/source-comparison")
+async def get_source_comparison(
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+    days: int = Query(30, ge=1, le=365)
+):
+    """
+    Сравнение источников (web vs telegram)
+    С разбивкой по типам генерации: text, image, video
+    """
+    from ..services.currency_service import currency_service
+    cbr_rate = currency_service.get_cbr_rate()
+
+    # Определяем тип генерации по модели
+    result = await db.execute(
+        text("""
+            SELECT
+                source,
+                model,
+                COUNT(*) as requests,
+                SUM(ABS(amount)) as total_coins,
+                SUM(cost_usd) as total_cost_usd,
+                SUM(tokens_used) as total_tokens
+            FROM transactions
+            WHERE type = 'spend'
+                AND created_at > NOW() - INTERVAL '1 day' * :days
+            GROUP BY source, model
+        """),
+        {"days": days}
+    )
+
+    # Категоризация моделей
+    image_models = {'google/gemini-2.5-flash-preview-image-generation', 'google/gemini-2.0-flash-exp-image-generation'}
+    video_prefixes = ['wan-video/', 'minimax/', 'kwaivgi/', 'pixverse/', 'bytedance/']
+
+    sources = {
+        "web": {"text": {}, "image": {}, "video": {}, "total": {}},
+        "telegram": {"text": {}, "image": {}, "video": {}, "total": {}}
+    }
+
+    def init_stats():
+        return {"requests": 0, "coins": 0, "cost_usd": 0, "tokens": 0}
+
+    for src in sources:
+        for gen_type in sources[src]:
+            sources[src][gen_type] = init_stats()
+
+    for row in result.fetchall():
+        source = row.source or "web"
+        model = row.model or "unknown"
+
+        if source not in sources:
+            source = "web"
+
+        # Определяем тип генерации
+        if model in image_models:
+            gen_type = "image"
+        elif any(model.startswith(p) for p in video_prefixes):
+            gen_type = "video"
+        else:
+            gen_type = "text"
+
+        stats = sources[source][gen_type]
+        stats["requests"] += row.requests or 0
+        stats["coins"] += row.total_coins or 0
+        stats["cost_usd"] += float(row.total_cost_usd) if row.total_cost_usd else 0
+        stats["tokens"] += row.total_tokens or 0
+
+        # Total
+        total = sources[source]["total"]
+        total["requests"] += row.requests or 0
+        total["coins"] += row.total_coins or 0
+        total["cost_usd"] += float(row.total_cost_usd) if row.total_cost_usd else 0
+        total["tokens"] += row.total_tokens or 0
+
+    # Добавляем рубли и маржу
+    for source in sources:
+        for gen_type in sources[source]:
+            stats = sources[source][gen_type]
+            revenue_rub = stats["coins"] / 100
+            cost_rub = stats["cost_usd"] * cbr_rate
+            profit_rub = revenue_rub - cost_rub
+            margin = ((revenue_rub - cost_rub) / cost_rub * 100) if cost_rub > 0 else 0
+
+            stats["revenue_rub"] = round(revenue_rub, 2)
+            stats["cost_rub"] = round(cost_rub, 2)
+            stats["profit_rub"] = round(profit_rub, 2)
+            stats["margin_percent"] = round(margin, 1)
+            stats["cost_usd"] = round(stats["cost_usd"], 6)
+
+    return {
+        "period_days": days,
+        "cbr_rate": round(cbr_rate, 2),
+        "sources": sources
     }

@@ -5,7 +5,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from contextlib import asynccontextmanager
-from .api import auth, chat, payments, analytics, subscriptions, budget, admin, files, contact
+from .api import auth, chat, payments, analytics, subscriptions, budget, admin, files, contact, images, videos
 from .core.database import engine, Base
 from .services.currency_service import currency_service
 from .services.openrouter_prices import openrouter_prices_service
@@ -132,6 +132,8 @@ app.include_router(budget.router, prefix="/api", tags=["Budget"])
 app.include_router(admin.router, prefix="/api", tags=["Admin"])
 app.include_router(files.router, prefix="/api", tags=["Files"])
 app.include_router(contact.router, prefix="/api", tags=["Contact"])
+app.include_router(images.router, prefix="/api/images", tags=["Images"])
+app.include_router(videos.router, prefix="/api/videos", tags=["Videos"])
 
 @app.get("/")
 async def root():

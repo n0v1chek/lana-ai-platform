@@ -128,48 +128,112 @@ a, button, input, textarea, select {
   .text-balance { text-wrap: balance; }
 }
 
-/* Dark mode text color fixes for blog articles */
-/* Green colors */
-.dark .text-green-900 { color: #86efac; }
-.dark .text-green-800 { color: #86efac; }
-.dark .text-green-700 { color: #4ade80; }
-/* Blue colors */
-.dark .text-blue-900 { color: #93c5fd; }
-.dark .text-blue-800 { color: #93c5fd; }
-.dark .text-blue-700 { color: #60a5fa; }
-/* Red colors */
+/* =============================================
+   Dark Mode Color Fixes - Мягкие приглушённые цвета
+   ============================================= */
+
+/* Текстовые цвета - более мягкие и приятные для глаз */
+/* Green - приглушённый мятный */
+.dark .text-green-900 { color: #6ee7b7; }
+.dark .text-green-800 { color: #6ee7b7; }
+.dark .text-green-700 { color: #6ee7b7; }
+.dark .text-green-600 { color: #6ee7b7; }
+.dark .text-green-500 { color: #34d399; }
+
+/* Blue - мягкий голубой */
+.dark .text-blue-900 { color: #7dd3fc; }
+.dark .text-blue-800 { color: #7dd3fc; }
+.dark .text-blue-700 { color: #7dd3fc; }
+.dark .text-blue-600 { color: #7dd3fc; }
+.dark .text-blue-500 { color: #38bdf8; }
+
+/* Red - приглушённый коралловый */
 .dark .text-red-900 { color: #fca5a5; }
 .dark .text-red-800 { color: #fca5a5; }
-.dark .text-red-700 { color: #f87171; }
-/* Orange colors */
+.dark .text-red-700 { color: #fca5a5; }
+.dark .text-red-600 { color: #f87171; }
+.dark .text-red-500 { color: #f87171; }
+
+/* Orange - мягкий персиковый */
 .dark .text-orange-900 { color: #fdba74; }
 .dark .text-orange-800 { color: #fdba74; }
-.dark .text-orange-700 { color: #fb923c; }
-/* Yellow colors */
-.dark .text-yellow-900 { color: #fde047; }
-.dark .text-yellow-800 { color: #fde047; }
-.dark .text-yellow-700 { color: #facc15; }
-/* Purple colors */
-.dark .text-purple-900 { color: #d8b4fe; }
-.dark .text-purple-800 { color: #d8b4fe; }
-.dark .text-purple-700 { color: #c084fc; }
-/* Pink colors */
+.dark .text-orange-700 { color: #fdba74; }
+.dark .text-orange-600 { color: #fb923c; }
+.dark .text-orange-500 { color: #fb923c; }
+
+/* Yellow/Amber - тёплый приглушённый */
+.dark .text-yellow-900 { color: #fcd34d; }
+.dark .text-yellow-800 { color: #fcd34d; }
+.dark .text-yellow-700 { color: #fcd34d; }
+.dark .text-yellow-600 { color: #fbbf24; }
+.dark .text-amber-700 { color: #fcd34d; }
+.dark .text-amber-600 { color: #fbbf24; }
+.dark .text-amber-500 { color: #f59e0b; }
+.dark .text-amber-400 { color: #fbbf24; }
+
+/* Purple - мягкий лавандовый */
+.dark .text-purple-900 { color: #c4b5fd; }
+.dark .text-purple-800 { color: #c4b5fd; }
+.dark .text-purple-700 { color: #c4b5fd; }
+.dark .text-purple-600 { color: #a78bfa; }
+.dark .text-purple-500 { color: #a78bfa; }
+.dark .text-purple-400 { color: #c4b5fd; }
+
+/* Pink - мягкий розовый */
 .dark .text-pink-900 { color: #f9a8d4; }
 .dark .text-pink-800 { color: #f9a8d4; }
-.dark .text-pink-700 { color: #f472b6; }
+.dark .text-pink-700 { color: #f9a8d4; }
+.dark .text-pink-600 { color: #f472b6; }
+.dark .text-pink-500 { color: #f472b6; }
+.dark .text-pink-400 { color: #f9a8d4; }
 
-/* Dark mode background fixes for colored boxes */
-.dark .bg-green-50 { background-color: rgba(34, 197, 94, 0.15); }
-.dark .bg-green-100 { background-color: rgba(34, 197, 94, 0.2); }
-.dark .bg-blue-50 { background-color: rgba(59, 130, 246, 0.15); }
-.dark .bg-blue-100 { background-color: rgba(59, 130, 246, 0.2); }
-.dark .bg-red-50 { background-color: rgba(239, 68, 68, 0.15); }
-.dark .bg-red-100 { background-color: rgba(239, 68, 68, 0.2); }
-.dark .bg-orange-50 { background-color: rgba(249, 115, 22, 0.15); }
-.dark .bg-orange-100 { background-color: rgba(249, 115, 22, 0.2); }
-.dark .bg-yellow-50 { background-color: rgba(234, 179, 8, 0.15); }
-.dark .bg-yellow-100 { background-color: rgba(234, 179, 8, 0.2); }
-.dark .bg-purple-50 { background-color: rgba(168, 85, 247, 0.15); }
-.dark .bg-purple-100 { background-color: rgba(168, 85, 247, 0.2); }
-.dark .bg-pink-50 { background-color: rgba(236, 72, 153, 0.15); }
-.dark .bg-pink-100 { background-color: rgba(236, 72, 153, 0.2); }
+/* Lana brand colors */
+.dark .text-lana-700 { color: #a5b4fc; }
+.dark .text-lana-600 { color: #a5b4fc; }
+.dark .text-lana-500 { color: #818cf8; }
+.dark .text-lana-400 { color: #a5b4fc; }
+.dark .text-lana-300 { color: #c7d2fe; }
+
+/* Фоновые цвета - очень приглушённые, почти незаметные */
+.dark .bg-green-50 { background-color: rgba(34, 197, 94, 0.08); }
+.dark .bg-green-100 { background-color: rgba(34, 197, 94, 0.12); }
+.dark .bg-blue-50 { background-color: rgba(59, 130, 246, 0.08); }
+.dark .bg-blue-100 { background-color: rgba(59, 130, 246, 0.12); }
+.dark .bg-red-50 { background-color: rgba(239, 68, 68, 0.08); }
+.dark .bg-red-100 { background-color: rgba(239, 68, 68, 0.12); }
+.dark .bg-orange-50 { background-color: rgba(249, 115, 22, 0.08); }
+.dark .bg-orange-100 { background-color: rgba(249, 115, 22, 0.12); }
+.dark .bg-yellow-50 { background-color: rgba(234, 179, 8, 0.08); }
+.dark .bg-yellow-100 { background-color: rgba(234, 179, 8, 0.12); }
+.dark .bg-amber-50 { background-color: rgba(245, 158, 11, 0.08); }
+.dark .bg-amber-100 { background-color: rgba(245, 158, 11, 0.12); }
+.dark .bg-purple-50 { background-color: rgba(168, 85, 247, 0.08); }
+.dark .bg-purple-100 { background-color: rgba(168, 85, 247, 0.12); }
+.dark .bg-pink-50 { background-color: rgba(236, 72, 153, 0.08); }
+.dark .bg-pink-100 { background-color: rgba(236, 72, 153, 0.12); }
+.dark .bg-lana-50 { background-color: rgba(99, 102, 241, 0.08); }
+.dark .bg-lana-100 { background-color: rgba(99, 102, 241, 0.12); }
+
+/* Градиенты в тёмной теме - более мягкие */
+.dark .from-lana-500 { --tw-gradient-from: #6366f1; }
+.dark .to-purple-500 { --tw-gradient-to: #8b5cf6; }
+.dark .from-purple-500 { --tw-gradient-from: #8b5cf6; }
+.dark .to-pink-500 { --tw-gradient-to: #d946ef; }
+
+/* Бордеры - более мягкие в тёмной теме */
+.dark .border-purple-200 { border-color: rgba(168, 85, 247, 0.25); }
+.dark .border-pink-200 { border-color: rgba(236, 72, 153, 0.25); }
+.dark .border-blue-200 { border-color: rgba(59, 130, 246, 0.25); }
+.dark .border-green-200 { border-color: rgba(34, 197, 94, 0.25); }
+.dark .border-orange-200 { border-color: rgba(249, 115, 22, 0.25); }
+.dark .border-amber-200 { border-color: rgba(245, 158, 11, 0.25); }
+
+/* Исправление для слишком ярких элементов */
+.dark .bg-gradient-to-r.from-lana-500.to-purple-500,
+.dark .bg-gradient-to-r.from-purple-500.to-lana-500 {
+  opacity: 0.9;
+}
+
+/* Улучшение контраста текста на цветных фонах */
+.dark .bg-lana-500 { background-color: #5558e8; }
+.dark .bg-purple-500 { background-color: #8158e8; }

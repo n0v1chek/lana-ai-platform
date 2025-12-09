@@ -13,12 +13,8 @@ import {
   Shield,
   Globe,
   Sparkles,
-
-
   Copy,
   CheckCheck,
-
-
   Mail,
   Wallet,
   Lock,
@@ -32,8 +28,10 @@ import {
   Megaphone,
   BookOpen,
   Settings,
-
   Rocket,
+  Image,
+  Video,
+  CreditCard,
 } from 'lucide-react';
 
 const features = [
@@ -53,6 +51,16 @@ const features = [
     description: 'GPT-4o, Claude, Gemini, Llama и все передовые модели в одном месте',
   },
   {
+    icon: Image,
+    title: 'Генерация изображений',
+    description: 'Создавайте уникальные картинки по текстовому описанию с помощью AI',
+  },
+  {
+    icon: Video,
+    title: 'Генерация видео',
+    description: 'Превращайте текст в видеоролики — Kling, Hailuo, Wan и другие модели',
+  },
+  {
     icon: Wallet,
     title: 'Без подписок',
     description: 'Пополняйте баланс когда удобно, коины не сгорают',
@@ -61,6 +69,11 @@ const features = [
     icon: Shield,
     title: 'Полная приватность',
     description: 'Минимум данных — только необходимое для безопасности',
+  },
+  {
+    icon: CreditCard,
+    title: 'Оплата из России',
+    description: 'Принимаем карты российских банков, без VPN и сложностей',
   },
   {
     icon: Globe,
@@ -214,7 +227,7 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-lana-100 dark:bg-lana-900/30 text-lana-700 dark:text-lana-300 rounded-full text-sm font-medium mb-8">
             <Sparkles className="w-4 h-4" />
-            Лучшие AI модели мира • Старт от 49₽
+            Чат + Фото + Видео • Старт от 49₽
           </div>
 
           <h1 className="font-display text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 leading-tight">
@@ -225,24 +238,42 @@ export default function HomePage() {
           </h1>
 
           <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
-            Общайтесь с лучшими AI-моделями мира. Без подписок — пополняйте баланс 
-            и платите только за отправленные сообщения.
+            AI-чаты, генерация фото и видео — для личных задач и бизнеса.
+            Автоматизируйте рутину с помощью AI-агентов. Без подписок — платите за использование.
           </p>
 
           {/* Slogan Banner */}
-          <div className="flex flex-wrap justify-center gap-4 mb-10">
-            <div className="flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-medium">
-              <Lock className="w-4 h-4" />
-              Полная приватность
-            </div>
+          <div className="flex flex-wrap justify-center gap-3 mb-4">
             <div className="flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium">
-              <Shield className="w-4 h-4" />
-              Не храним данные
+              <MessageSquare className="w-4 h-4" />
+              AI-чаты
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium">
-              <Wallet className="w-4 h-4" />
-              Вы решаете сколько платить
+              <Image className="w-4 h-4" />
+              Генерация фото
             </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 rounded-full text-sm font-medium">
+              <Video className="w-4 h-4" />
+              Генерация видео
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-medium">
+              <CreditCard className="w-4 h-4" />
+              Оплата из РФ
+            </div>
+          </div>
+
+          {/* B2B Highlight */}
+          <div className="flex justify-center mb-10">
+            <a href="#business" className="group flex items-center gap-3 px-5 py-3 bg-gradient-to-r from-purple-500/10 to-lana-500/10 dark:from-purple-500/20 dark:to-lana-500/20 border border-purple-200 dark:border-purple-700 rounded-2xl hover:border-purple-400 transition-all">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-lana-500 flex items-center justify-center">
+                <Settings className="w-5 h-5 text-white" />
+              </div>
+              <div className="text-left">
+                <p className="font-semibold text-slate-900 dark:text-white text-sm">AI-агенты для бизнеса</p>
+                <p className="text-xs text-slate-600 dark:text-slate-400">Автоматизация продаж, поддержки и рутинных задач</p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-purple-500 group-hover:translate-x-1 transition-transform" />
+            </a>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

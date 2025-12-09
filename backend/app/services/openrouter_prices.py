@@ -20,12 +20,12 @@ class OpenRouterPricesService:
             "openai/gpt-4o-mini",
             "deepseek/deepseek-chat",
             "deepseek/deepseek-r1",
-            
+
             # Стандартные
             "anthropic/claude-3.5-haiku",
             "openai/o3-mini",
             "mistralai/mistral-large-2411",
-            
+
             # Премиум
             "openai/gpt-4o",
             "google/gemini-2.5-pro",
@@ -34,12 +34,25 @@ class OpenRouterPricesService:
             "anthropic/claude-3.7-sonnet",
             "x-ai/grok-3",
             "openai/gpt-4-turbo",
-            
+
             # Ультра
             "anthropic/claude-opus-4",
             "openai/o1",
             "openai/o1-pro",
+
+            # Генерация изображений
+            "google/gemini-2.5-flash-preview-image-generation",
+            "google/gemini-2.0-flash-exp-image-generation",
         }
+
+        # Модели генерации изображений
+        self._image_models = {
+            "google/gemini-2.5-flash-preview-image-generation",
+            "google/gemini-2.0-flash-exp-image-generation",
+        }
+
+        # Цены изображений (отдельный кэш)
+        self._image_prices: Dict[str, Tuple[float, float]] = {}
 
     async def fetch_prices(self) -> Dict[str, Tuple[float, float]]:
         """Получить актуальные цены с OpenRouter API"""
@@ -80,6 +93,13 @@ class OpenRouterPricesService:
                         self._last_update = now
                         logger.info(f"OpenRouter prices updated: {len(new_prices)} models")
 
+                        # Отдельно сохраняем цены для image моделей
+                        self._image_prices = {
+                            k: v for k, v in new_prices.items()
+                            if k in self._image_models
+                        }
+                        logger.info(f"Image model prices: {len(self._image_prices)} models")
+
                     return self._prices
                 else:
                     logger.warning(f"OpenRouter API returned {response.status_code}")
@@ -92,6 +112,10 @@ class OpenRouterPricesService:
     def get_cached_prices(self) -> Dict[str, Tuple[float, float]]:
         """Получить кэшированные цены (синхронно)"""
         return self._prices
+
+    def get_image_prices(self) -> Dict[str, Tuple[float, float]]:
+        """Получить цены моделей генерации изображений"""
+        return self._image_prices
 
     def get_last_update(self) -> Optional[datetime]:
         """Когда последний раз обновлялись цены"""

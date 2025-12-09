@@ -54,6 +54,7 @@ services:
       SITE_URL: ${SITE_URL}
       YOOKASSA_SHOP_ID: ${YOOKASSA_SHOP_ID}
       YOOKASSA_SECRET_KEY: ${YOOKASSA_SECRET_KEY}
+      REPLICATE_API_TOKEN: ${REPLICATE_API_TOKEN}
     ports:
       - "127.0.0.1:8000:8000"
     healthcheck:

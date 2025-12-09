@@ -6,6 +6,8 @@ class MessageCreate(BaseModel):
     content: str = Field(..., min_length=1)
 
 class MessageResponse(BaseModel):
+    model_config = {"protected_namespaces": (), "from_attributes": True}
+
     id: int
     conversation_id: int
     role: str
@@ -13,9 +15,6 @@ class MessageResponse(BaseModel):
     tokens_used: int
     model_used: Optional[str] = None
     created_at: datetime
-
-    class Config:
-        from_attributes = True
 
 class ConversationCreate(BaseModel):
     title: Optional[str] = "New Chat"

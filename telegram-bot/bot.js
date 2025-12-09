@@ -70,10 +70,10 @@ const CATEGORY_EMOJI = { economy: '💚', standard: '💛', premium: '🧡', ult
 
 function mainMenu() {
   return Markup.inlineKeyboard([
-    [Markup.button.callback('💬 Начать чат', 'start_chat')],
-    [Markup.button.callback('🤖 Выбрать модель', 'choose_model'), Markup.button.callback('💰 Баланс', 'balance')],
-    [Markup.button.callback('💳 Пополнить', 'topup'), Markup.button.callback('📊 Стоимость', 'pricing')],
-    [Markup.button.callback('🏢 Для бизнеса', 'business')],
+    [Markup.button.callback('💬 Начать чат', 'start_chat'), Markup.button.callback('🖼 Картинка', 'generate_image')],
+    [Markup.button.callback('🎬 Видео', 'generate_video'), Markup.button.callback('🤖 Модель', 'choose_model')],
+    [Markup.button.callback('💰 Баланс', 'balance'), Markup.button.callback('💳 Пополнить', 'topup')],
+    [Markup.button.callback('📊 Стоимость', 'pricing'), Markup.button.callback('🏢 Бизнес', 'business')],
     [Markup.button.callback('❓ Помощь', 'help'), Markup.button.url('🌐 Сайт', 'https://lanaaihelper.ru')]
   ]);
 }
@@ -266,17 +266,238 @@ bot.action('start_chat', async (ctx) => {
   await ctx.answerCbQuery();
   const session = getSession(ctx.chat.id);
   console.log('Session token:', !!session.token);
-  
+
   if (!session.token) {
     return ctx.reply('🔐 Сначала войди: /start');
   }
-  
+
   session.conversationId = null;
+  session.imageMode = false;
   await ctx.reply(
     '💬 *Новый чат!*\n\n🤖 Модель: ' + session.modelName + '\n\nПиши сообщение:',
     { parse_mode: 'Markdown' }
   );
 });
+
+// === GENERATE IMAGE ===
+bot.action('generate_image', async (ctx) => {
+  console.log('GENERATE_IMAGE action');
+  await ctx.answerCbQuery();
+  const session = getSession(ctx.chat.id);
+
+  if (!session.token) {
+    return ctx.reply('🔐 Сначала войди: /start');
+  }
+
+  session.imageMode = true;
+  await ctx.reply(
+    '🖼 *Генерация изображений*\n\n' +
+    'Опиши что хочешь увидеть на картинке.\n\n' +
+    '💡 *Примеры:*\n' +
+    '• _Кот в космическом скафандре на Луне_\n' +
+    '• _Закат над морем в стиле Ван Гога_\n' +
+    '• _Футуристический город будущего_\n\n' +
+    '💰 Стоимость: ~500 коинов\n\n' +
+    'Напиши описание:',
+    {
+      parse_mode: 'Markdown',
+      ...Markup.inlineKeyboard([
+        [Markup.button.callback('◀️ Назад к чату', 'back_to_chat')]
+      ])
+    }
+  );
+});
+
+bot.action('back_to_chat', async (ctx) => {
+  await ctx.answerCbQuery();
+  const session = getSession(ctx.chat.id);
+  session.imageMode = false;
+  session.videoMode = false;
+  await ctx.reply('💬 Режим чата. Пиши сообщения!');
+});
+
+bot.command('image', async (ctx) => {
+  const session = getSession(ctx.chat.id);
+  if (!session.token) return ctx.reply('🔐 Войди: /start');
+
+  const prompt = ctx.message.text.replace('/image', '').trim();
+  if (!prompt) {
+    session.imageMode = true;
+    return ctx.reply(
+      '🖼 *Генерация изображений*\n\n' +
+      'Используй: `/image описание картинки`\n\n' +
+      'Или просто напиши описание:',
+      { parse_mode: 'Markdown' }
+    );
+  }
+
+  await generateImage(ctx, session, prompt);
+});
+
+async function generateImage(ctx, session, prompt) {
+  await ctx.sendChatAction('upload_photo');
+  const processing = await ctx.reply('🎨 Генерирую изображение...\n_Это может занять 30-60 секунд_', { parse_mode: 'Markdown' });
+
+  try {
+    const response = await axios.post(API_URL + '/images/generate', {
+      prompt: prompt,
+      model: 'google/gemini-2.0-flash-exp-image-generation',
+      aspect_ratio: '1:1',
+      source: 'telegram'
+    }, {
+      headers: { Authorization: 'Bearer ' + session.token, 'Content-Type': 'application/json' },
+      timeout: 180000
+    });
+
+    await ctx.deleteMessage(processing.message_id).catch(function() {});
+
+    const images = response.data.images || [];
+    const coinsSpent = response.data.coins_spent || 0;
+
+    if (images.length === 0) {
+      return ctx.reply('❌ Не удалось сгенерировать изображение. Попробуй другое описание.');
+    }
+
+    for (const img of images) {
+      const imageUrl = img.url.startsWith('/api') ? 'http://localhost:8000' + img.url : img.url;
+      try {
+        await ctx.replyWithPhoto({ url: imageUrl }, {
+          caption: '🖼 ' + prompt.substring(0, 100) + (prompt.length > 100 ? '...' : '') + '\n\n_💰 -' + coinsSpent + ' коинов_',
+          parse_mode: 'Markdown'
+        });
+      } catch (photoErr) {
+        console.error('Photo send error:', photoErr.message);
+        await ctx.reply('🖼 Изображение готово!\n🔗 ' + imageUrl + '\n\n_💰 -' + coinsSpent + ' коинов_', { parse_mode: 'Markdown' });
+      }
+    }
+
+    session.imageMode = false;
+
+  } catch (error) {
+    await ctx.deleteMessage(processing.message_id).catch(function() {});
+
+    if (error.response && error.response.status === 401) {
+      session.token = null;
+      return ctx.reply('❌ Сессия истекла: /start');
+    }
+
+    if (error.response && error.response.status === 402) {
+      return ctx.reply('❌ Недостаточно коинов!\n\n💳 https://lanaaihelper.ru/pricing');
+    }
+
+    console.error('Image generation error:', error.response ? error.response.data : error.message);
+    ctx.reply('❌ Ошибка генерации. Попробуй позже или другое описание.');
+  }
+}
+
+// === GENERATE VIDEO ===
+bot.action('generate_video', async (ctx) => {
+  console.log('GENERATE_VIDEO action');
+  await ctx.answerCbQuery();
+  const session = getSession(ctx.chat.id);
+
+  if (!session.token) {
+    return ctx.reply('🔐 Сначала войди: /start');
+  }
+
+  session.videoMode = true;
+  await ctx.reply(
+    '🎬 *Генерация видео*\n\n' +
+    'Опиши что хочешь увидеть в видео.\n\n' +
+    '💡 *Примеры:*\n' +
+    '• _Кот играет с мячиком на траве_\n' +
+    '• _Волны на закате, замедленная съёмка_\n' +
+    '• _Полёт над горами, кинематографично_\n\n' +
+    '💰 Стоимость: ~2000 коинов (5 сек)\n' +
+    '⏱ Время генерации: 1-3 минуты\n\n' +
+    'Напиши описание:',
+    {
+      parse_mode: 'Markdown',
+      ...Markup.inlineKeyboard([
+        [Markup.button.callback('◀️ Назад к чату', 'back_to_chat')]
+      ])
+    }
+  );
+});
+
+bot.command('video', async (ctx) => {
+  const session = getSession(ctx.chat.id);
+  if (!session.token) return ctx.reply('🔐 Войди: /start');
+
+  const prompt = ctx.message.text.replace('/video', '').trim();
+  if (!prompt) {
+    session.videoMode = true;
+    return ctx.reply(
+      '🎬 *Генерация видео*\n\n' +
+      'Используй: `/video описание видео`\n\n' +
+      'Или просто напиши описание:',
+      { parse_mode: 'Markdown' }
+    );
+  }
+
+  await generateVideo(ctx, session, prompt);
+});
+
+async function generateVideo(ctx, session, prompt) {
+  await ctx.sendChatAction('record_video');
+  const processing = await ctx.reply('🎬 Генерирую видео...\n_Это может занять 1-3 минуты_', { parse_mode: 'Markdown' });
+
+  try {
+    const response = await axios.post(API_URL + '/videos/generate', {
+      prompt: prompt,
+      model: 'wan-video/wan-2.5-t2v-fast',
+      aspect_ratio: '16:9',
+      duration: 5,
+      source: 'telegram'
+    }, {
+      headers: { Authorization: 'Bearer ' + session.token, 'Content-Type': 'application/json' },
+      timeout: 300000  // 5 минут таймаут
+    });
+
+    await ctx.deleteMessage(processing.message_id).catch(function() {});
+
+    const videoUrl = response.data.video_url;
+    const coinsSpent = response.data.coins_spent || 0;
+    const duration = response.data.duration || 5;
+
+    if (!videoUrl) {
+      return ctx.reply('❌ Не удалось сгенерировать видео. Попробуй другое описание.');
+    }
+
+    const fullVideoUrl = videoUrl.startsWith('/api') ? 'http://localhost:8000' + videoUrl : videoUrl;
+
+    try {
+      await ctx.replyWithVideo({ url: fullVideoUrl }, {
+        caption: '🎬 ' + prompt.substring(0, 80) + (prompt.length > 80 ? '...' : '') + '\n⏱ ' + duration + ' сек\n\n_💰 -' + coinsSpent + ' коинов_',
+        parse_mode: 'Markdown'
+      });
+    } catch (videoErr) {
+      console.error('Video send error:', videoErr.message);
+      await ctx.reply('🎬 Видео готово!\n🔗 ' + fullVideoUrl + '\n⏱ ' + duration + ' сек\n\n_💰 -' + coinsSpent + ' коинов_', { parse_mode: 'Markdown' });
+    }
+
+    session.videoMode = false;
+
+  } catch (error) {
+    await ctx.deleteMessage(processing.message_id).catch(function() {});
+
+    if (error.response && error.response.status === 401) {
+      session.token = null;
+      return ctx.reply('❌ Сессия истекла: /start');
+    }
+
+    if (error.response && error.response.status === 402) {
+      return ctx.reply('❌ Недостаточно коинов!\n\n💳 https://lanaaihelper.ru/pricing');
+    }
+
+    if (error.response && error.response.status === 503) {
+      return ctx.reply('❌ Сервис видео временно недоступен. Попробуй позже.');
+    }
+
+    console.error('Video generation error:', error.response ? error.response.data : error.message);
+    ctx.reply('❌ Ошибка генерации видео. Попробуй позже.');
+  }
+}
 
 // === TOPUP ===
 bot.action('topup', async (ctx) => {
@@ -512,7 +733,7 @@ bot.action('close_menu', async (ctx) => {
 bot.on('text', async (ctx) => {
   const session = getSession(ctx.chat.id);
   const text = ctx.message.text;
-  
+
   // Login step: username
   if (session.loginStep === 'username') {
     session.loginUsername = text;
@@ -525,19 +746,31 @@ bot.on('text', async (ctx) => {
     );
     return;
   }
-  
+
   // Login step: password
   if (session.loginStep === 'password') {
     try { await ctx.deleteMessage(); } catch (e) {}
     await doLogin(ctx, session.loginUsername, text);
     return;
   }
-  
+
   // Regular message
   if (!session.token) {
     return ctx.reply('🔐 Сначала войди: /start');
   }
-  
+
+  // Image generation mode
+  if (session.imageMode) {
+    await generateImage(ctx, session, text);
+    return;
+  }
+
+  // Video generation mode
+  if (session.videoMode) {
+    await generateVideo(ctx, session, text);
+    return;
+  }
+
   await ctx.sendChatAction('typing');
   const typing = await ctx.reply('⏳ Думаю...');
 
@@ -587,7 +820,13 @@ bot.on('text', async (ctx) => {
   }
 });
 
-bot.catch(function(err) { console.error('Bot error:', err); });
+bot.catch(function(err) {
+  // Ignore "message is not modified" error - it's harmless
+  if (err.description && err.description.includes('message is not modified')) {
+    return;
+  }
+  console.error('Bot error:', err);
+});
 
 bot.launch().then(function() { console.log('🤖 LANA AI Bot v3.3 started!'); });
 

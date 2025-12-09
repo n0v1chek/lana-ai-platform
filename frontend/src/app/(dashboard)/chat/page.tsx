@@ -23,6 +23,8 @@ import {
   AlertTriangle,
   CheckCircle,
   XCircle,
+  ImageIcon,
+  Video,
 } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import { useChatStore } from '@/stores/chatStore';
@@ -305,7 +307,7 @@ function ChatPageContent() {
           <div className="p-4 border-b border-slate-200 dark:border-slate-700">
             <div className="flex items-center justify-between">
               <Link href="/" className="flex items-center gap-2">
-                <CatLogo size={48} />
+                <CatLogo size={80} />
               </Link>
               <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
                 <X size={20} />
@@ -343,6 +345,24 @@ function ChatPageContent() {
               </div>
             )}
             <div className="space-y-1">
+              {/* Фото и Видео в мобильной версии */}
+              <div className="sm:hidden space-y-2 mb-3 pb-3 border-b border-slate-200 dark:border-slate-700">
+                <p className="text-xs text-slate-400 uppercase font-semibold px-1">Генерация контента</p>
+                <Link href="/images" className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white dark:bg-slate-700 border border-purple-200 dark:border-purple-800 hover:border-purple-400 transition-colors">
+                  <ImageIcon size={20} className="text-purple-500" />
+                  <div>
+                    <span className="text-sm font-medium text-slate-900 dark:text-white block">Создать картинку</span>
+                    <span className="text-xs text-slate-500">AI генерация изображений</span>
+                  </div>
+                </Link>
+                <Link href="/videos" className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white dark:bg-slate-700 border border-pink-200 dark:border-pink-800 hover:border-pink-400 transition-colors">
+                  <Video size={20} className="text-pink-500" />
+                  <div>
+                    <span className="text-sm font-medium text-slate-900 dark:text-white block">Создать видео</span>
+                    <span className="text-xs text-slate-500">AI генерация видеороликов</span>
+                  </div>
+                </Link>
+              </div>
               <Link href="/history" className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                 <History size={18} className="text-slate-400" /><span className="text-sm text-slate-700 dark:text-slate-300">История</span>
               </Link>
@@ -413,9 +433,25 @@ function ChatPageContent() {
       {sidebarOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
       <main className="flex-1 flex flex-col min-w-0">
         <header className="sticky top-0 z-30 h-16 flex items-center justify-between px-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700"><Menu size={20} /></button>
             <ModelSelector value={selectedModel} onChange={(model) => { setSelectedModel(model); loadBudget(); }} disabled={isSending} />
+            <div className="hidden sm:flex items-center gap-2 ml-2">
+              <Link href="/images" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-purple-400 dark:hover:border-purple-600 transition-colors group">
+                <ImageIcon size={16} className="text-purple-500" />
+                <div className="flex flex-col items-start">
+                  <span className="text-xs text-slate-400 leading-none">Создать</span>
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300 leading-tight">Картинку</span>
+                </div>
+              </Link>
+              <Link href="/videos" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-pink-400 dark:hover:border-pink-600 transition-colors group">
+                <Video size={16} className="text-pink-500" />
+                <div className="flex flex-col items-start">
+                  <span className="text-xs text-slate-400 leading-none">Создать</span>
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300 leading-tight">Видео</span>
+                </div>
+              </Link>
+            </div>
           </div>
           <div className="flex items-center gap-3">
             {lastCoinsSpent && <span className="text-xs text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-lg font-medium">-{lastCoinsSpent}</span>}

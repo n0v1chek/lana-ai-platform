@@ -5,12 +5,15 @@ import PrivacyNotice from "@/components/PrivacyNotice";
 import ThemeToggle from "@/components/ThemeToggle";
 
 export const metadata: Metadata = {
-  title: "LANA AI Helper — Умный AI-помощник | AI Chat Russia",
-  description: "Доступ к лучшим AI моделям: GPT-4o, Claude, Gemini. Работает в России без VPN. Access top AI models in Russia without VPN.",
+  title: "LANA AI — ChatGPT, генерация фото и видео в России | AI без VPN",
+  description: "AI-чаты (GPT-4o, Claude, Gemini), генерация изображений и видео. Работает в России без VPN, оплата картами РФ. AI-агенты для автоматизации бизнеса.",
   keywords: [
-    "AI", "искусственный интеллект", "ChatGPT", "Claude", "нейросеть", "чат-бот",
-    "AI chat Russia", "ChatGPT alternative Russia", "GPT-4 Russia", "Claude AI Russia",
-    "AI assistant", "neural network chat", "Gemini Russia", "AI without VPN"
+    "AI", "искусственный интеллект", "ChatGPT", "Claude", "Gemini", "нейросеть", "чат-бот",
+    "генерация изображений", "генерация видео", "AI фото", "AI видео", "text to image", "text to video",
+    "ChatGPT в России", "ChatGPT без VPN", "GPT-4 Россия", "Claude AI Россия",
+    "AI агенты", "автоматизация бизнеса", "чат-бот для бизнеса", "AI помощник",
+    "нейросеть для фото", "нейросеть для видео", "Kling", "Hailuo", "Wan",
+    "AI chat Russia", "ChatGPT alternative Russia", "AI without VPN", "оплата картами РФ"
   ],
   authors: [{ name: "LANA AI Helper" }],
   manifest: "/manifest.json",
@@ -27,10 +30,10 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "LANA AI Helper — AI Chat for Russia",
-    description: "Access GPT-4o, Claude, Gemini in Russia without VPN. Доступ к лучшим AI моделям.",
+    title: "LANA AI — ChatGPT, фото и видео генерация в России",
+    description: "AI-чаты, генерация изображений и видео. GPT-4o, Claude, Gemini без VPN. AI-агенты для бизнеса.",
     url: "https://lanaaihelper.ru",
-    siteName: "LANA AI Helper",
+    siteName: "LANA AI",
     locale: "ru_RU",
     alternateLocale: "en_US",
     type: "website",
@@ -39,14 +42,14 @@ export const metadata: Metadata = {
         url: "https://lanaaihelper.ru/images/og-image.png",
         width: 1200,
         height: 630,
-        alt: "LANA AI Helper - AI Chat Russia",
+        alt: "LANA AI — ChatGPT, генерация фото и видео в России",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "LANA AI Helper — AI Chat for Russia",
-    description: "Access GPT-4o, Claude, Gemini in Russia without VPN.",
+    title: "LANA AI — ChatGPT, фото и видео в России без VPN",
+    description: "AI-чаты, генерация изображений и видео. Оплата картами РФ. AI-агенты для бизнеса.",
     images: ["https://lanaaihelper.ru/images/og-image.png"],
   },
   other: {
@@ -72,26 +75,96 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebApplication",
-              "name": "LANA AI Helper",
-              "description": "AI chat platform with GPT-4o, Claude, Gemini. Works in Russia without VPN.",
+              "name": "LANA AI",
+              "alternateName": "LANA AI Helper",
+              "description": "AI-чаты (GPT-4o, Claude, Gemini), генерация изображений и видео. Работает в России без VPN. AI-агенты для автоматизации бизнеса.",
               "url": "https://lanaaihelper.ru",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Web",
               "inLanguage": ["ru", "en"],
+              "featureList": [
+                "AI Chat с GPT-4o, Claude, Gemini",
+                "Генерация изображений по описанию",
+                "Генерация видео (Kling, Hailuo, Wan)",
+                "AI-агенты для бизнеса",
+                "Оплата картами РФ",
+                "Работает без VPN"
+              ],
               "offers": {
                 "@type": "Offer",
                 "price": "49",
-                "priceCurrency": "RUB"
+                "priceCurrency": "RUB",
+                "description": "Минимальное пополнение баланса"
               },
               "author": {
-                "@type": "Person",
-                "name": "Живчин Александр Семенович"
+                "@type": "Organization",
+                "name": "LANA AI",
+                "url": "https://lanaaihelper.ru"
               },
               "aggregateRating": {
                 "@type": "AggregateRating",
                 "ratingValue": "4.8",
-                "ratingCount": "150"
+                "ratingCount": "250"
               }
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "LANA AI",
+              "url": "https://lanaaihelper.ru",
+              "logo": "https://lanaaihelper.ru/images/icon-512.png",
+              "description": "AI-платформа: чаты, генерация фото и видео, AI-агенты для бизнеса",
+              "sameAs": [],
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "email": "support@lanaaihelper.ru",
+                "contactType": "customer service",
+                "availableLanguage": ["Russian", "English"]
+              },
+              "areaServed": {
+                "@type": "Country",
+                "name": "Russia"
+              }
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Как использовать ChatGPT в России?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "LANA AI предоставляет доступ к ChatGPT (GPT-4o), Claude, Gemini и другим AI моделям в России без VPN. Оплата российскими картами, старт от 49₽."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Можно ли генерировать изображения и видео с помощью AI?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Да, LANA AI поддерживает генерацию изображений и видео по текстовому описанию. Доступны модели Kling, Hailuo, Wan для видео и AI для создания картинок."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Сколько стоит использование AI?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Минимальное пополнение — 49₽. Без подписок, платите только за использование. 1 рубль = 100 коинов. Цены зависят от выбранной модели."
+                  }
+                }
+              ]
             }),
           }}
         />
