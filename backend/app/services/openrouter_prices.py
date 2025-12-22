@@ -26,6 +26,9 @@ class OpenRouterPricesService:
             "openai/o3-mini",
             "mistralai/mistral-large-2411",
 
+            # Стандартные (доп)
+            "mistralai/mistral-small",
+
             # Премиум
             "openai/gpt-4o",
             "google/gemini-2.5-pro",
@@ -33,6 +36,7 @@ class OpenRouterPricesService:
             "anthropic/claude-3.5-sonnet",
             "anthropic/claude-3.7-sonnet",
             "x-ai/grok-3",
+            "x-ai/grok-3-beta",
             "openai/gpt-4-turbo",
 
             # Ультра

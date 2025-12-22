@@ -237,14 +237,12 @@ bot.action('balance', async (ctx) => {
       headers: { Authorization: 'Bearer ' + session.token }
     });
     const balance = response.data.balance;
-    const rubles = (balance / 100).toFixed(2);
-    
+
     await ctx.reply(
       '💰 *Твой баланс*\n\n' +
-      '🪙 ' + balance.toLocaleString() + ' коинов\n' +
-      '💵 ≈ ' + rubles + ' ₽\n\n' +
+      '🪙 ' + balance.toLocaleString() + ' коинов\n\n' +
       '📍 Модель: ' + session.modelName + '\n\n' +
-      '💡 _1₽ = 100 коинов, не сгорают_',
+      '💡 _Коины бессрочны, не сгорают_',
       { 
         parse_mode: 'Markdown',
         ...Markup.inlineKeyboard([

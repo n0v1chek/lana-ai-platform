@@ -42,9 +42,11 @@ MODEL_PRICES_USD = {
     "openai/gpt-4o": (2.50, 10.00),
     "google/gemini-2.5-pro": (1.25, 10.00),
     "anthropic/claude-sonnet-4": (3.00, 15.00),
-    "anthropic/claude-3.5-sonnet": (3.00, 15.00),
+    "anthropic/claude-3.5-sonnet": (6.00, 30.00),
     "anthropic/claude-3.7-sonnet": (3.00, 15.00),
     "x-ai/grok-3": (3.00, 15.00),
+    "x-ai/grok-3-beta": (3.00, 15.00),
+    "mistralai/mistral-small": (0.20, 0.60),
     "openai/gpt-4-turbo": (10.00, 30.00),
     
     # Ультра

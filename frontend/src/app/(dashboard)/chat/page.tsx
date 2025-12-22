@@ -289,7 +289,8 @@ function ChatPageContent() {
   const hasBudgetLimit = budget?.budget_period !== 'none' && dailyLimit > 0;
   const previewDailyLimit = PERIOD_DAYS[selectedPeriod] > 0 ? Math.floor(budgetCoins / PERIOD_DAYS[selectedPeriod]) : 0;
 
-  if (authLoading) {
+  // Показываем загрузку пока auth не инициализирован
+  if (authLoading || !isInitialized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
         <div className="text-center">
@@ -309,7 +310,7 @@ function ChatPageContent() {
               <Link href="/" className="flex items-center gap-2">
                 <CatLogo size={80} />
               </Link>
-              <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
+              <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 icon-btn">
                 <X size={20} />
               </button>
             </div>
@@ -348,37 +349,37 @@ function ChatPageContent() {
               {/* Фото и Видео в мобильной версии */}
               <div className="sm:hidden space-y-2 mb-3 pb-3 border-b border-slate-200 dark:border-slate-700">
                 <p className="text-xs text-slate-400 uppercase font-semibold px-1">Генерация контента</p>
-                <Link href="/images" className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white dark:bg-slate-700 border border-purple-200 dark:border-purple-800 hover:border-purple-400 transition-colors">
-                  <ImageIcon size={20} className="text-purple-500" />
+                <Link href="/images" className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white dark:bg-slate-700 border border-purple-200 dark:border-purple-800 hover:border-purple-400 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group">
+                  <ImageIcon size={20} className="text-purple-500 transition-transform duration-200 group-hover:scale-110" />
                   <div>
                     <span className="text-sm font-medium text-slate-900 dark:text-white block">Создать картинку</span>
                     <span className="text-xs text-slate-500">AI генерация изображений</span>
                   </div>
                 </Link>
-                <Link href="/videos" className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white dark:bg-slate-700 border border-pink-200 dark:border-pink-800 hover:border-pink-400 transition-colors">
-                  <Video size={20} className="text-pink-500" />
+                <Link href="/videos" className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white dark:bg-slate-700 border border-pink-200 dark:border-pink-800 hover:border-pink-400 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group">
+                  <Video size={20} className="text-pink-500 transition-transform duration-200 group-hover:scale-110" />
                   <div>
                     <span className="text-sm font-medium text-slate-900 dark:text-white block">Создать видео</span>
                     <span className="text-xs text-slate-500">AI генерация видеороликов</span>
                   </div>
                 </Link>
               </div>
-              <Link href="/history" className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                <History size={18} className="text-slate-400" /><span className="text-sm text-slate-700 dark:text-slate-300">История</span>
+              <Link href="/history" className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 group">
+                <History size={18} className="text-slate-400 transition-transform duration-200 group-hover:scale-110" /><span className="text-sm text-slate-700 dark:text-slate-300">История</span>
               </Link>
-              <Link href="/pricing" className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                <CreditCard size={18} className="text-slate-400" /><span className="text-sm text-slate-700 dark:text-slate-300">Пополнить</span>
+              <Link href="/pricing" className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 group">
+                <CreditCard size={18} className="text-slate-400 transition-transform duration-200 group-hover:scale-110" /><span className="text-sm text-slate-700 dark:text-slate-300">Пополнить</span>
               </Link>
-              <Link href="/settings" className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                <Settings size={18} className="text-slate-400" /><span className="text-sm text-slate-700 dark:text-slate-300">Настройки</span>
+              <Link href="/settings" className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 group">
+                <Settings size={18} className="text-slate-400 transition-transform duration-200 group-hover:scale-110 group-hover:rotate-45" /><span className="text-sm text-slate-700 dark:text-slate-300">Настройки</span>
               </Link>
               {user?.is_admin && (
-                <Link href="/admin" className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                  <Shield size={18} className="text-red-400" /><span className="text-sm text-red-600 dark:text-red-400">Админка</span>
+                <Link href="/admin" className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 group">
+                  <Shield size={18} className="text-red-400 transition-transform duration-200 group-hover:scale-110" /><span className="text-sm text-red-600 dark:text-red-400">Админка</span>
                 </Link>
               )}
-              <button onClick={handleLogout} className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors">
-                <LogOut size={18} /><span className="text-sm">Выйти</span>
+              <button onClick={handleLogout} className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-all duration-200 group active:scale-95">
+                <LogOut size={18} className="transition-transform duration-200 group-hover:scale-110 group-hover:-translate-x-0.5" /><span className="text-sm">Выйти</span>
               </button>
             </div>
           </div>
@@ -434,18 +435,18 @@ function ChatPageContent() {
       <main className="flex-1 flex flex-col min-w-0">
         <header className="sticky top-0 z-30 h-16 flex items-center justify-between px-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
           <div className="flex items-center gap-2 sm:gap-4">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700"><Menu size={20} /></button>
+            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 icon-btn"><Menu size={20} /></button>
             <ModelSelector value={selectedModel} onChange={(model) => { setSelectedModel(model); loadBudget(); }} disabled={isSending} />
             <div className="hidden sm:flex items-center gap-2 ml-2">
-              <Link href="/images" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-purple-400 dark:hover:border-purple-600 transition-colors group">
-                <ImageIcon size={16} className="text-purple-500" />
+              <Link href="/images" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-purple-400 dark:hover:border-purple-600 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group">
+                <ImageIcon size={16} className="text-purple-500 transition-transform duration-200 group-hover:scale-110" />
                 <div className="flex flex-col items-start">
                   <span className="text-xs text-slate-400 leading-none">Создать</span>
                   <span className="text-sm font-medium text-slate-700 dark:text-slate-300 leading-tight">Картинку</span>
                 </div>
               </Link>
-              <Link href="/videos" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-pink-400 dark:hover:border-pink-600 transition-colors group">
-                <Video size={16} className="text-pink-500" />
+              <Link href="/videos" className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-pink-400 dark:hover:border-pink-600 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group">
+                <Video size={16} className="text-pink-500 transition-transform duration-200 group-hover:scale-110" />
                 <div className="flex flex-col items-start">
                   <span className="text-xs text-slate-400 leading-none">Создать</span>
                   <span className="text-sm font-medium text-slate-700 dark:text-slate-300 leading-tight">Видео</span>
@@ -455,12 +456,12 @@ function ChatPageContent() {
           </div>
           <div className="flex items-center gap-3">
             {lastCoinsSpent && <span className="text-xs text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-lg font-medium">-{lastCoinsSpent}</span>}
-            <button onClick={() => setBudgetSettingsOpen(true)} className="flex items-center gap-3 px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+            <button onClick={() => setBudgetSettingsOpen(true)} className="flex items-center gap-3 px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group">
               <div className="text-right">
                 <div className="text-sm font-bold text-slate-900 dark:text-white">{balance.toLocaleString()} коинов</div>
                 {hasBudgetLimit && <div className="text-xs text-slate-500">Сегодня: <span className={dailyRemaining > 0 ? "text-green-600" : "text-red-600"}>{dailyRemaining}/{dailyLimit}</span></div>}
               </div>
-              <Coins size={20} className="text-amber-500" />
+              <Coins size={20} className="text-amber-500 transition-transform duration-200 group-hover:scale-110 group-hover:rotate-12" />
             </button>
           </div>
         </header>
@@ -480,7 +481,7 @@ function ChatPageContent() {
           <div className="mx-4 mt-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl flex items-center gap-3">
             <AlertCircle className="text-red-500 flex-shrink-0" size={20} />
             <p className="text-sm text-red-700 dark:text-red-400 flex-1">{error}</p>
-            <button onClick={clearError} className="text-red-500 hover:text-red-700"><X size={18} /></button>
+            <button onClick={clearError} className="text-red-500 hover:text-red-700 icon-btn"><X size={18} /></button>
           </div>
         )}
         {hasBudgetLimit && dailyRemaining === 0 && hasBalance && (
@@ -502,7 +503,7 @@ function ChatPageContent() {
                 {canSend ? (
                   <div className="grid gap-2">
                     {['Объясни квантовые вычисления простыми словами', 'Напиши код на Python для сортировки списка', 'Придумай идею для мобильного приложения'].map((prompt, i) => (
-                      <button key={i} onClick={() => sendMessage(prompt)} className="text-left px-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-lana-300 dark:hover:border-lana-600 transition-colors text-sm text-slate-600 dark:text-slate-400">{prompt}</button>
+                      <button key={i} onClick={() => sendMessage(prompt)} className="text-left px-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-lana-300 dark:hover:border-lana-600 hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 text-sm text-slate-600 dark:text-slate-400">{prompt}</button>
                     ))}
                   </div>
                 ) : !hasBalance ? (

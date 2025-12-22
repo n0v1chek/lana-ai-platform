@@ -147,7 +147,7 @@ export default function VideosPage() {
       {/* Header */}
       <header className="sticky top-0 z-30 h-16 flex items-center justify-between px-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
         <div className="flex items-center gap-4">
-          <Link href="/chat" className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+          <Link href="/chat" className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-200 icon-btn">
             <ArrowLeft size={20} />
           </Link>
           <div className="flex items-center gap-2">
@@ -176,7 +176,7 @@ export default function VideosPage() {
           <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl flex items-center gap-3">
             <AlertCircle className="text-red-500 flex-shrink-0" size={20} />
             <p className="text-sm text-red-700 dark:text-red-400 flex-1">{error}</p>
-            <button onClick={() => setError(null)} className="text-red-500 hover:text-red-700">
+            <button onClick={() => setError(null)} className="text-red-500 hover:text-red-700 icon-btn">
               <X size={18} />
             </button>
           </div>
@@ -207,10 +207,10 @@ export default function VideosPage() {
                 <button
                   key={model.model_id}
                   onClick={() => setSelectedModel(model.model_id)}
-                  className={`text-left px-4 py-3 rounded-xl border transition-colors ${
+                  className={`text-left px-4 py-3 rounded-xl border transition-all duration-200 hover:shadow-md active:scale-[0.98] ${
                     selectedModel === model.model_id
                       ? 'border-lana-500 bg-lana-50 dark:bg-lana-900/20'
-                      : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'
+                      : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500 hover:-translate-y-0.5'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -238,12 +238,12 @@ export default function VideosPage() {
                   key={d.value}
                   onClick={() => setDuration(d.value)}
                   disabled={selectedModelInfo && d.value > selectedModelInfo.max_duration}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 active:scale-95 ${
                     duration === d.value
-                      ? 'bg-lana-500 text-white'
+                      ? 'bg-lana-500 text-white shadow-md'
                       : selectedModelInfo && d.value > selectedModelInfo.max_duration
                       ? 'bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed'
-                      : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
+                      : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 hover:-translate-y-0.5 hover:shadow-sm'
                   }`}
                 >
                   <Clock size={14} className="inline mr-1" />
@@ -263,10 +263,10 @@ export default function VideosPage() {
                 <button
                   key={ratio.value}
                   onClick={() => setAspectRatio(ratio.value)}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 active:scale-95 ${
                     aspectRatio === ratio.value
-                      ? 'bg-lana-500 text-white'
-                      : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
+                      ? 'bg-lana-500 text-white shadow-md'
+                      : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 hover:-translate-y-0.5 hover:shadow-sm'
                   }`}
                 >
                   {ratio.label}
@@ -318,7 +318,7 @@ export default function VideosPage() {
                   generatedVideo.video_url.startsWith('/api') ? (process.env.NEXT_PUBLIC_API_URL || '') + generatedVideo.video_url : generatedVideo.video_url,
                   generatedVideo.filename
                 )}
-                className="absolute top-3 right-3 p-2 rounded-lg bg-white/90 dark:bg-slate-800/90 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-3 right-3 p-2 rounded-lg bg-white/90 dark:bg-slate-800/90 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-200 hover:scale-110 active:scale-95"
               >
                 <Download size={18} className="text-slate-700 dark:text-slate-300" />
               </button>

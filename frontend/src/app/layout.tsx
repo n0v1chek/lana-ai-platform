@@ -15,6 +15,10 @@ export const metadata: Metadata = {
     "нейросеть для фото", "нейросеть для видео", "Kling", "Hailuo", "Wan",
     "AI chat Russia", "ChatGPT alternative Russia", "AI without VPN", "оплата картами РФ"
   ],
+  metadataBase: new URL("https://lanaaihelper.ru"),
+  alternates: {
+    canonical: "/",
+  },
   authors: [{ name: "LANA AI Helper" }],
   manifest: "/manifest.json",
   icons: {

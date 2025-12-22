@@ -14,6 +14,8 @@ import {
   Brain,
   Globe,
   Bot,
+  Image,
+  Video,
 } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import { Button, Card } from '@/components/ui';
@@ -55,6 +57,25 @@ interface PricesData {
   models: ModelData[];
 }
 
+interface ImageModelData {
+  model_id: string;
+  name: string;
+  provider: string;
+  desc: string;
+  coins_per_image: number;
+  cost_usd_per_image: number;
+}
+
+interface VideoModelData {
+  model_id: string;
+  name: string;
+  provider: string;
+  desc: string;
+  coins_per_5sec: number;
+  cost_usd_per_5sec: number;
+  max_duration: number;
+}
+
 export default function PricingPage() {
   const router = useRouter();
   const { user, isAuthenticated, isLoading: authLoading, isInitialized, fetchUser } = useAuthStore();
@@ -62,12 +83,30 @@ export default function PricingPage() {
   const [topupLoading, setTopupLoading] = useState(false);
   const [pricesData, setPricesData] = useState<PricesData | null>(null);
   const [pricesLoading, setPricesLoading] = useState(true);
+  const [imageModels, setImageModels] = useState<ImageModelData[]>([]);
+  const [videoModels, setVideoModels] = useState<VideoModelData[]>([]);
 
   const loadPrices = useCallback(async () => {
     try {
-      const res = await fetch((process.env.NEXT_PUBLIC_API_URL || '') + '/payments/prices');
-      if (res.ok) {
-        setPricesData(await res.json());
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+
+      // Загружаем все цены параллельно
+      const [pricesRes, imagesRes, videosRes] = await Promise.all([
+        fetch(apiUrl + '/payments/prices'),
+        fetch(apiUrl + '/images/models'),
+        fetch(apiUrl + '/videos/models'),
+      ]);
+
+      if (pricesRes.ok) {
+        setPricesData(await pricesRes.json());
+      }
+      if (imagesRes.ok) {
+        const imgData = await imagesRes.json();
+        setImageModels(imgData.models || []);
+      }
+      if (videosRes.ok) {
+        const vidData = await videosRes.json();
+        setVideoModels(vidData.models || []);
       }
     } catch (e) {
       console.error('Failed to load prices:', e);
@@ -141,7 +180,8 @@ export default function PricingPage() {
   const rubToCoins = (rub: number) => rub * 100;
   const coinsToRub = (coins: number) => coins / 100;
 
-  if (authLoading) {
+  // Показываем загрузку пока auth не инициализирован
+  if (authLoading || !isInitialized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
         <div className="text-center">
@@ -178,22 +218,14 @@ export default function PricingPage() {
 
       <main className="max-w-4xl mx-auto px-4 py-8">
         <Card className="mb-8 bg-gradient-to-r from-lana-500 to-purple-500 text-white" padding="lg">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-                <Coins className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-white/80 text-sm">Ваш баланс</p>
-                <p className="font-display text-3xl font-bold">
-                  {formatCoins(currentBalance)} коинов
-                </p>
-              </div>
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+              <Coins className="w-6 h-6" />
             </div>
-            <div className="text-right">
-              <p className="text-white/80 text-sm">Эквивалент</p>
-              <p className="font-display text-2xl font-bold">
-                ≈ {formatPrice(coinsToRub(currentBalance))} ₽
+            <div>
+              <p className="text-white/80 text-sm">Ваш баланс</p>
+              <p className="font-display text-3xl font-bold">
+                {formatCoins(currentBalance)} коинов
               </p>
             </div>
           </div>
@@ -278,7 +310,7 @@ export default function PricingPage() {
             <h3 className="text-sm font-semibold text-green-600 dark:text-green-400 mb-2">💚 Экономичные</h3>
             <div className="grid md:grid-cols-2 gap-2">
               {economyModels.map((model) => (
-                <div key={model.name} className="flex items-center gap-3 p-3 rounded-xl bg-green-50 dark:bg-green-900/20">
+                <div key={model.name} className="flex items-center gap-3 p-3 rounded-xl bg-green-50 dark:bg-green-900/20 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-default">
                   {(() => { const Icon = ICONS[model.provider] || Globe; return <Icon className={`w-5 h-5 ${COLORS[model.category]}`} />; })()}
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{model.name}</p>
@@ -297,7 +329,7 @@ export default function PricingPage() {
             <h3 className="text-sm font-semibold text-yellow-600 dark:text-yellow-400 mb-2">💛 Стандартные</h3>
             <div className="grid md:grid-cols-2 gap-2">
               {standardModels.map((model) => (
-                <div key={model.name} className="flex items-center gap-3 p-3 rounded-xl bg-yellow-50 dark:bg-yellow-900/20">
+                <div key={model.name} className="flex items-center gap-3 p-3 rounded-xl bg-yellow-50 dark:bg-yellow-900/20 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-default">
                   {(() => { const Icon = ICONS[model.provider] || Globe; return <Icon className={`w-5 h-5 ${COLORS[model.category]}`} />; })()}
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{model.name}</p>
@@ -316,7 +348,7 @@ export default function PricingPage() {
             <h3 className="text-sm font-semibold text-orange-600 dark:text-orange-400 mb-2">🧡 Премиум</h3>
             <div className="grid md:grid-cols-2 gap-2">
               {premiumModels.map((model) => (
-                <div key={model.name} className="flex items-center gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-900/20">
+                <div key={model.name} className="flex items-center gap-3 p-3 rounded-xl bg-orange-50 dark:bg-orange-900/20 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-default">
                   {(() => { const Icon = ICONS[model.provider] || Globe; return <Icon className={`w-5 h-5 ${COLORS[model.category]}`} />; })()}
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{model.name}</p>
@@ -335,7 +367,7 @@ export default function PricingPage() {
             <h3 className="text-sm font-semibold text-red-600 dark:text-red-400 mb-2">❤️ Ультра</h3>
             <div className="grid md:grid-cols-2 gap-2">
               {ultraModels.map((model) => (
-                <div key={model.name} className="flex items-center gap-3 p-3 rounded-xl bg-red-50 dark:bg-red-900/20">
+                <div key={model.name} className="flex items-center gap-3 p-3 rounded-xl bg-red-50 dark:bg-red-900/20 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-default">
                   {(() => { const Icon = ICONS[model.provider] || Globe; return <Icon className={`w-5 h-5 ${COLORS[model.category]}`} />; })()}
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{model.name}</p>
@@ -354,12 +386,76 @@ export default function PricingPage() {
           </p>
         </Card>
 
+        {/* Генерация изображений */}
+        {imageModels.length > 0 && (
+          <Card className="mb-8" padding="lg">
+            <div className="flex items-center gap-2 mb-4">
+              <Image className="w-5 h-5 text-pink-500" />
+              <h2 className="font-display text-lg font-bold text-slate-900 dark:text-white">
+                Генерация изображений
+              </h2>
+            </div>
+
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+              Создавайте уникальные изображения по текстовому описанию с помощью нейросетей.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-2">
+              {imageModels.map((model) => (
+                <div key={model.model_id} className="flex items-center gap-3 p-3 rounded-xl bg-pink-50 dark:bg-pink-900/20 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-default">
+                  <Image className="w-5 h-5 text-pink-500" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{model.name}</p>
+                    <p className="text-xs text-slate-500">{model.provider} • {model.desc}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-pink-600 dark:text-pink-400 text-sm">~{formatCoins(model.coins_per_image)}</p>
+                    <p className="text-xs text-slate-500">коинов/картинка</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
+
+        {/* Генерация видео */}
+        {videoModels.length > 0 && (
+          <Card className="mb-8" padding="lg">
+            <div className="flex items-center gap-2 mb-4">
+              <Video className="w-5 h-5 text-purple-500" />
+              <h2 className="font-display text-lg font-bold text-slate-900 dark:text-white">
+                Генерация видео
+              </h2>
+            </div>
+
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+              Создавайте видеоролики по текстовому описанию. Цена зависит от длительности.
+            </p>
+
+            <div className="space-y-2">
+              {videoModels.map((model) => (
+                <div key={model.model_id} className="flex items-center gap-3 p-3 rounded-xl bg-purple-50 dark:bg-purple-900/20 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-default">
+                  <Video className="w-5 h-5 text-purple-500" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-slate-900 dark:text-white text-sm truncate">{model.name}</p>
+                    <p className="text-xs text-slate-500">{model.provider} • {model.desc} • до {model.max_duration}сек</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-purple-600 dark:text-purple-400 text-sm">~{formatCoins(model.coins_per_5sec)}</p>
+                    <p className="text-xs text-slate-500">коинов/5сек</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
+
         <h2 className="font-display text-xl font-bold text-slate-900 dark:text-white mb-4">
           Частые вопросы
         </h2>
 
         <div className="grid md:grid-cols-2 gap-4">
-          <Card padding="md">
+          <Card padding="md" hover>
             <h3 className="font-semibold text-slate-900 dark:text-white mb-2">
               Что такое коины?
             </h3>
@@ -369,7 +465,7 @@ export default function PricingPage() {
             </p>
           </Card>
 
-          <Card padding="md">
+          <Card padding="md" hover>
             <h3 className="font-semibold text-slate-900 dark:text-white mb-2">
               Сколько стоит сообщение?
             </h3>
@@ -378,7 +474,7 @@ export default function PricingPage() {
             </p>
           </Card>
 
-          <Card padding="md">
+          <Card padding="md" hover>
             <h3 className="font-semibold text-slate-900 dark:text-white mb-2">
               Коины сгорают?
             </h3>
@@ -387,7 +483,25 @@ export default function PricingPage() {
             </p>
           </Card>
 
-          </div>
+          <Card padding="md" hover>
+            <h3 className="font-semibold text-slate-900 dark:text-white mb-2">
+              Сколько стоит картинка?
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400 text-sm">
+              Генерация изображения стоит ~2900 коинов за одну картинку. Поддерживаются разные пропорции.
+            </p>
+          </Card>
+
+          <Card padding="md" hover>
+            <h3 className="font-semibold text-slate-900 dark:text-white mb-2">
+              Сколько стоит видео?
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400 text-sm">
+              От ~10 000 до ~200 000 коинов за 5 секунд в зависимости от модели. Качественнее модель — дороже.
+            </p>
+          </Card>
+
+        </div>
       </main>
     </div>
   );

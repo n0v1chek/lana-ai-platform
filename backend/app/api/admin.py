@@ -202,36 +202,38 @@ async def get_margin_monitoring(
     # Получаем статистику по моделям за последние N дней (только транзакции с cost_usd)
     result = await db.execute(
         text("""
-            SELECT 
+            SELECT
                 model,
                 COUNT(*) as requests,
                 SUM(tokens_used) as total_tokens,
                 SUM(ABS(amount)) as total_coins,
                 SUM(cost_usd) as total_cost_usd,
                 AVG(usd_rate) as avg_usd_rate,
+                SUM(cost_usd * COALESCE(usd_rate, :default_rate)) as cost_rub_actual,
                 MIN(created_at) as first_request,
                 MAX(created_at) as last_request
-            FROM transactions 
-            WHERE type = 'spend' 
+            FROM transactions
+            WHERE type = 'spend'
                 AND model IS NOT NULL
                 AND created_at > NOW() - INTERVAL '1 day' * :days
             GROUP BY model
             ORDER BY total_coins DESC
         """),
-        {"days": days}
+        {"days": days, "default_rate": currency_service.get_cached_rate()}
     )
-    
+
     models_data = result.fetchall()
-    
+
     # Текущий курс
     current_rate = currency_service.get_cached_rate()
     cbr_rate = currency_service.get_cbr_rate()
-    
+
     models_stats = []
     total_revenue_coins = 0
+    total_cost_rub = 0
     total_cost_usd = 0
     alerts = []
-    
+
     for row in models_data:
         model_id = row.model
         requests = row.requests
@@ -239,16 +241,17 @@ async def get_margin_monitoring(
         coins_charged = row.total_coins or 0
         cost_usd = float(row.total_cost_usd) if row.total_cost_usd else 0
         avg_rate = float(row.avg_usd_rate) if row.avg_usd_rate else current_rate
-        
+        # Используем фактическую себестоимость из транзакций
+        cost_rub = float(row.cost_rub_actual) if row.cost_rub_actual else 0
+
         # Расчёт маржи
         revenue_rub = coins_charged / 100  # коины в рубли
-        cost_rub = cost_usd * cbr_rate  # себестоимость по курсу ЦБ (без спреда)
-        
+
         if cost_rub > 0:
             margin_percent = ((revenue_rub - cost_rub) / cost_rub) * 100
         else:
             margin_percent = 0
-        
+
         profit_rub = revenue_rub - cost_rub
         
         # Проверка на аномалии
@@ -282,13 +285,13 @@ async def get_margin_monitoring(
             "avg_tokens_per_request": round(total_tokens / requests, 0) if requests > 0 else 0,
             "avg_coins_per_request": round(coins_charged / requests, 1) if requests > 0 else 0,
         })
-        
+
         total_revenue_coins += coins_charged
+        total_cost_rub += cost_rub
         total_cost_usd += cost_usd
-    
-    # Общая статистика
+
+    # Общая статистика (используем накопленную фактическую себестоимость)
     total_revenue_rub = total_revenue_coins / 100
-    total_cost_rub = total_cost_usd * cbr_rate
     total_profit_rub = total_revenue_rub - total_cost_rub
     total_margin = ((total_revenue_rub - total_cost_rub) / total_cost_rub * 100) if total_cost_rub > 0 else 0
     
@@ -1807,16 +1810,17 @@ async def get_combined_stats(
     # === Использование ===
     usage_result = await db.execute(
         text("""
-            SELECT 
+            SELECT
                 COUNT(*) as requests,
                 SUM(tokens_used) as tokens,
                 SUM(ABS(amount)) as coins_spent,
-                SUM(cost_usd) as cost_usd
+                SUM(cost_usd) as cost_usd,
+                SUM(cost_usd * COALESCE(usd_rate, :default_rate)) as cost_rub_actual
             FROM transactions
             WHERE type = 'spend'
                 AND created_at > NOW() - INTERVAL '1 day' * :days
         """),
-        {"days": days}
+        {"days": days, "default_rate": cbr_rate}
     )
     usage = usage_result.fetchone()
     
@@ -1855,12 +1859,13 @@ async def get_combined_stats(
     # === Топ моделей ===
     models_result = await db.execute(
         text("""
-            SELECT 
+            SELECT
                 model,
                 COUNT(*) as requests,
                 SUM(tokens_used) as tokens,
                 SUM(ABS(amount)) as coins,
-                SUM(cost_usd) as cost_usd
+                SUM(cost_usd) as cost_usd,
+                SUM(cost_usd * COALESCE(usd_rate, :default_rate)) as cost_rub_actual
             FROM transactions
             WHERE type = 'spend' AND model IS NOT NULL
                 AND created_at > NOW() - INTERVAL '1 day' * :days
@@ -1868,16 +1873,17 @@ async def get_combined_stats(
             ORDER BY requests DESC
             LIMIT 10
         """),
-        {"days": days}
+        {"days": days, "default_rate": cbr_rate}
     )
-    
+
     top_models = []
     for row in models_result.fetchall():
         revenue_rub = (row.coins or 0) / 100
-        cost_rub = float(row.cost_usd or 0) * cbr_rate
+        # Используем фактическую себестоимость из транзакций (cost_usd * usd_rate на момент записи)
+        cost_rub = float(row.cost_rub_actual or 0)
         profit = revenue_rub - cost_rub
         margin = ((revenue_rub - cost_rub) / cost_rub * 100) if cost_rub > 0 else 0
-        
+
         top_models.append({
             "model": row.model,
             "requests": row.requests,
@@ -1941,9 +1947,9 @@ async def get_combined_stats(
             "rub": round((row.coins or 0) / 100, 2)
         })
     
-    # Рассчёт прибыли
+    # Рассчёт прибыли (используем фактическую себестоимость из транзакций)
     total_revenue_rub = (usage.coins_spent or 0) / 100
-    total_cost_rub = float(usage.cost_usd or 0) * cbr_rate
+    total_cost_rub = float(usage.cost_rub_actual or 0)
     total_profit = total_revenue_rub - total_cost_rub
     avg_margin = ((total_revenue_rub - total_cost_rub) / total_cost_rub * 100) if total_cost_rub > 0 else 0
     

@@ -153,6 +153,8 @@ export default function AdminPage() {
   const [banner, setBanner] = useState<BannerData>({ enabled: false, text: '', type: 'info' });
   const [dbStats, setDbStats] = useState<DbStats | null>(null);
   const [logs, setLogs] = useState<AdminLog[]>([]);
+  const [editingRate, setEditingRate] = useState(false);
+  const [newRate, setNewRate] = useState('');
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
   const getToken = () => {
@@ -224,6 +226,26 @@ export default function AdminPage() {
       setTelegramStats(data);
     } catch (e) {
       console.error('Failed to load telegram stats:', e);
+    }
+  };
+
+  const saveRate = async () => {
+    const rate = parseFloat(newRate);
+    if (isNaN(rate) || rate < 50 || rate > 500) {
+      alert('Курс должен быть от 50 до 500');
+      return;
+    }
+    try {
+      await fetchApi('/admin/currency', {
+        method: 'POST',
+        body: JSON.stringify({ rate }),
+      });
+      setEditingRate(false);
+      setNewRate('');
+      loadCombinedStats(periodDays);
+    } catch (e) {
+      console.error('Failed to save rate:', e);
+      alert('Ошибка сохранения курса');
     }
   };
 
@@ -408,11 +430,15 @@ export default function AdminPage() {
       onChange={(e) => handlePeriodChange(Number(e.target.value))}
       className="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm"
     >
-      <option value={1}>1 день</option>
+      <option value={1}>Сегодня</option>
+      <option value={3}>3 дня</option>
       <option value={7}>7 дней</option>
       <option value={14}>14 дней</option>
       <option value={30}>30 дней</option>
+      <option value={60}>60 дней</option>
       <option value={90}>90 дней</option>
+      <option value={180}>180 дней</option>
+      <option value={365}>Год</option>
     </select>
   );
 
@@ -502,9 +528,32 @@ export default function AdminPage() {
               {combinedStats && (
                 <>
                   {/* Курсы */}
-                  <div className="flex flex-wrap gap-4 text-sm bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700">
+                  <div className="flex flex-wrap items-center gap-4 text-sm bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700">
                     <div><span className="text-slate-500">Курс ЦБ:</span> <span className="font-bold text-slate-900 dark:text-white">{combinedStats.rates.cbr}₽</span></div>
-                    <div><span className="text-slate-500">Курс продажи:</span> <span className="font-bold text-slate-900 dark:text-white">{combinedStats.rates.selling}₽</span></div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-slate-500">Курс продажи:</span>
+                      {editingRate ? (
+                        <>
+                          <input
+                            type="number"
+                            value={newRate}
+                            onChange={(e) => setNewRate(e.target.value)}
+                            className="w-20 px-2 py-1 text-sm border rounded dark:bg-slate-700 dark:border-slate-600"
+                            placeholder={String(combinedStats.rates.selling)}
+                            min="50"
+                            max="500"
+                          />
+                          <span>₽</span>
+                          <button onClick={saveRate} className="text-green-600 hover:text-green-700"><Save size={16} /></button>
+                          <button onClick={() => { setEditingRate(false); setNewRate(''); }} className="text-red-500 hover:text-red-600"><X size={16} /></button>
+                        </>
+                      ) : (
+                        <>
+                          <span className="font-bold text-slate-900 dark:text-white">{combinedStats.rates.selling}₽</span>
+                          <button onClick={() => { setEditingRate(true); setNewRate(String(combinedStats.rates.selling)); }} className="text-blue-600 hover:text-blue-700 ml-1" title="Изменить курс">✏️</button>
+                        </>
+                      )}
+                    </div>
                     <div><span className="text-slate-500">Маржа:</span> <span className="font-bold text-green-600">{combinedStats.usage.margin_percent}%</span></div>
                   </div>
 
