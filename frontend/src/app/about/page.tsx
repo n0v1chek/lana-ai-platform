@@ -27,7 +27,6 @@ export default function AboutPage() {
           <nav className="flex gap-6">
             <Link href="/" className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Главная</Link>
             <Link href="/blog" className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">База знаний</Link>
-            <Link href="/contacts" className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Контакты</Link>
           </nav>
         </div>
       </header>
