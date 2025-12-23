@@ -12,7 +12,8 @@ import {
   CheckCircle2,
   ArrowRight,
   Code2,
-  Layers
+  Layers,
+  BookOpen
 } from 'lucide-react';
 
 export default function AboutPage() {
@@ -43,13 +44,14 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* Founder Card */}
+        {/* Founder Card + Mission */}
         <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-2xl p-8 md:p-10 mb-16">
           <div className="text-center mb-6">
             <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-1">Живчин Александр Семенович</h2>
             <p className="text-indigo-600 dark:text-indigo-400 text-sm font-medium">Основатель и разработчик</p>
           </div>
           <div className="text-center md:text-left">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Наша миссия</h3>
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
               LANA AI Helper — это платформа, которая предоставляет доступ к лучшим нейросетям мира через единый удобный интерфейс. Проект создан с целью сделать искусственный интеллект доступным для каждого.
             </p>
@@ -62,19 +64,25 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Mission - простой блок без карточек */}
+        {/* Бесплатное обучение */}
         <div className="mb-16">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 text-center">Наша миссия</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 text-center">Бесплатное обучение</h2>
           <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-2xl p-8 md:p-10">
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
               На сайте собраны бесплатные обучающие материалы по работе с нейросетями — от базовых понятий до практического применения. Информация структурирована и изложена понятным языком.
             </p>
-            <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-              Также здесь можно найти статьи с практическими примерами использования AI в работе и повседневной жизни.
+            <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+              Также здесь можно найти статьи с практическими примерами использования AI в работе и повседневной жизни. Знания, которые раньше были доступны только специалистам, теперь открыты для всех.
             </p>
-            <p className="text-slate-500 dark:text-slate-400 leading-relaxed">
-              Сайт добавлен в поисковые системы Google, Яндекс и Bing для удобного поиска нужной информации.
-            </p>
+            <div className="text-center">
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 bg-indigo-600 text-white font-medium px-6 py-3 rounded-xl hover:bg-indigo-700 transition-colors"
+              >
+                <BookOpen className="w-5 h-5" />
+                Начать учиться
+              </Link>
+            </div>
           </div>
         </div>
 
