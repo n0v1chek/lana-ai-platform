@@ -12,7 +12,11 @@ import {
   CheckCircle2,
   ArrowRight,
   Code2,
-  Layers
+  Layers,
+  BookOpen,
+  Heart,
+  Sparkles,
+  Search
 } from 'lucide-react';
 
 export default function AboutPage() {
@@ -25,6 +29,7 @@ export default function AboutPage() {
           </Link>
           <nav className="flex gap-6">
             <Link href="/" className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Главная</Link>
+            <Link href="/blog" className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">База знаний</Link>
             <Link href="/contacts" className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Контакты</Link>
           </nav>
         </div>
@@ -58,6 +63,68 @@ export default function AboutPage() {
             <p className="text-slate-500 dark:text-slate-400 leading-relaxed">
               Я верю, что AI должен быть простым в использовании, доступным по цене и безопасным.
             </p>
+          </div>
+        </div>
+
+        {/* Mission & Free Education */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 text-center">Наша миссия</h2>
+          <p className="text-slate-500 dark:text-slate-400 text-center mb-8">Знания должны быть доступны каждому</p>
+
+          <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-2xl p-8 md:p-10 mb-8">
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center">
+                <Heart className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+              </div>
+            </div>
+            <p className="text-lg text-slate-700 dark:text-slate-200 text-center leading-relaxed mb-6">
+              Мы верим, что качественное образование в сфере искусственного интеллекта должно быть доступно каждому — независимо от финансовых возможностей. Поэтому на нашем сайте вы найдёте <strong>полностью бесплатные курсы и обучающие материалы</strong>, которые помогут освоить работу с нейросетями с нуля.
+            </p>
+            <p className="text-slate-600 dark:text-slate-300 text-center leading-relaxed">
+              Мы собираем и систематизируем знания, которые сложно найти в открытом доступе, и делаем их понятными для всех. Наша цель — помочь людям использовать возможности AI для улучшения своей жизни и работы.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="flex items-start gap-4 p-6 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl">
+              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                <BookOpen className="w-6 h-6 text-green-600 dark:text-green-400" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Бесплатное обучение</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">6 полноценных курсов по AI — от основ нейросетей до создания AI-агентов. Всё бесплатно и без регистрации.</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 p-6 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl">
+              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Sparkles className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Уникальные материалы</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Статьи и руководства с информацией, которую сложно найти в интернете — практические кейсы и реальный опыт.</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 p-6 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl">
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Globe className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Для всех</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Материалы подходят как для новичков, так и для опытных специалистов. Объясняем сложное простым языком.</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 p-6 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl">
+              <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Search className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Индексация в поисковиках</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Сайт добавлен в Google, Яндекс и Bing. Sitemap отправлен во все поисковые системы для лучшей индексации.</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -182,13 +249,22 @@ export default function AboutPage() {
           <p className="text-slate-500 dark:text-slate-400 mb-6">
             Присоединяйтесь к пользователям передовых AI-технологий
           </p>
-          <Link
-            href="/register"
-            className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium px-6 py-3 rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
-          >
-            Создать аккаунт
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/blog"
+              className="inline-flex items-center justify-center gap-2 bg-indigo-600 text-white font-medium px-6 py-3 rounded-xl hover:bg-indigo-700 transition-colors"
+            >
+              <BookOpen className="w-4 h-4" />
+              Начать обучение
+            </Link>
+            <Link
+              href="/register"
+              className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium px-6 py-3 rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
+            >
+              Создать аккаунт
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </main>
 

@@ -18,7 +18,7 @@ export default function ArticlePage() {
 <article className="py-12 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
-            <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← Блог</Link>
+            <Link href="/blog" className="text-purple-600 dark:text-purple-400 hover:underline">← База знаний</Link>
             <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>
             <span className="text-slate-500 dark:text-slate-400">29 ноября 2025</span>
             <span className="text-slate-500 dark:text-slate-600 dark:text-slate-400">|</span>

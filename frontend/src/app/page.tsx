@@ -175,8 +175,8 @@ export default function HomePage() {
             <Link href="/business" className="text-purple-600 font-medium hover:text-purple-700 transition-colors border border-purple-200 px-3 py-1.5 rounded-lg hover:bg-purple-50">
               Для бизнеса
             </Link>
+            <Link href="/blog" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">База знаний</Link>
             <Link href="/blog" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">
-              Блог
             </Link>
             <Link href="/about" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">
               О нас
@@ -211,7 +211,7 @@ export default function HomePage() {
               <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">Возможности</a>
               <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">Как это работает</a>
               <Link href="/business" onClick={() => setMobileMenuOpen(false)} className="text-purple-600 font-medium py-2">Для бизнеса</Link>
-              <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">Блог</Link>
+              <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">База знаний</Link>
               <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">О нас</Link>
               <div className="pt-3 border-t border-slate-200 dark:border-slate-700 flex gap-3">
                 <Link href="/login" className="flex-1 text-center py-2 border border-slate-300 rounded-xl">Войти</Link>

@@ -229,7 +229,7 @@ export default function BusinessPage() {
             <CatLogo size={80} />
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/blog" className="text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition">Блог</Link>
+            <Link href="/blog" className="text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition">База знаний</Link>
             <Link href="/about" className="text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition">О проекте</Link>
             <Link href="/contacts" className="text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition">Контакты</Link>
             <Link href="/login" className="text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition">Войти</Link>
@@ -288,6 +288,183 @@ export default function BusinessPage() {
       </section>
 
       <section id="services" className="py-16 px-4 scroll-mt-20 dark:bg-slate-900">
+
+      {/* Реализованные проекты */}
+      <section className="py-16 px-4 bg-gradient-to-b from-purple-50 to-white dark:from-slate-800 dark:to-slate-900" id="cases">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-4 py-2 rounded-full text-sm font-medium mb-4">
+              <CheckCircle2 className="w-4 h-4" />
+              Работающие решения
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Наши проекты</h2>
+            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">Реальные кейсы, которые уже приносят результат нашим клиентам</p>
+          </div>
+          
+          <div className="space-y-8">
+            {/* Кейс 1: Умный бот для сферы услуг */}
+            <div className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-700">
+              <div className="md:flex">
+                <div className="md:w-1/3 bg-gradient-to-br from-purple-500 to-indigo-600 p-8 text-white">
+                  <span className="text-5xl mb-4 block">✂️</span>
+                  <h3 className="text-2xl font-bold mb-2">Умный бот для записи</h3>
+                  <p className="text-white/80">Сфера услуг: барбершопы, салоны красоты, клиники</p>
+                  <div className="mt-6 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-3xl font-bold">-70%</span>
+                      <span className="text-sm text-white/70">пропущенных записей</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-3xl font-bold">+35%</span>
+                      <span className="text-sm text-white/70">повторных визитов</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-3xl font-bold">24/7</span>
+                      <span className="text-sm text-white/70">без выходных</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="md:w-2/3 p-8">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium px-2 py-1 rounded-full">В работе у клиентов</span>
+                  </div>
+                  <p className="text-slate-600 dark:text-slate-300 mb-6">
+                    AI-ассистент, который полностью берёт на себя запись клиентов. Работает круглосуточно, никогда не забывает напомнить о визите, сам предлагает удобное время и даже обрабатывает отмены.
+                  </p>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-700 dark:text-slate-300">Онлайн-запись без звонков и ожидания</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-700 dark:text-slate-300">Автоматические напоминания клиентам</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-700 dark:text-slate-300">Ответы на вопросы о ценах и услугах</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-700 dark:text-slate-300">Персональные предложения постоянным</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Кейс 2: AI-визуализация */}
+            <div className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-700">
+              <div className="md:flex">
+                <div className="md:w-1/3 bg-gradient-to-br from-cyan-500 to-blue-600 p-8 text-white">
+                  <span className="text-5xl mb-4 block">🏠</span>
+                  <h3 className="text-2xl font-bold mb-2">AI-визуализация</h3>
+                  <p className="text-white/80">Строительство: натяжные потолки, ремонт, дизайн</p>
+                  <div className="mt-6 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-3xl font-bold">+60%</span>
+                      <span className="text-sm text-white/70">конверсия в продажу</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-3xl font-bold">30 сек</span>
+                      <span className="text-sm text-white/70">генерация изображения</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-3xl font-bold">0</span>
+                      <span className="text-sm text-white/70">возражений "подумаю"</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="md:w-2/3 p-8">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium px-2 py-1 rounded-full">Активно используется</span>
+                  </div>
+                  <p className="text-slate-600 dark:text-slate-300 mb-6">
+                    Клиент загружает фото своей комнаты — получает реалистичное изображение с готовым потолком. Менеджер показывает результат прямо на замере — и сделка закрывается на месте.
+                  </p>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-700 dark:text-slate-300">Фото комнаты → готовый дизайн за секунды</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-700 dark:text-slate-300">Выбор цвета, текстуры, освещения</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-700 dark:text-slate-300">Работает прямо в Telegram</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-700 dark:text-slate-300">Клиент видит результат ДО покупки</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Кейс 3: Автосбор контактов */}
+            <div className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-700">
+              <div className="md:flex">
+                <div className="md:w-1/3 bg-gradient-to-br from-emerald-500 to-teal-600 p-8 text-white">
+                  <span className="text-5xl mb-4 block">📊</span>
+                  <h3 className="text-2xl font-bold mb-2">Сбор контактов</h3>
+                  <p className="text-white/80">B2B: продажи, холодные звонки, рассылки</p>
+                  <div className="mt-6 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-3xl font-bold">10 мин</span>
+                      <span className="text-sm text-white/70">вместо 10 часов</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-3xl font-bold">500+</span>
+                      <span className="text-sm text-white/70">контактов за запуск</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-3xl font-bold">CSV</span>
+                      <span className="text-sm text-white/70">готово для CRM</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="md:w-2/3 p-8">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium px-2 py-1 rounded-full">Ежедневно в работе</span>
+                  </div>
+                  <p className="text-slate-600 dark:text-slate-300 mb-6">
+                    Вводите поисковый запрос — бот находит сайты компаний и автоматически собирает контакты: email, телефоны, Telegram. Готовая база для холодных продаж за минуты.
+                  </p>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-700 dark:text-slate-300">Поиск по любым ключевым словам</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-700 dark:text-slate-300">Email, телефоны, Telegram</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-700 dark:text-slate-300">Фильтрация мусора и дублей</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-700 dark:text-slate-300">Экспорт в CSV для любой CRM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <p className="text-slate-600 dark:text-slate-400 mb-4">Хотите такое же решение для своего бизнеса?</p>
+            <Link href="#contact-form" className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-xl hover:opacity-90 transition font-semibold">
+              Обсудить проект
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Что мы делаем</h2>
