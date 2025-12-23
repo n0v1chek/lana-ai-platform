@@ -10,6 +10,7 @@ export function Footer() {
             <CatLogo size={48} />
           </div>
           <nav className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-sm text-slate-600 dark:text-slate-300">
+            <Link href="/contacts" className="hover:text-slate-900 dark:hover:text-white transition-colors">
               Контакты
             </Link>
             <Link href="/terms" className="hover:text-slate-900 dark:hover:text-white transition-colors">

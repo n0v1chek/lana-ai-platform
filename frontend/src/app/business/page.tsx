@@ -231,6 +231,7 @@ export default function BusinessPage() {
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/blog" className="text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition">База знаний</Link>
             <Link href="/about" className="text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition">О проекте</Link>
+            <Link href="/contacts" className="text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition">Контакты</Link>
             <Link href="/login" className="text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition">Войти</Link>
           </nav>
           <Link href="#contact-form" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-5 py-2.5 rounded-xl hover:opacity-90 transition font-medium">

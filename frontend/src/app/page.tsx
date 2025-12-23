@@ -213,7 +213,6 @@ export default function HomePage() {
               <Link href="/business" onClick={() => setMobileMenuOpen(false)} className="text-purple-600 font-medium py-2">Для бизнеса</Link>
               <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">База знаний</Link>
               <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">О нас</Link>
-              <Link href="/contacts" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">Контакты</Link>
               <div className="pt-3 border-t border-slate-200 dark:border-slate-700 flex gap-3">
                 <Link href="/login" className="flex-1 text-center py-2 border border-slate-300 rounded-xl">Войти</Link>
                 <Link href="/register" className="flex-1 text-center py-2 bg-lana-500 text-white rounded-xl">Регистрация</Link>
