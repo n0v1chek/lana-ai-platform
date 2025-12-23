@@ -51,7 +51,7 @@ export default function AboutPage() {
             <p className="text-indigo-600 dark:text-indigo-400 text-sm font-medium">Основатель и разработчик</p>
           </div>
           <div className="text-center md:text-left">
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Наша миссия</h3>
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 text-center">Наша миссия</h3>
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
               LANA AI Helper — это платформа, которая предоставляет доступ к лучшим нейросетям мира через единый удобный интерфейс. Проект создан с целью сделать искусственный интеллект доступным для каждого.
             </p>
