@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { CatLogo } from '@/components/CatLogo';
 import { Footer } from '@/components/Footer';
-import { Mail, MapPin, FileText, ArrowLeft, Bot, Code2 } from 'lucide-react';
+import { Mail, FileText, ArrowLeft, Bot } from 'lucide-react';
 import { Button } from '@/components/ui';
 
 export default function ContactsPage() {
@@ -29,36 +29,6 @@ export default function ContactsPage() {
           <h1 className="font-display text-4xl font-bold text-slate-900 dark:text-white mb-8">
             Контакты и услуги
           </h1>
-
-          {/* Услуги разработки AI */}
-          <section className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-2xl p-8 shadow-sm mb-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
-                <Bot className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-              </div>
-              <h2 className="font-display text-2xl font-semibold text-slate-900 dark:text-white">
-                Разработка AI-решений
-              </h2>
-            </div>
-            
-            <div className="prose prose-slate dark:prose-invert max-w-none">
-              <p className="text-slate-700 dark:text-slate-300">
-                Помогаю бизнесу внедрять AI-технологии: создаю Telegram-ботов, настраиваю автоматизации через n8n, интегрирую нейросети в рабочие процессы.
-              </p>
-              <p className="text-slate-600 dark:text-slate-400 mt-4">
-                <strong>Что могу сделать:</strong>
-              </p>
-              <ul className="text-slate-600 dark:text-slate-400 space-y-1 mt-2">
-                <li>Telegram-боты для записи, продаж, поддержки клиентов</li>
-                <li>Автоматизация бизнес-процессов (CRM, мессенджеры, таблицы)</li>
-                <li>Интеграция ChatGPT, Claude и других AI в ваши системы</li>
-                <li>Парсинг данных и сбор информации</li>
-              </ul>
-              <p className="text-slate-600 dark:text-slate-400 mt-4">
-                Напишите на <a href="mailto:support@lanaaihelper.ru" className="text-indigo-600 dark:text-indigo-400 hover:underline">support@lanaaihelper.ru</a> — расскажите о задаче, обсудим детали.
-              </p>
-            </div>
-          </section>
 
           <section className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm mb-8">
             <div className="flex items-center gap-3 mb-6">
@@ -112,29 +82,45 @@ export default function ContactsPage() {
             </div>
           </section>
 
-          <section className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm mb-8">
+          {/* Объединённый блок: AI-платформа + услуги разработки */}
+          <section className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-2xl p-8 shadow-sm mb-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                <Code2 className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
+                <Bot className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
               </div>
               <h2 className="font-display text-2xl font-semibold text-slate-900 dark:text-white">
-                Об AI-платформе
+                Об услугах
               </h2>
             </div>
+            
             <div className="prose prose-slate dark:prose-invert max-w-none">
-              <p className="text-slate-600 dark:text-slate-400">
-                <strong>Lana AI Helper</strong> — это онлайн-сервис, предоставляющий доступ к лучшим AI-моделям (GPT-4o, Claude, Gemini и другие) для генерации текстов, ответов на вопросы и помощи в решении задач.
+              <p className="text-slate-700 dark:text-slate-300">
+                <strong>Lana AI Helper</strong> — онлайн-сервис с доступом к лучшим AI-моделям (GPT-4o, Claude, Gemini) для генерации текстов, ответов на вопросы и помощи в решении задач.
               </p>
+              
               <p className="text-slate-600 dark:text-slate-400 mt-4">
-                <strong>Как получить услугу:</strong>
+                <strong>Как пользоваться платформой:</strong>
               </p>
-              <ol className="text-slate-600 dark:text-slate-400 list-decimal list-inside space-y-2 mt-2">
+              <ol className="text-slate-600 dark:text-slate-400 list-decimal list-inside space-y-1 mt-2">
                 <li>Зарегистрируйтесь на сайте (бесплатно)</li>
                 <li>Пополните баланс (от 49 рублей)</li>
-                <li>Выберите AI-модель из доступных</li>
-                <li>Платите только за использованные сообщения</li>
+                <li>Выберите AI-модель и пишите</li>
                 <li>Коины не сгорают — используйте когда удобно</li>
               </ol>
+
+              <hr className="my-6 border-indigo-200 dark:border-indigo-800/50" />
+
+              <p className="text-slate-700 dark:text-slate-300">
+                <strong>Разработка AI-решений:</strong> помогаю бизнесу внедрять AI-технологии — создаю Telegram-ботов, настраиваю автоматизации через n8n, интегрирую нейросети в рабочие процессы.
+              </p>
+              
+              <ul className="text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+                <li>• Telegram-боты для записи, продаж, поддержки</li>
+                <li>• Автоматизация бизнес-процессов (CRM, мессенджеры)</li>
+                <li>• Интеграция ChatGPT, Claude в ваши системы</li>
+                <li>• Парсинг данных и сбор информации</li>
+              </ul>
+              
               <p className="text-slate-600 dark:text-slate-400 mt-4">
                 <strong>Способы оплаты:</strong> банковские карты (Visa, MasterCard, МИР), СБП, SberPay, ЮMoney.
               </p>
