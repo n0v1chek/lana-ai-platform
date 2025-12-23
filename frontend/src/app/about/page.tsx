@@ -12,11 +12,7 @@ import {
   CheckCircle2,
   ArrowRight,
   Code2,
-  Layers,
-  BookOpen,
-  Heart,
-  Sparkles,
-  Search
+  Layers
 } from 'lucide-react';
 
 export default function AboutPage() {
@@ -66,72 +62,26 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Mission & Free Education */}
+        {/* Mission - простой блок без карточек */}
         <div className="mb-16">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 text-center">Наша миссия</h2>
-          <p className="text-slate-500 dark:text-slate-400 text-center mb-8">Знания должны быть доступны каждому</p>
-
-          <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-2xl p-8 md:p-10 mb-8">
-            <div className="flex items-center justify-center mb-6">
-              <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center">
-                <Heart className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
-              </div>
-            </div>
-            <p className="text-lg text-slate-700 dark:text-slate-200 text-center leading-relaxed mb-6">
-              Мы верим, что качественное образование в сфере искусственного интеллекта должно быть доступно каждому — независимо от финансовых возможностей. Поэтому на нашем сайте вы найдёте <strong>полностью бесплатные курсы и обучающие материалы</strong>, которые помогут освоить работу с нейросетями с нуля.
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 text-center">Наша миссия</h2>
+          <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-2xl p-8 md:p-10">
+            <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+              На сайте собраны бесплатные обучающие материалы по работе с нейросетями — от базовых понятий до практического применения. Информация структурирована и изложена понятным языком.
             </p>
-            <p className="text-slate-600 dark:text-slate-300 text-center leading-relaxed">
-              Мы собираем и систематизируем знания, которые сложно найти в открытом доступе, и делаем их понятными для всех. Наша цель — помочь людям использовать возможности AI для улучшения своей жизни и работы.
+            <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+              Также здесь можно найти статьи с практическими примерами использования AI в работе и повседневной жизни.
             </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="flex items-start gap-4 p-6 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl">
-              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
-                <BookOpen className="w-6 h-6 text-green-600 dark:text-green-400" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Бесплатное обучение</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">6 полноценных курсов по AI — от основ нейросетей до создания AI-агентов. Всё бесплатно и без регистрации.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4 p-6 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl">
-              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Sparkles className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Уникальные материалы</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">Статьи и руководства с информацией, которую сложно найти в интернете — практические кейсы и реальный опыт.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4 p-6 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl">
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Globe className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Для всех</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">Материалы подходят как для новичков, так и для опытных специалистов. Объясняем сложное простым языком.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4 p-6 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl">
-              <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Search className="w-6 h-6 text-orange-600 dark:text-orange-400" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Индексация в поисковиках</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">Сайт добавлен в Google, Яндекс и Bing. Sitemap отправлен во все поисковые системы для лучшей индексации.</p>
-              </div>
-            </div>
+            <p className="text-slate-500 dark:text-slate-400 leading-relaxed">
+              Сайт добавлен в поисковые системы Google, Яндекс и Bing для удобного поиска нужной информации.
+            </p>
           </div>
         </div>
 
         {/* Tech Stack */}
         <div className="mb-16">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 text-center">Архитектура платформы</h2>
-          <p className="text-slate-500 dark:text-slate-400 text-center mb-8">Современный технологический стек, обеспечивающий масштабируемость и безопасность</p>
+          <p className="text-slate-500 dark:text-slate-400 text-center mb-8">Современный технологический стек</p>
 
           <div className="grid md:grid-cols-2 gap-4">
             <div className="flex items-start gap-4 p-6 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl">
@@ -140,7 +90,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Frontend</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">Next.js 14 с Server Components для максимальной производительности и SEO-оптимизации</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">Next.js 14 с Server Components для производительности и SEO</p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-xs text-slate-600 dark:text-slate-300">Next.js</span>
                   <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-xs text-slate-600 dark:text-slate-300">TypeScript</span>
@@ -155,7 +105,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Backend</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">Высокопроизводительный API на FastAPI с асинхронной обработкой запросов</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">FastAPI с асинхронной обработкой запросов</p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-xs text-slate-600 dark:text-slate-300">FastAPI</span>
                   <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-xs text-slate-600 dark:text-slate-300">Python</span>
@@ -170,7 +120,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Database</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">PostgreSQL с оптимизированными индексами и кэширование через Redis</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">PostgreSQL и кэширование через Redis</p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-xs text-slate-600 dark:text-slate-300">PostgreSQL</span>
                   <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-xs text-slate-600 dark:text-slate-300">Redis</span>
@@ -185,7 +135,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900 dark:text-white mb-2">Infrastructure</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">Контейнеризация и автоматическое масштабирование для стабильной работы</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">Контейнеризация для стабильной работы</p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-xs text-slate-600 dark:text-slate-300">Docker</span>
                   <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-xs text-slate-600 dark:text-slate-300">Nginx</span>
@@ -249,22 +199,13 @@ export default function AboutPage() {
           <p className="text-slate-500 dark:text-slate-400 mb-6">
             Присоединяйтесь к пользователям передовых AI-технологий
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/blog"
-              className="inline-flex items-center justify-center gap-2 bg-indigo-600 text-white font-medium px-6 py-3 rounded-xl hover:bg-indigo-700 transition-colors"
-            >
-              <BookOpen className="w-4 h-4" />
-              Начать обучение
-            </Link>
-            <Link
-              href="/register"
-              className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium px-6 py-3 rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
-            >
-              Создать аккаунт
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+          <Link
+            href="/register"
+            className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium px-6 py-3 rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
+          >
+            Создать аккаунт
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </main>
 
